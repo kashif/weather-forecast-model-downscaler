@@ -50,6 +50,10 @@ def train(ds, cfg, out, device):
         raise ValueError("validation_start must split complete windows into nonempty train/validation sets")
     settings = cfg["training"]
     model_cfg = RainConfig(**cfg["model"], window_hours=window)
+    static, static_metadata = None, None
+    if model_cfg.terrain:
+        from downscale.rain_terrain import load_static
+        static, static_metadata = load_static(cfg["static_path"], ds.lat.values, ds.lon.values)
     initial = None
     if settings.get("init_checkpoint"):
         initial = torch.load(settings["init_checkpoint"], map_location="cpu", weights_only=True)
@@ -58,10 +62,10 @@ def train(ds, cfg, out, device):
         for coord in ("lat", "lon"):
             if not np.array_equal(ds[coord], initial[coord].numpy()):
                 raise ValueError(f"initial checkpoint {coord} differs")
-        x_train, mean, std = features(ds.isel(time=training), initial["mean"].numpy(), initial["std"].numpy(), model_cfg.temporal_context)
+        x_train, mean, std = features(ds.isel(time=training), initial["mean"].numpy(), initial["std"].numpy(), model_cfg.temporal_context, static)
     else:
-        x_train, mean, std = features(ds.isel(time=training), temporal_context=model_cfg.temporal_context)
-    x_val, _, _ = features(ds.isel(time=validation), mean, std, model_cfg.temporal_context)
+        x_train, mean, std = features(ds.isel(time=training), temporal_context=model_cfg.temporal_context, static=static)
+    x_val, _, _ = features(ds.isel(time=validation), mean, std, model_cfg.temporal_context, static)
     ds = ds.copy(deep=False)
     ds.attrs = {**ds.attrs, "training_start": str(ds.time.values[training[0]]),
                 "training_end": str(ds.time.values[training[-1]]),
@@ -71,10 +75,17 @@ def train(ds, cfg, out, device):
     rng = np.random.default_rng(settings["seed"])
     net = RainNet(x_train.shape[1], model_cfg).to(device)
     if initial is not None:
-        missing, unexpected = net.load_state_dict(initial["state_dict"], strict=False)
+        state = initial["state_dict"]
+        if model_cfg.terrain:
+            from downscale.rain_terrain import CHANNELS, expand_terrain_weights
+            state = expand_terrain_weights(state, net.state_dict(), len(CHANNELS))
+        missing, unexpected = net.load_state_dict(state, strict=False)
         if unexpected or any(".time_" not in key for key in missing):
             raise ValueError(f"incompatible warm start: {missing}, {unexpected}")
     opt = torch.optim.AdamW(net.parameters(), lr=settings["learning_rate"], weight_decay=1e-4)
+    # Opt-in pairing preserves legacy seed behaviour for earlier experiments.
+    if settings.get("paired_noise", False):
+        torch.manual_seed(settings["seed"])
     baseline = ds.predictors.values[:, 0].astype("float32")
     coherent = model_cfg.temporal_context or model_cfg.architecture == "joint"
     if coherent:
@@ -150,7 +161,7 @@ def train(ds, cfg, out, device):
         print(json.dumps(row), flush=True)
         if selection < best:
             best = selection
-            save_model(out / "model.pt", net, ds, mean, std)
+            save_model(out / "model.pt", net, ds, mean, std, static, static_metadata)
             report = {"reference": "PARDIG; target agreement only, not independent radar validation",
                       "selected_epoch": epoch + 1, "selection_score": selection,
                       "train_hours": len(training), "validation_hours": len(validation),
@@ -171,6 +182,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default="config_precipitation.yaml")
     sub = parser.add_subparsers(dest="command", required=True)
+    terrain = sub.add_parser("terrain", help="prepare static covariates once on the rainfall grid")
+    terrain.add_argument("--grid", required=True, help="rainfall pair/forcing Zarr supplying target lat/lon")
+    terrain.add_argument("--cerra", required=True, help="cached CERRA static.zarr")
+    terrain.add_argument("--out", required=True)
     fetch = sub.add_parser("fetch", help="download hourly ERA5/PARDIG training pairs")
     fetch.add_argument("--start", required=True, help="first interval END, aligned to 01/07/13/19 UTC for 6h forcing")
     fetch.add_argument("--end", required=True, help="last interval END (inclusive)")
@@ -204,7 +219,13 @@ def main():
     forcing.add_argument("--out", required=True)
     args = parser.parse_args()
     cfg = yaml.safe_load(Path(args.config).read_text())
-    if args.command == "fetch":
+    if args.command == "terrain":
+        from downscale.rain_terrain import build_terrain
+        grid = xr.open_zarr(args.grid)
+        ds = build_terrain(grid.lat.values, grid.lon.values, args.cerra)
+        write_pack(ds, args.out)
+        print(json.dumps(ds.attrs, indent=2))
+    elif args.command == "fetch":
         times = pd.date_range(args.start, args.end, freq="h")
         window = cfg["forecast_interval_hours"]
         # Validate bounds before starting a potentially expensive global-chunk read.
@@ -257,8 +278,15 @@ def main():
                 if overlap.any():
                     raise ValueError(f"test period overlaps {split}; choose an untouched period")
         torch.manual_seed(cfg["training"]["seed"] + 2)
-        predictions = predict(args.model, ds, args.device, args.members)
+        predictions = predict(args.model, ds, args.device, args.members, noise_seed=cfg.get("evaluation_noise_seed"))
         report = evaluate_rain(predictions, ds)
+        if checkpoint["config"].get("terrain") or cfg.get("static_path"):
+            from downscale.rain_terrain import load_static, terrain_scores
+            if checkpoint["config"].get("terrain"):
+                static = checkpoint["static"].numpy()
+            else:
+                static, _ = load_static(cfg["static_path"], ds.lat.values, ds.lon.values)
+            report["terrain_bands"] = terrain_scores(predictions, ds, static)
         out = Path(args.out)
         out.mkdir(parents=True, exist_ok=True)
         write_pack(predictions, out / "predictions.zarr")
@@ -267,7 +295,8 @@ def main():
                           "hourly_baseline_crps_mm": report["hourly"]["baseline"]["crps_mm"]}), flush=True)
     else:
         ds = xr.open_zarr(args.forcing).load()
-        write_pack(predict(args.model, ds, args.device, args.members), args.out)
+        write_pack(predict(args.model, ds, args.device, args.members,
+                           noise_seed=cfg.get("evaluation_noise_seed")), args.out)
 
 
 if __name__ == "__main__":

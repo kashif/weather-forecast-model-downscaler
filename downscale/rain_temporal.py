@@ -76,7 +76,7 @@ def context_inputs(ds):
     return values, feature_names
 
 
-def trajectory_noise(times, members, height, width, factor=8, hours=6):
+def trajectory_noise(times, members, height, width, factor=8, hours=6, generator=None):
     """Member noise interpolated across forecast boundaries, independent of batching.
 
     Low-resolution Gaussian anchors are drawn at window boundaries. Linear
@@ -87,7 +87,7 @@ def trajectory_noise(times, members, height, width, factor=8, hours=6):
     result = torch.empty(len(times), members, 1, nh, nw)
     for part in segments(times, hours):
         length = part.stop - part.start
-        anchors = torch.randn(length // hours + 1, members, 1, nh, nw)
+        anchors = torch.randn(length // hours + 1, members, 1, nh, nw, generator=generator)
         position = (torch.arange(length, dtype=torch.float32) + .5) / hours
         left = position.floor().long()
         weight = (position - left)[:, None, None, None, None]

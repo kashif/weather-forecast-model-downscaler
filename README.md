@@ -100,7 +100,8 @@ decoder receives the interval's average rainfall, its endpoint temperature,
 dewpoint, 10 m wind components and pressure, and the hour's phase in the interval.
 The intermediate hourly ERA5 states are hidden to match forecast-time inputs.
 Geographical coordinates and calendar cycles supply spatial and diurnal context.
-This baseline does not yet have a fine-resolution terrain encoder or upper-air inputs.
+The optional [static terrain covariates](#static-terrain-covariates) add elevation,
+terrain gradients and land/coast information. Upper-air inputs remain absent.
 
 ### Architecture evidence and implementation
 
@@ -494,6 +495,78 @@ uv run python scripts/precipitation.py --config config_precipitation_joint.yaml 
 The joint model needs an entire twelve-hour sequence per forward call; `predict`
 handles overlapping windows and edge padding automatically. Existing spatial
 and continuous-path checkpoints remain supported.
+
+### Static terrain covariates
+
+`config_precipitation_terrain.yaml` adds eight time-invariant input channels to
+the joint decoder. They are appended after the geographical/calendar inputs and
+before the stochastic noise channel. All hours and ensemble members use the
+same static maps.
+
+| Channel | Meaning / scaling |
+| --- | --- |
+| `elevation_km` | Mean terrain elevation, divided by 1,000 m |
+| `fine_minus_coarse_km` | Fine terrain minus ERA5 terrain, divided by 1,000 m |
+| `slope_east_percent` | Eastward gradient of target-grid elevation, percent rise |
+| `slope_north_percent` | Northward gradient, percent rise; avoids aspect angle wrap |
+| `relief_500m` | Within-cell elevation standard deviation, divided by 500 m |
+| `land_fraction` | Area-sampled land fraction, 0–1 |
+| `coast_proximity` | `exp(-distance_to_sea_km / 25)` |
+| `fine_coverage` | Fraction of quadrature weight covered by the fine source |
+
+The fine source is the already cached [CERRA 5.5 km orography and land-sea
+mask](https://cds.climate.copernicus.eu/datasets/reanalysis-cerra-single-levels).
+Each 0.1° rainfall cell is sampled at nine subcell midpoints, with cosine-latitude
+area weights. Fine values are interpolated in European equal-area coordinates;
+slopes are derived from the aggregated target-grid height using metre distances.
+Outside the cached fine crop, ERA5's static geopotential/land mask from a single
+filled timestamp supplies a coarse fallback. Fine-source coverage is 99.86% by
+quadrature weight for this grid. No rain or time-varying weather target is used
+to build these covariates. Coast distances use mean grid spacing as an approximation.
+
+The physical scalings are fixed, so adding terrain does not alter the original
+dynamic normalization. Warm starts copy all existing weights, move the noise
+weights to their new position, and initialize only the new terrain-channel
+weights to zero. The initial forecast is therefore preserved before fine-tuning.
+Static values, channel names and provenance are embedded in `model.pt`; inference
+requires no separate terrain file and rejects a different forecast grid.
+
+![Static terrain inputs on the rainfall grid](examples/france_precipitation/static_terrain.png)
+
+```bash
+uv run python scripts/precipitation.py terrain \
+  --grid data/precipitation/expanded_train_validation.zarr \
+  --cerra data/cerra_hourly/static.zarr --out data/precipitation/terrain.zarr
+uv run python scripts/precipitation.py --config config_precipitation_terrain.yaml train \
+  --pairs data/precipitation/expanded_train_validation.zarr --out runs/precipitation_terrain
+uv run python scripts/precipitation.py --config config_precipitation_terrain.yaml evaluate \
+  --model runs/precipitation_terrain/model.pt --pairs data/precipitation/test_2024.zarr \
+  --out outputs/precipitation_terrain/terrain_2024
+```
+
+An exploratory ablation fine-tuned the joint checkpoint for five epochs / 150
+steps in each arm, with identical batches, learning rate and noise draws. The
+control changed only `model.terrain` to `false`. Both checkpoints were selected
+at epoch 5 using the existing 2020 validation rule. Evaluation uses paired
+eight-member noise samples through `evaluation_noise_seed: 2`; `paired_noise: true`
+resets the training noise seed after model construction in both arms.
+
+| Comparison | No terrain | Terrain |
+| --- | ---: | ---: |
+| 2021 full-domain ensemble CRPS, mm ↓ | 0.28964 | 0.28947 |
+| 2024 full-domain ensemble CRPS, mm ↓ | 0.22340 | 0.22286 |
+| 2021 full-domain RMSE, mm ↓ | 0.94844 | 0.94830 |
+| 2024 full-domain RMSE, mm ↓ | 0.94510 | 0.94573 |
+| 2021 high-terrain RMSE, mm ↓ | 0.78328 | 0.77054 |
+| 2024 high-terrain RMSE, mm ↓ | 0.46505 | 0.45966 |
+
+High terrain means 1,872 land cells with mean elevation ≥1,000 m in the France
+context domain, including neighbouring terrain. The point metrics improve
+slightly there, but full-domain results and event CSI are mixed. Two previously
+inspected days and a short fine-tune do not demonstrate a general skill gain.
+The [paired experiment record](examples/france_precipitation/terrain_results.json)
+includes all land-elevation bands and the static/checkpoint checksums.
+Rainfall output remains hourly on the PARDIG 0.1° grid.
 
 ### Evaluation recipe from both papers
 

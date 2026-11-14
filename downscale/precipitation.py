@@ -23,6 +23,7 @@ class RainConfig:
     temporal_context: bool = False
     architecture: str = "spatial"
     sequence_hours: int = 12
+    terrain: bool = False
 
 
 def check_pack(ds: xr.Dataset, target=True):
@@ -48,7 +49,7 @@ def check_pack(ds: xr.Dataset, target=True):
         raise ValueError("rainfall targets must be finite and nonnegative")
 
 
-def features(ds: xr.Dataset, mean=None, std=None, temporal_context=False):
+def features(ds: xr.Dataset, mean=None, std=None, temporal_context=False, static=None):
     """Normalise using training-only statistics, append geography and calendar."""
     if temporal_context:
         from .rain_temporal import context_inputs
@@ -69,7 +70,14 @@ def features(ds: xr.Dataset, mean=None, std=None, temporal_context=False):
     lat, lon = np.meshgrid(ds.lat.values, ds.lon.values, indexing="ij")
     geo = np.broadcast_to(np.stack([lat / 90, lon / 180])[None], (n, 2, h, w))
     calendar = np.broadcast_to(time_features(ds.time.values)[:, :, None, None], (n, 4, h, w))
-    return np.concatenate([data, geo, calendar], 1).astype("float32"), mean, std
+    arrays = [data, geo, calendar]
+    if static is not None:
+        from .rain_terrain import CHANNELS
+        static = np.asarray(static, dtype="float32")
+        if static.shape != (len(CHANNELS), h, w) or not np.isfinite(static).all():
+            raise ValueError("static terrain must have the expected channels on the rainfall grid")
+        arrays.append(np.broadcast_to(static[None], (n, *static.shape)))
+    return np.concatenate(arrays, 1).astype("float32"), mean, std
 
 
 class RainNet(nn.Module):
@@ -265,15 +273,22 @@ def temporal_scores(pred, truth, coarse, smooth, times, hours=6):
     return result
 
 
-def save_model(path, net, ds, mean, std):
+def save_model(path, net, ds, mean, std, static=None, static_metadata=None):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
-    torch.save({"format": "france-rain-v1", "config": asdict(net.cfg),
+    checkpoint = {"format": "france-rain-v1", "config": asdict(net.cfg),
                 "variables": ds.variable.values.tolist(), "mean": torch.tensor(mean), "std": torch.tensor(std),
                 "lat": torch.tensor(ds.lat.values), "lon": torch.tensor(ds.lon.values),
-                "data_attrs": dict(ds.attrs), "state_dict": net.state_dict()}, path)
+                "data_attrs": dict(ds.attrs), "state_dict": net.state_dict()}
+    if net.cfg.terrain:
+        from .rain_terrain import CHANNELS
+        if static is None:
+            raise ValueError("terrain-enabled models require embedded static covariates")
+        checkpoint.update(static=torch.tensor(static, dtype=torch.float32), static_channels=CHANNELS,
+                          static_metadata=static_metadata or {})
+    torch.save(checkpoint, path)
 
 
-def predict(path, ds, device="cpu", members=8, batch=4):
+def predict(path, ds, device="cpu", members=8, batch=4, noise_seed=None):
     check_pack(ds, target=False)
     checkpoint = torch.load(path, map_location="cpu", weights_only=True)
     if checkpoint["format"] != "france-rain-v1" or ds.variable.values.tolist() != checkpoint["variables"]:
@@ -285,7 +300,13 @@ def predict(path, ds, device="cpu", members=8, batch=4):
         if ds.attrs.get(name) != checkpoint["data_attrs"].get(name):
             raise ValueError(f"{name} differs from the training convention")
     cfg = RainConfig(**checkpoint["config"])
-    x, _, _ = features(ds, checkpoint["mean"].numpy(), checkpoint["std"].numpy(), cfg.temporal_context)
+    static = None
+    if cfg.terrain:
+        from .rain_terrain import CHANNELS
+        if checkpoint.get("static_channels") != CHANNELS or "static" not in checkpoint:
+            raise ValueError("terrain checkpoint is missing static covariates")
+        static = checkpoint["static"].numpy()
+    x, _, _ = features(ds, checkpoint["mean"].numpy(), checkpoint["std"].numpy(), cfg.temporal_context, static)
     net = RainNet(x.shape[1], cfg).to(device).eval()
     net.load_state_dict(checkpoint["state_dict"])
     window = net.cfg.window_hours
@@ -297,7 +318,8 @@ def predict(path, ds, device="cpu", members=8, batch=4):
     if cfg.temporal_context or cfg.architecture == "joint":
         from .rain_temporal import hourly_baseline, trajectory_noise
         baseline = hourly_baseline(ds)
-        noise = trajectory_noise(ds.time.values, members, len(ds.lat), len(ds.lon), cfg.noise_factor, window)
+        generator = None if noise_seed is None else torch.Generator().manual_seed(noise_seed)
+        noise = trajectory_noise(ds.time.values, members, len(ds.lat), len(ds.lon), cfg.noise_factor, window, generator=generator)
     outputs = []
     with torch.no_grad():
         if cfg.architecture == "joint":
@@ -314,5 +336,6 @@ def predict(path, ds, device="cpu", members=8, batch=4):
     result.attrs = {"model": str(path), "target_source": checkpoint["data_attrs"].get("target_source", "unknown"),
                     "temporal_context": cfg.temporal_context,
                     "architecture": cfg.architecture,
+                    "terrain": cfg.terrain,
                     "noise_mode": "continuous_anchors" if cfg.temporal_context or cfg.architecture == "joint" else "independent_windows"}
     return result
