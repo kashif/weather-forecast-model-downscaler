@@ -20,6 +20,7 @@ class RainConfig:
     noise_factor: int = 8
     members: int = 4
     window_hours: int = 6
+    temporal_context: bool = False
 
 
 def check_pack(ds: xr.Dataset, target=True):
@@ -45,13 +46,22 @@ def check_pack(ds: xr.Dataset, target=True):
         raise ValueError("rainfall targets must be finite and nonnegative")
 
 
-def features(ds: xr.Dataset, mean=None, std=None):
+def features(ds: xr.Dataset, mean=None, std=None, temporal_context=False):
     """Normalise using training-only statistics, append geography and calendar."""
-    data = ds.predictors.values.astype("float32").copy()
-    data[:, 0] = np.log1p(data[:, 0])
+    if temporal_context:
+        from .rain_temporal import context_inputs
+        data, names = context_inputs(ds)
+        for i, name in enumerate(names):
+            if name == "tp" or name.endswith("_tp"):
+                data[:, i] = np.log1p(data[:, i])
+    else:
+        data = ds.predictors.values.astype("float32").copy()
+        data[:, 0] = np.log1p(data[:, 0])
     if mean is None:
         mean = data.mean((0, 2, 3), keepdims=True)
         std = np.maximum(data.std((0, 2, 3), keepdims=True), 1e-4)
+    elif data.shape[1] != mean.shape[1]:
+        raise ValueError("checkpoint feature layout differs; use matching code or retrain")
     data = (data - mean) / std
     n, _, h, w = data.shape
     lat, lon = np.meshgrid(ds.lat.values, ds.lon.values, indexing="ij")
@@ -68,7 +78,7 @@ class RainNet(nn.Module):
         self.cfg = cfg
         self.unet = UNet(channels + 1, 1, cfg.base, cfg.depth, "bilinear")
 
-    def forward(self, x, baseline, members=None):
+    def forward(self, x, baseline, members=None, noise=None):
         """Return nonnegative hourly depths (batch, members, lat, lon), in mm."""
         m = self.cfg.members if members is None else members
         if m < 1:
@@ -76,9 +86,16 @@ class RainNet(nn.Module):
         b, _, h, w = x.shape
         if b % self.cfg.window_hours:
             raise ValueError("batch must contain complete forecast windows")
-        noise = torch.randn(b // self.cfg.window_hours, m, 1, max(1, h // self.cfg.noise_factor),
-                            max(1, w // self.cfg.noise_factor), device=x.device)
-        noise = noise[:, None].expand(-1, self.cfg.window_hours, -1, -1, -1, -1).reshape(b * m, 1, *noise.shape[-2:])
+        if noise is None and self.cfg.temporal_context:
+            from .rain_temporal import trajectory_noise
+            noise = trajectory_noise(np.arange(b).astype("datetime64[h]"), m, h, w, self.cfg.noise_factor, self.cfg.window_hours)
+        if noise is None:
+            noise = torch.randn(b // self.cfg.window_hours, m, 1, max(1, h // self.cfg.noise_factor),
+                                max(1, w // self.cfg.noise_factor), device=x.device)
+            noise = noise[:, None].expand(-1, self.cfg.window_hours, -1, -1, -1, -1)
+        elif noise.shape[:3] != (b, m, 1):
+            raise ValueError("noise must have shape time, members, 1, noise_lat, noise_lon")
+        noise = noise.to(x.device).reshape(b * m, 1, *noise.shape[-2:])
         noise = F.interpolate(noise, (h, w), mode="bilinear", align_corners=False)
         inputs = torch.cat([x.repeat_interleave(m, 0), noise], 1)
         multiple = 2 ** self.cfg.depth
@@ -89,7 +106,7 @@ class RainNet(nn.Module):
         return torch.expm1(log_depth)
 
 
-def rain_loss(pred, truth, window_hours=1):
+def rain_loss(pred, truth, window_hours=1, sequence_hours=None, temporal_weight=0):
     factors = [f for f in (2, 4, 8) if f <= min(truth.shape[-2:])]
     from .downscaler import fair_crps
     # WN3 A.1.2 explicitly adds domain-mean CRPS at weight 0.3.
@@ -101,6 +118,14 @@ def rain_loss(pred, truth, window_hours=1):
         p = pred.reshape(-1, window_hours, *pred.shape[1:]).sum(1)
         t = truth.reshape(-1, window_hours, *truth.shape[1:]).sum(1)
         loss = loss + 0.3 * fair_crps(p, t) / window_hours
+    if temporal_weight:
+        length = sequence_hours or len(truth)
+        if length < 2 or len(truth) % length:
+            raise ValueError("temporal loss needs complete sequences of at least two hours")
+        p = pred.reshape(-1, length, *pred.shape[1:])
+        t = truth.reshape(-1, length, *truth.shape[1:])
+        dp, dt = p[:, 1:] - p[:, :-1], t[:, 1:] - t[:, :-1]
+        loss = loss + temporal_weight * multiscale_fair_crps(dp.reshape(-1, *pred.shape[1:]), dt.reshape(-1, *truth.shape[1:]), factors=factors)
     return loss
 
 
@@ -166,6 +191,10 @@ def evaluate_rain(prediction: xr.Dataset, pairs: xr.Dataset, interior_margin=8):
         "hourly": {"model": score(pred, truth), "baseline": score(baseline, truth)},
         "accumulations": {},
     }
+    from .rain_temporal import hourly_baseline
+    smooth = hourly_baseline(pairs)
+    report["hourly"]["smooth_coarse"] = score(smooth[:, None], truth)
+    report["temporal"] = temporal_scores(pred, truth, baseline[:, 0], smooth, pairs.time.values, window)
     # A context ring is useful for regional models. Report the interior
     # separately so edge-padding behaviour cannot hide behind a domain mean.
     if interior_margin > 0 and min(truth.shape[-2:]) > 2 * interior_margin:
@@ -192,6 +221,33 @@ def evaluate_rain(prediction: xr.Dataset, pairs: xr.Dataset, interior_margin=8):
     return report
 
 
+def temporal_scores(pred, truth, coarse, smooth, times, hours=6):
+    """Compare boundary changes with ordinary hourly changes and target increments."""
+    from .evaluation import fair_crps
+    import pandas as pd
+    times = pd.DatetimeIndex(times)
+    consecutive = np.diff(times.values) == np.timedelta64(1, "h")
+    boundary = (np.arange(1, len(times)) % hours == 0) & consecutive
+    ordinary = ~boundary & consecutive
+    target_changes = np.diff(truth, axis=0)
+    result = {"boundary_count": int(boundary.sum()), "within_window_count": int(ordinary.sum()),
+              "note": "physical changes can be rapid; compare against the target, not zero change"}
+    for name, values in {"model_mean": pred.mean(1), "model_members": pred,
+                         "target": truth, "coarse": coarse, "smooth_coarse": smooth}.items():
+        delta = np.diff(values, axis=0)
+        magnitude = np.abs(delta).reshape(len(delta), -1).mean(1)
+        b = float(magnitude[boundary].mean()) if boundary.any() else None
+        w = float(magnitude[ordinary].mean()) if ordinary.any() else None
+        result[name] = {"boundary_abs_change_mm": b, "within_window_abs_change_mm": w,
+                        "boundary_to_within_ratio": b / w if b is not None and w else None}
+    delta = np.diff(pred, axis=0)
+    crps = fair_crps(delta, target_changes, axis=1).reshape(len(delta), -1).mean(1)
+    result["increment_crps_mm"] = float(crps[consecutive].mean()) if consecutive.any() else None
+    result["boundary_increment_crps_mm"] = float(crps[boundary].mean()) if boundary.any() else None
+    result["mean_increment_mae_mm"] = float(np.abs(delta.mean(1) - target_changes)[consecutive].mean()) if consecutive.any() else None
+    return result
+
+
 def save_model(path, net, ds, mean, std):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     torch.save({"format": "france-rain-v1", "config": asdict(net.cfg),
@@ -211,20 +267,30 @@ def predict(path, ds, device="cpu", members=8, batch=4):
     for name in ("forecast_interval_hours", "interval"):
         if ds.attrs.get(name) != checkpoint["data_attrs"].get(name):
             raise ValueError(f"{name} differs from the training convention")
-    x, _, _ = features(ds, checkpoint["mean"].numpy(), checkpoint["std"].numpy())
-    net = RainNet(x.shape[1], RainConfig(**checkpoint["config"])).to(device).eval()
+    cfg = RainConfig(**checkpoint["config"])
+    x, _, _ = features(ds, checkpoint["mean"].numpy(), checkpoint["std"].numpy(), cfg.temporal_context)
+    net = RainNet(x.shape[1], cfg).to(device).eval()
     net.load_state_dict(checkpoint["state_dict"])
     window = net.cfg.window_hours
     if len(x) % window:
         raise ValueError("inference requires complete forecast windows")
     batch = max(window, (batch // window) * window)
+    noise = None
+    baseline = ds.predictors.values[:, 0]
+    if cfg.temporal_context:
+        from .rain_temporal import hourly_baseline, trajectory_noise
+        baseline = hourly_baseline(ds)
+        noise = trajectory_noise(ds.time.values, members, len(ds.lat), len(ds.lon), cfg.noise_factor, window)
     outputs = []
     with torch.no_grad():
         for i in range(0, len(x), batch):
             outputs.append(net(torch.tensor(x[i:i + batch], device=device),
-                               torch.tensor(ds.predictors.values[i:i + batch, 0], dtype=torch.float32, device=device), members).cpu().numpy())
+                               torch.tensor(baseline[i:i + batch], dtype=torch.float32, device=device), members,
+                               noise=None if noise is None else noise[i:i + batch]).cpu().numpy())
     result = xr.Dataset({"precipitation": (("time", "sample", "lat", "lon"), np.concatenate(outputs))},
                         coords={"time": ds.time, "sample": np.arange(members), "lat": ds.lat, "lon": ds.lon})
     result.precipitation.attrs = {"units": "mm", "interval": "(time-1h,time]"}
-    result.attrs = {"model": str(path), "target_source": checkpoint["data_attrs"].get("target_source", "unknown")}
+    result.attrs = {"model": str(path), "target_source": checkpoint["data_attrs"].get("target_source", "unknown"),
+                    "temporal_context": cfg.temporal_context,
+                    "noise_mode": "continuous_anchors" if cfg.temporal_context else "independent_windows"}
     return result

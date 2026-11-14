@@ -48,21 +48,31 @@ def train(ds, cfg, out, device):
     validation = np.flatnonzero(ds.time.values >= cut)
     if not len(training) or not len(validation) or len(training) % window or len(validation) % window:
         raise ValueError("validation_start must split complete windows into nonempty train/validation sets")
-    x_train, mean, std = features(ds.isel(time=training))
-    x_val, _, _ = features(ds.isel(time=validation), mean, std)
+    settings = cfg["training"]
+    model_cfg = RainConfig(**cfg["model"], window_hours=window)
+    x_train, mean, std = features(ds.isel(time=training), temporal_context=model_cfg.temporal_context)
+    x_val, _, _ = features(ds.isel(time=validation), mean, std, model_cfg.temporal_context)
     ds = ds.copy(deep=False)
     ds.attrs = {**ds.attrs, "training_start": str(ds.time.values[training[0]]),
                 "training_end": str(ds.time.values[training[-1]]),
                 "validation_start": str(ds.time.values[validation[0]]),
                 "validation_end": str(ds.time.values[validation[-1]])}
-    settings = cfg["training"]
     torch.manual_seed(settings["seed"])
     rng = np.random.default_rng(settings["seed"])
-    model_cfg = RainConfig(**cfg["model"], window_hours=window)
     net = RainNet(x_train.shape[1], model_cfg).to(device)
     opt = torch.optim.AdamW(net.parameters(), lr=settings["learning_rate"], weight_decay=1e-4)
     baseline = ds.predictors.values[:, 0].astype("float32")
+    if model_cfg.temporal_context:
+        from downscale.rain_temporal import hourly_baseline, trajectory_noise
+        baseline = np.empty_like(baseline)
+        baseline[training] = hourly_baseline(ds.isel(time=training))
+        baseline[validation] = hourly_baseline(ds.isel(time=validation))
     target = ds.target.values.astype("float32")
+    sequence_hours = window * settings.get("sequence_windows", 1)
+    candidates = [i for i in range(0, len(training) - sequence_hours + 1, window)
+                  if np.all(np.diff(ds.time.values[training[i:i + sequence_hours]]) == np.timedelta64(1, "h"))]
+    if not candidates:
+        raise ValueError("no contiguous training sequences of the configured length")
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     history, best = [], float("inf")
@@ -71,14 +81,18 @@ def train(ds, cfg, out, device):
     for epoch in range(settings["epochs"]):
         net.train()
         losses = []
-        windows = rng.permutation(len(training) // window)
+        windows = rng.permutation(candidates)
         for step, i in enumerate(range(0, len(windows), settings["batch_windows"])):
             if settings.get("max_steps") is not None and step >= settings["max_steps"]:
                 break
-            idx = (windows[i:i + settings["batch_windows"], None] * window + np.arange(window)).ravel()
+            idx = (windows[i:i + settings["batch_windows"], None] + np.arange(sequence_hours)).ravel()
             opt.zero_grad()
-            p = net(torch.tensor(x_train[idx], device=device), torch.tensor(baseline[training[idx]], device=device))
-            loss = rain_loss(p, torch.tensor(target[training[idx]], device=device), window)
+            noise = None
+            if model_cfg.temporal_context:
+                noise = trajectory_noise(ds.time.values[training[idx]], model_cfg.members, len(ds.lat), len(ds.lon), model_cfg.noise_factor, window)
+            p = net(torch.tensor(x_train[idx], device=device), torch.tensor(baseline[training[idx]], device=device), noise=noise)
+            loss = rain_loss(p, torch.tensor(target[training[idx]], device=device), window,
+                             sequence_hours, settings.get("temporal_weight", 0))
             if not torch.isfinite(loss):
                 raise ValueError("nonfinite training loss")
             loss.backward()
@@ -91,9 +105,13 @@ def train(ds, cfg, out, device):
         preds = []
         with torch.no_grad(), torch.random.fork_rng(devices=[]):
             torch.manual_seed(settings["seed"] + 1)
+            val_noise = None
+            if model_cfg.temporal_context:
+                val_noise = trajectory_noise(ds.time.values[validation], 8, len(ds.lat), len(ds.lon), model_cfg.noise_factor, window)
             for i in range(0, len(validation), window):
                 ix = validation[i:i + window]
-                preds.append(net(torch.tensor(x_val[i:i + window], device=device), torch.tensor(baseline[ix], device=device), 8).cpu().numpy())
+                preds.append(net(torch.tensor(x_val[i:i + window], device=device), torch.tensor(baseline[ix], device=device), 8,
+                                 noise=None if val_noise is None else val_noise[i:i + window]).cpu().numpy())
         pred = np.concatenate(preds)
         metrics = score(pred, target[validation])
         row = {"epoch": epoch + 1, "train_loss": float(np.mean(losses)), "validation_crps_mm": metrics["crps_mm"]}
@@ -105,11 +123,12 @@ def train(ds, cfg, out, device):
             report = {"reference": "PARDIG; target agreement only, not independent radar validation",
                       "train_hours": len(training), "validation_hours": len(validation),
                       "validation_start": str(ds.time.values[validation[0]]), "config": cfg,
-                      "model": metrics, "baseline": score(baseline[validation, None], target[validation])}
+                      "model": metrics, "baseline": score(ds.predictors.values[validation, :1], target[validation]),
+                      "hourly_reference_baseline": score(baseline[validation, None], target[validation])}
             # Coherent accumulated samples, retaining the member identity across hours.
             p6 = pred.reshape(-1, window, *pred.shape[1:]).sum(1)
             t6 = target[validation].reshape(-1, window, *target.shape[1:]).sum(1)
-            b6 = baseline[validation].reshape(-1, window, *target.shape[1:]).sum(1)[:, None]
+            b6 = ds.predictors.values[validation, 0].reshape(-1, window, *target.shape[1:]).sum(1)[:, None]
             report["window_accumulation"] = {"hours": window, "model": score(p6, t6), "baseline": score(b6, t6)}
             (out / "evaluation.json").write_text(json.dumps(report, indent=2) + "\n")
         (out / "history.json").write_text(json.dumps(history, indent=2) + "\n")

@@ -19,7 +19,7 @@ import xarray as xr
 from downscale.precipitation import check_pack
 
 
-def make_movie(pairs, predictions, out, fps=2, gif=None, coastlines=True):
+def make_movie(pairs, predictions, out, fps=2, gif=None, coastlines=True, comparison=None):
     check_pack(pairs)
     for name in ("time", "lat", "lon"):
         if not np.array_equal(pairs[name], predictions[name]):
@@ -33,6 +33,13 @@ def make_movie(pairs, predictions, out, fps=2, gif=None, coastlines=True):
         raise FileExistsError("refusing to overwrite an existing movie")
     out.parent.mkdir(parents=True, exist_ok=True)
     coarse = pairs.predictors.sel(variable="tp").values
+    first_title, first_label = "Coarse six-hour forcing\nERA5 interval mean", "Coarse forcing"
+    if comparison is not None:
+        for name in ("time", "lat", "lon"):
+            if not np.array_equal(pairs[name], comparison[name]):
+                raise ValueError(f"comparison {name} differs")
+        coarse = comparison.precipitation.mean("sample").values
+        first_title, first_label = "Previous model mean\nIndependent six-hour windows", "Previous model"
     members = predictions.precipitation.values
     mean = members.mean(1)
     truth = pairs.target.values
@@ -51,7 +58,8 @@ def make_movie(pairs, predictions, out, fps=2, gif=None, coastlines=True):
     norm = BoundaryNorm(levels, cmap.N)
     meshes = []
     fields = [coarse, members[:, 0], mean, truth]
-    titles = ["Coarse six-hour forcing\nERA5 interval mean", "Downscaled member\nShared noise within each 6h",
+    noise_title = "Evolving noise across windows" if predictions.attrs.get("temporal_context") else "Shared noise within each 6h"
+    titles = [first_title, f"Downscaled member\n{noise_title}",
               f"Downscaled ensemble mean\nAverage of {members.shape[1]} samples", "PARDIG reference\nSatellite-derived target"]
     for j, (values, title) in enumerate(zip(fields, titles)):
         ax = fig.add_subplot(grid[0, j], projection=projection)
@@ -68,7 +76,7 @@ def make_movie(pairs, predictions, out, fps=2, gif=None, coastlines=True):
     bar_ax.set_title("mm", fontsize=9, pad=6)
     ax = fig.add_subplot(grid[1, :])
     regional = members.mean((-2, -1))
-    ax.plot(times, coarse.mean((-2, -1)), color="#82909f", label="Coarse forcing", linewidth=1.5)
+    ax.plot(times, coarse.mean((-2, -1)), color="#82909f", label=first_label, linewidth=1.5)
     ax.plot(times, regional.mean(1), color="#176dba", label="Downscaled mean", linewidth=1.8)
     ax.fill_between(times, np.quantile(regional, .05, axis=1), np.quantile(regional, .95, axis=1),
                     color="#176dba", alpha=.15, label="5–95% sample range")
@@ -113,9 +121,11 @@ def main():
     parser.add_argument("--out", required=True)
     parser.add_argument("--gif")
     parser.add_argument("--fps", type=float, default=2)
+    parser.add_argument("--comparison", help="optional previous model predictions for the first panel")
     args = parser.parse_args()
     make_movie(xr.open_zarr(args.pairs).load(), xr.open_zarr(args.predictions).load(),
-               args.out, args.fps, args.gif)
+               args.out, args.fps, args.gif,
+               comparison=xr.open_zarr(args.comparison).load() if args.comparison else None)
 
 
 if __name__ == "__main__":

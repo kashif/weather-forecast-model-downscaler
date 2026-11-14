@@ -95,8 +95,8 @@ The initial target is PARDIG-NRT at 0.1° (roughly 8 km east–west × 11 km nor
 over France). The bounding box includes France and surrounding countries and sea;
 reported scores cover that box, not a France administrative land mask.
 
-Historical training uses ERA5 at 0.25° with PARDIG targets. For six-hour forcing,
-the model receives the interval's average rainfall, its endpoint temperature,
+Historical training uses ERA5 at 0.25° with PARDIG targets. The original six-hour
+decoder receives the interval's average rainfall, its endpoint temperature,
 dewpoint, 10 m wind components and pressure, and the hour's phase in the interval.
 The intermediate hourly ERA5 states are hidden to match forecast-time inputs.
 Geographical coordinates and calendar cycles supply spatial and diurnal context.
@@ -110,8 +110,8 @@ is more precise than the [announcement](https://blog.google/innovation-and-ai/mo
 | Component | What the paper describes | What this branch implements |
 | --- | --- | --- |
 | Global backbone | 0.25° and 0.1° encoders/decoders, shared 40,962-node icosahedral mesh, 32 transformer layers, latent width 1,024 | A regional U-Net with bilinear decoder upsampling; no global backbone retraining |
-| Hourly output | Native hourly subtime channels inside six-hour outer steps | Hour-conditioned decoder evaluated for six successive hours, with shared member noise and an accumulation loss; it is not WN3's simultaneous subtime-channel decoder |
-| Stochastic predictions | Noise modulates conditional normalization; two samples during CRPS training | Coherent low-resolution spatial noise concatenated to inputs, four training members |
+| Hourly output | Native hourly subtime channels inside six-hour outer steps | Hour-conditioned decoder with an accumulation loss; optional continuous forecast context and twelve-hour sequence training. It is not WN3's simultaneous subtime-channel decoder |
+| Stochastic predictions | Noise modulates conditional normalization; two samples during CRPS training | Low-resolution spatial noise concatenated to inputs, four training members; optional continuously evolving noise anchors |
 | Rainfall objective | Marginal fair CRPS; additional globally pooled CRPS weighted 0.3; 1 h and 6 h accumulation targets | Physical-unit multiscale fair CRPS, domain-mean CRPS at 0.3, interval accumulation CRPS at 0.3 after division by interval hours |
 | Local observation head | Refine 0.1° latents with a 4-layer width-768 CNN; bilinear latent sampling; metadata MLP for elevation, land/sea and time; 2-hidden-layer width-768 output MLP | Deferred: requires independent high-resolution observations; gridded rainfall output only |
 | 0.05° output | Station-trained temperature and dewpoint, with backbone frozen during head training | No claim that PARDIG supplies validated 0.05° rainfall |
@@ -282,6 +282,10 @@ The 24-frame, 12-second test animation is available as a
 
 ### Global forecast forcing and Earth2Studio
 
+For a continuity-aware decoder, use `config_precipitation_continuous.yaml` as
+described under [Six-hour boundary continuity](#six-hour-boundary-continuity).
+The original experiment configuration is retained for comparison.
+
 The direct xarray path works on this project's CPU/Apple MPS environment. The
 optional `--backend earth2studio` calls `earth2studio.data.ARCO_ERA5` for historical
 inputs when Earth2Studio is installed in your environment. The `PARDIG` class in
@@ -318,6 +322,89 @@ running a global model remain external to this CLI. The forecast adapter is test
 with synthetic cumulative fields; an operational IFS/AIFS integration has not yet
 been validated. Reanalysis-trained downscalers need evaluation and preferably
 fine-tuning on forecast hindcasts, stratified by lead time.
+
+### Six-hour boundary continuity
+
+The original hourly decoder treated six-hour windows independently: its forcing
+fields were constant inside each window, its phase restarted, and member noise
+was redrawn. This produced nearly static hourly fields punctuated by jumps.
+The [WN3 paper, §4.6](https://arxiv.org/html/2609.03582v1#S4.SS6), also warns about
+six-hour discontinuities from renewed noise and incorrect covariance under
+marginal-CRPS training. Good hourly CRPS alone does not establish useful trajectories.
+
+`temporal_context: true` changes the regional decoder's conditioning:
+
+- Use a monotone PCHIP curve through **cumulative forecast rainfall**, then
+  difference hourly endpoints. The resulting coarse hourly baseline is
+  nonnegative and exactly preserves every six-hour coarse total. The learned
+  correction can still adjust those totals to correct forecast bias.
+- Interpolate forecast atmospheric endpoint states into continuous paths and
+  supply their six-hour look-behind and look-ahead, plus the corresponding
+  rainfall profiles. No piecewise-constant window-role channels or six-hour
+  phase features are exposed in this mode. Only actual diurnal/yearly calendar
+  features remain.
+- Interpolate variance-normalized spatial noise anchors across window
+  boundaries, maintaining each member's identity. Draw the trajectory before
+  splitting into inference batches so batching cannot change a sample.
+- Train on overlapping twelve-hour sequences and add CRPS on **signed hourly
+  changes** against target changes. This rewards realistic variability rather
+  than shrinking all hourly changes toward zero. Retain spatial and six-hour
+  accumulated rainfall losses.
+
+Using future **forecast** fields from the same issued run is valid: those fields
+are already available at issue time. Future observed satellite imagery or rain
+would be leakage and is never used. Supply the full available forcing horizon
+before slicing requested outputs; six hours of context on either side is useful.
+At the actual forecast-horizon edges, unavailable context is clamped and its
+availability weight is provided. Separate events and train/validation gaps are
+never interpolated together. Initial atmospheric states missing from old packs
+are held at the first available endpoint.
+
+The implementation uses SciPy's
+[shape-preserving, continuously differentiable PCHIP interpolator](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.PchipInterpolator.html).
+Interpolation supplies the baseline and conditioning; the learned forecast is
+not post-processed with a temporal smoothing filter. This remains a regional
+hour-conditioned U-Net, rather than a full spatiotemporal storm-dynamics model.
+
+```bash
+uv run python scripts/precipitation.py --config config_precipitation_continuous.yaml train \
+  --pairs data/precipitation/train_validation.zarr --out runs/precipitation_continuous_v2
+uv run python scripts/precipitation.py --config config_precipitation_continuous.yaml evaluate \
+  --model runs/precipitation_continuous_v2/model.pt --pairs data/precipitation/test_2021.zarr \
+  --out outputs/precipitation_continuous_v2/test
+uv run python scripts/movie_precipitation.py \
+  --pairs data/precipitation/test_2021.zarr \
+  --predictions outputs/precipitation_continuous_v2/test/predictions.zarr \
+  --comparison outputs/precipitation_cross_year/test/predictions.zarr \
+  --out outputs/precipitation_continuous_v2/test/france_rainfall_continuous.mp4 \
+  --gif outputs/precipitation_continuous_v2/test/france_rainfall_continuous.gif
+```
+
+See the [before/after animation](examples/france_precipitation/france_rainfall_continuous.gif)
+and [continuity diagnostics](examples/france_precipitation/continuity_results.json).
+The 2021 date was already inspected during development; it is a comparison case,
+not a new blinded research holdout. Model weights use only the original 2019
+training dates and are selected on the original 2020 validation date.
+
+The final continuous-path model was selected at epoch 21 of a 30-epoch retrain:
+
+| Comparison-day diagnostic | Original model | Continuous-path model | PARDIG target |
+| --- | ---: | ---: | ---: |
+| Boundary mean-map change, mm | 0.4792 | 0.1311 | 0.2710 |
+| Within-window mean-map change, mm | 0.0187 | 0.0894 | 0.2582 |
+| Boundary/within change ratio | 25.69 | 1.47 | 1.05 |
+| Member boundary/within change ratio | 25.53 | 1.20 | 1.05 |
+| Hourly-increment fair CRPS, mm ↓ | 0.2600 | 0.2404 | — |
+| Rainfall finite-ensemble CRPS, mm ↓ | 0.2959 | 0.3132 | — |
+| CSI, ≥1 mm ↑ | 0.3608 | 0.3194 | — |
+
+The artificial boundary contrast is substantially reduced, but hourly rainfall
+CRPS and event CSI worsen. The model still beats the interval-mean coarse
+baseline's 0.4138 mm ensemble CRPS. Within-window changes remain too weak, so
+this is a continuity improvement with a marginal-skill tradeoff, not a complete
+physical realism claim. The original config/checkpoints remain supported;
+the continuous-path configuration requires retraining, and the new checkpoint
+lives under `runs/precipitation_continuous_v2/` in the completed local experiment.
 
 ### Evaluation recipe from both papers
 
