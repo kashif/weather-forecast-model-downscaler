@@ -21,6 +21,8 @@ class RainConfig:
     members: int = 4
     window_hours: int = 6
     temporal_context: bool = False
+    architecture: str = "spatial"
+    sequence_hours: int = 12
 
 
 def check_pack(ds: xr.Dataset, target=True):
@@ -76,7 +78,15 @@ class RainNet(nn.Module):
         if cfg.noise_factor < 1 or cfg.members < 2 or cfg.depth < 1 or cfg.window_hours < 1:
             raise ValueError("positive depth/noise_factor and at least two members required")
         self.cfg = cfg
-        self.unet = UNet(channels + 1, 1, cfg.base, cfg.depth, "bilinear")
+        if cfg.architecture not in ("spatial", "joint"):
+            raise ValueError("architecture must be spatial or joint")
+        if cfg.architecture == "joint":
+            if cfg.sequence_hours < 2 * cfg.window_hours or cfg.sequence_hours % (2 * cfg.window_hours):
+                raise ValueError("joint sequence_hours must be a multiple of twice window_hours")
+            from .rain_sequence import TrajectoryUNet
+            self.unet = TrajectoryUNet(channels + 1, cfg.base, cfg.depth, cfg.sequence_hours)
+        else:
+            self.unet = UNet(channels + 1, 1, cfg.base, cfg.depth, "bilinear")
 
     def forward(self, x, baseline, members=None, noise=None):
         """Return nonnegative hourly depths (batch, members, lat, lon), in mm."""
@@ -86,7 +96,7 @@ class RainNet(nn.Module):
         b, _, h, w = x.shape
         if b % self.cfg.window_hours:
             raise ValueError("batch must contain complete forecast windows")
-        if noise is None and self.cfg.temporal_context:
+        if noise is None and (self.cfg.temporal_context or self.cfg.architecture == "joint"):
             from .rain_temporal import trajectory_noise
             noise = trajectory_noise(np.arange(b).astype("datetime64[h]"), m, h, w, self.cfg.noise_factor, self.cfg.window_hours)
         if noise is None:
@@ -100,7 +110,8 @@ class RainNet(nn.Module):
         inputs = torch.cat([x.repeat_interleave(m, 0), noise], 1)
         multiple = 2 ** self.cfg.depth
         inputs = F.pad(inputs, (0, (-w) % multiple, 0, (-h) % multiple), mode="replicate")
-        correction = self.unet(inputs)[:, 0, :h, :w].reshape(b, m, h, w)
+        decoded = self.unet(inputs, members=m) if self.cfg.architecture == "joint" else self.unet(inputs)
+        correction = decoded[:, 0, :h, :w].reshape(b, m, h, w)
         # A small offset gives initially dry pixels a gradient. Upper bound prevents overflow.
         log_depth = (torch.log1p(baseline[:, None]) + 0.01 + correction).clamp(0, np.log1p(500.0))
         return torch.expm1(log_depth)
@@ -240,6 +251,12 @@ def temporal_scores(pred, truth, coarse, smooth, times, hours=6):
         w = float(magnitude[ordinary].mean()) if ordinary.any() else None
         result[name] = {"boundary_abs_change_mm": b, "within_window_abs_change_mm": w,
                         "boundary_to_within_ratio": b / w if b is not None and w else None}
+        if consecutive.all() and len(values) >= 2 * hours:
+            centered = values - values.mean(axis=0, keepdims=True)
+            power = (np.abs(np.fft.rfft(centered, axis=0)) ** 2).reshape(len(values) // 2 + 1, -1).mean(1)
+            frequency = int(round(len(values) / hours))
+            total = float(power[1:].sum())
+            result[name]["six_hour_power_fraction"] = float(power[frequency] / total) if total else None
     delta = np.diff(pred, axis=0)
     crps = fair_crps(delta, target_changes, axis=1).reshape(len(delta), -1).mean(1)
     result["increment_crps_mm"] = float(crps[consecutive].mean()) if consecutive.any() else None
@@ -277,20 +294,25 @@ def predict(path, ds, device="cpu", members=8, batch=4):
     batch = max(window, (batch // window) * window)
     noise = None
     baseline = ds.predictors.values[:, 0]
-    if cfg.temporal_context:
+    if cfg.temporal_context or cfg.architecture == "joint":
         from .rain_temporal import hourly_baseline, trajectory_noise
         baseline = hourly_baseline(ds)
         noise = trajectory_noise(ds.time.values, members, len(ds.lat), len(ds.lon), cfg.noise_factor, window)
     outputs = []
     with torch.no_grad():
-        for i in range(0, len(x), batch):
-            outputs.append(net(torch.tensor(x[i:i + batch], device=device),
-                               torch.tensor(baseline[i:i + batch], dtype=torch.float32, device=device), members,
-                               noise=None if noise is None else noise[i:i + batch]).cpu().numpy())
+        if cfg.architecture == "joint":
+            from .rain_sequence import predict_overlapping
+            outputs.append(predict_overlapping(net, x, baseline, noise, ds.time.values, device, members))
+        else:
+            for i in range(0, len(x), batch):
+                outputs.append(net(torch.tensor(x[i:i + batch], device=device),
+                                   torch.tensor(baseline[i:i + batch], dtype=torch.float32, device=device), members,
+                                   noise=None if noise is None else noise[i:i + batch]).cpu().numpy())
     result = xr.Dataset({"precipitation": (("time", "sample", "lat", "lon"), np.concatenate(outputs))},
                         coords={"time": ds.time, "sample": np.arange(members), "lat": ds.lat, "lon": ds.lon})
     result.precipitation.attrs = {"units": "mm", "interval": "(time-1h,time]"}
     result.attrs = {"model": str(path), "target_source": checkpoint["data_attrs"].get("target_source", "unknown"),
                     "temporal_context": cfg.temporal_context,
-                    "noise_mode": "continuous_anchors" if cfg.temporal_context else "independent_windows"}
+                    "architecture": cfg.architecture,
+                    "noise_mode": "continuous_anchors" if cfg.temporal_context or cfg.architecture == "joint" else "independent_windows"}
     return result

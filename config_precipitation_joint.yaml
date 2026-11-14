@@ -1,0 +1,31 @@
+# Joint hour decoding; checkpoint selection is fixed before fresh 2024 evaluation.
+region: [40.0, 53.0, -7.0, 11.0]
+predictors: [tp, t2m, d2m, u10m, v10m, msl]
+forecast_interval_hours: 6
+validation_start: '2020-10-02T01:00:00'
+periods:
+  train:
+    - ['2019-06-10T01:00:00', '2019-06-14T00:00:00']
+    - ['2019-11-21T01:00:00', '2019-11-25T00:00:00']
+  validation: ['2020-10-02T01:00:00', '2020-10-03T00:00:00']
+  reused_comparison: ['2021-10-03T01:00:00', '2021-10-04T00:00:00']
+  fresh_test: ['2024-05-16T01:00:00', '2024-05-17T00:00:00']
+model:
+  base: 16
+  depth: 3
+  noise_factor: 8
+  members: 4
+  temporal_context: false
+  architecture: joint
+  sequence_hours: 12
+training:
+  epochs: 30
+  batch_windows: 1
+  sequence_windows: 2
+  temporal_weight: 0.15
+  mean_loss_weight: 0.1
+  learning_rate: 0.0001
+  seed: 0
+  max_steps: null
+  init_checkpoint: runs/precipitation_cross_year/model.pt
+  selection: joint

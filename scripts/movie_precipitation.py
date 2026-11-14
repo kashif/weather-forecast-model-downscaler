@@ -58,7 +58,9 @@ def make_movie(pairs, predictions, out, fps=2, gif=None, coastlines=True, compar
     norm = BoundaryNorm(levels, cmap.N)
     meshes = []
     fields = [coarse, members[:, 0], mean, truth]
-    noise_title = "Evolving noise across windows" if predictions.attrs.get("temporal_context") else "Shared noise within each 6h"
+    noise_title = "Evolving noise across windows" if predictions.attrs.get("noise_mode") == "continuous_anchors" else "Shared noise within each 6h"
+    if predictions.attrs.get("architecture") == "joint":
+        noise_title = "Joint twelve-hour decoding"
     titles = [first_title, f"Downscaled member\n{noise_title}",
               f"Downscaled ensemble mean\nAverage of {members.shape[1]} samples", "PARDIG reference\nSatellite-derived target"]
     for j, (values, title) in enumerate(zip(fields, titles)):

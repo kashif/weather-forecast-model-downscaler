@@ -19,7 +19,7 @@ import yaml
 
 from downscale.hourly import default_device
 from downscale.precip_data import PARDIG, build_pairs, condition_on_intervals, crop, forecast_pack, plan_pardig
-from downscale.precipitation import RainConfig, RainNet, check_pack, evaluate_rain, features, predict, rain_loss, save_model, score
+from downscale.precipitation import RainConfig, RainNet, check_pack, evaluate_rain, features, predict, rain_loss, save_model, score, temporal_scores
 
 
 def write_pack(ds, path):
@@ -50,7 +50,17 @@ def train(ds, cfg, out, device):
         raise ValueError("validation_start must split complete windows into nonempty train/validation sets")
     settings = cfg["training"]
     model_cfg = RainConfig(**cfg["model"], window_hours=window)
-    x_train, mean, std = features(ds.isel(time=training), temporal_context=model_cfg.temporal_context)
+    initial = None
+    if settings.get("init_checkpoint"):
+        initial = torch.load(settings["init_checkpoint"], map_location="cpu", weights_only=True)
+        if ds.variable.values.tolist() != initial["variables"]:
+            raise ValueError("initial checkpoint variables differ")
+        for coord in ("lat", "lon"):
+            if not np.array_equal(ds[coord], initial[coord].numpy()):
+                raise ValueError(f"initial checkpoint {coord} differs")
+        x_train, mean, std = features(ds.isel(time=training), initial["mean"].numpy(), initial["std"].numpy(), model_cfg.temporal_context)
+    else:
+        x_train, mean, std = features(ds.isel(time=training), temporal_context=model_cfg.temporal_context)
     x_val, _, _ = features(ds.isel(time=validation), mean, std, model_cfg.temporal_context)
     ds = ds.copy(deep=False)
     ds.attrs = {**ds.attrs, "training_start": str(ds.time.values[training[0]]),
@@ -60,15 +70,22 @@ def train(ds, cfg, out, device):
     torch.manual_seed(settings["seed"])
     rng = np.random.default_rng(settings["seed"])
     net = RainNet(x_train.shape[1], model_cfg).to(device)
+    if initial is not None:
+        missing, unexpected = net.load_state_dict(initial["state_dict"], strict=False)
+        if unexpected or any(".time_" not in key for key in missing):
+            raise ValueError(f"incompatible warm start: {missing}, {unexpected}")
     opt = torch.optim.AdamW(net.parameters(), lr=settings["learning_rate"], weight_decay=1e-4)
     baseline = ds.predictors.values[:, 0].astype("float32")
-    if model_cfg.temporal_context:
+    coherent = model_cfg.temporal_context or model_cfg.architecture == "joint"
+    if coherent:
         from downscale.rain_temporal import hourly_baseline, trajectory_noise
         baseline = np.empty_like(baseline)
         baseline[training] = hourly_baseline(ds.isel(time=training))
         baseline[validation] = hourly_baseline(ds.isel(time=validation))
     target = ds.target.values.astype("float32")
     sequence_hours = window * settings.get("sequence_windows", 1)
+    if model_cfg.architecture == "joint" and sequence_hours != model_cfg.sequence_hours:
+        raise ValueError("joint training sequence length must match the model")
     candidates = [i for i in range(0, len(training) - sequence_hours + 1, window)
                   if np.all(np.diff(ds.time.values[training[i:i + sequence_hours]]) == np.timedelta64(1, "h"))]
     if not candidates:
@@ -88,11 +105,13 @@ def train(ds, cfg, out, device):
             idx = (windows[i:i + settings["batch_windows"], None] + np.arange(sequence_hours)).ravel()
             opt.zero_grad()
             noise = None
-            if model_cfg.temporal_context:
+            if coherent:
                 noise = trajectory_noise(ds.time.values[training[idx]], model_cfg.members, len(ds.lat), len(ds.lon), model_cfg.noise_factor, window)
             p = net(torch.tensor(x_train[idx], device=device), torch.tensor(baseline[training[idx]], device=device), noise=noise)
             loss = rain_loss(p, torch.tensor(target[training[idx]], device=device), window,
                              sequence_hours, settings.get("temporal_weight", 0))
+            if settings.get("mean_loss_weight", 0):
+                loss = loss + settings["mean_loss_weight"] * (p.mean(1) - torch.tensor(target[training[idx]], device=device)).square().mean()
             if not torch.isfinite(loss):
                 raise ValueError("nonfinite training loss")
             loss.backward()
@@ -106,21 +125,34 @@ def train(ds, cfg, out, device):
         with torch.no_grad(), torch.random.fork_rng(devices=[]):
             torch.manual_seed(settings["seed"] + 1)
             val_noise = None
-            if model_cfg.temporal_context:
+            if coherent:
                 val_noise = trajectory_noise(ds.time.values[validation], 8, len(ds.lat), len(ds.lon), model_cfg.noise_factor, window)
-            for i in range(0, len(validation), window):
-                ix = validation[i:i + window]
-                preds.append(net(torch.tensor(x_val[i:i + window], device=device), torch.tensor(baseline[ix], device=device), 8,
-                                 noise=None if val_noise is None else val_noise[i:i + window]).cpu().numpy())
+            if model_cfg.architecture == "joint":
+                from downscale.rain_sequence import predict_overlapping
+                preds.append(predict_overlapping(net, x_val, baseline[validation], val_noise, ds.time.values[validation], device, 8))
+            else:
+                for i in range(0, len(validation), window):
+                    ix = validation[i:i + window]
+                    preds.append(net(torch.tensor(x_val[i:i + window], device=device), torch.tensor(baseline[ix], device=device), 8,
+                                     noise=None if val_noise is None else val_noise[i:i + window]).cpu().numpy())
         pred = np.concatenate(preds)
         metrics = score(pred, target[validation])
-        row = {"epoch": epoch + 1, "train_loss": float(np.mean(losses)), "validation_crps_mm": metrics["crps_mm"]}
+        row = {"epoch": epoch + 1, "train_loss": float(np.mean(losses)), "validation_crps_mm": metrics["crps_mm"],
+               "optimizer_steps": len(losses)}
+        selection = metrics["crps_mm"]
+        if settings.get("selection") == "joint":
+            temporal = temporal_scores(pred, target[validation], ds.predictors.values[validation, 0], baseline[validation], ds.time.values[validation], window)
+            selection = metrics["ensemble_crps_mm"] + .1 * metrics["rmse_mm"] + .1 * temporal["increment_crps_mm"]
+            row.update(validation_selection=selection, validation_rmse_mm=metrics["rmse_mm"],
+                       validation_increment_crps_mm=temporal["increment_crps_mm"],
+                       validation_boundary_ratio=temporal["model_mean"]["boundary_to_within_ratio"])
         history.append(row)
         print(json.dumps(row), flush=True)
-        if metrics["crps_mm"] < best:
-            best = metrics["crps_mm"]
+        if selection < best:
+            best = selection
             save_model(out / "model.pt", net, ds, mean, std)
             report = {"reference": "PARDIG; target agreement only, not independent radar validation",
+                      "selected_epoch": epoch + 1, "selection_score": selection,
                       "train_hours": len(training), "validation_hours": len(validation),
                       "validation_start": str(ds.time.values[validation[0]]), "config": cfg,
                       "model": metrics, "baseline": score(ds.predictors.values[validation, :1], target[validation]),

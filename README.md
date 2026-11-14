@@ -109,7 +109,7 @@ is more precise than the [announcement](https://blog.google/innovation-and-ai/mo
 
 | Component | What the paper describes | What this branch implements |
 | --- | --- | --- |
-| Global backbone | 0.25° and 0.1° encoders/decoders, shared 40,962-node icosahedral mesh, 32 transformer layers, latent width 1,024 | A regional U-Net with bilinear decoder upsampling; no global backbone retraining |
+| Global backbone | 0.25° and 0.1° encoders/decoders, shared 40,962-node icosahedral mesh, 32 transformer layers, latent width 1,024 | A regional U-Net with bilinear decoder upsampling and optional temporal convolutions at each scale; no global backbone retraining |
 | Hourly output | Native hourly subtime channels inside six-hour outer steps | Hour-conditioned decoder with an accumulation loss; optional continuous forecast context and twelve-hour sequence training. It is not WN3's simultaneous subtime-channel decoder |
 | Stochastic predictions | Noise modulates conditional normalization; two samples during CRPS training | Low-resolution spatial noise concatenated to inputs, four training members; optional continuously evolving noise anchors |
 | Rainfall objective | Marginal fair CRPS; additional globally pooled CRPS weighted 0.3; 1 h and 6 h accumulation targets | Physical-unit multiscale fair CRPS, domain-mean CRPS at 0.3, interval accumulation CRPS at 0.3 after division by interval hours |
@@ -282,9 +282,9 @@ The 24-frame, 12-second test animation is available as a
 
 ### Global forecast forcing and Earth2Studio
 
-For a continuity-aware decoder, use `config_precipitation_continuous.yaml` as
-described under [Six-hour boundary continuity](#six-hour-boundary-continuity).
-The original experiment configuration is retained for comparison.
+For the newer joint temporal decoder, use `config_precipitation_joint.yaml` as
+described under [Joint space-time decoder](#joint-space-time-decoder).
+The original and continuous-path experiment configurations are retained for comparison.
 
 The direct xarray path works on this project's CPU/Apple MPS environment. The
 optional `--backend earth2studio` calls `earth2studio.data.ARCO_ERA5` for historical
@@ -405,6 +405,95 @@ this is a continuity improvement with a marginal-skill tradeoff, not a complete
 physical realism claim. The original config/checkpoints remain supported;
 the continuous-path configuration requires retraining, and the new checkpoint
 lives under `runs/precipitation_continuous_v2/` in the completed local experiment.
+
+### Joint space-time decoder
+
+`config_precipitation_joint.yaml` tests another approach to the accuracy/continuity
+tradeoff. It retains the original model's coarse totals, endpoint states and spatial
+weights, and **jointly decodes twelve hourly fields**. Trainable temporal 3D
+convolutions couple the hours at every encoder/decoder scale. They start at zero
+so the pretrained spatial feature extractor initially behaves exactly as before.
+The original training-only normalization is retained for the warm start.
+
+This follows the general precipitation-modelling motivation for learning temporal
+structure alongside spatial detail, demonstrated for example by
+[DGMR](https://www.nature.com/articles/s41586-021-03854-z). This implementation
+uses paired coarse/fine downscaling data and small temporal adapters, without
+adversarial training or radar-observation inputs.
+
+At inference, twelve-hour windows overlap by six hours. Positive Hann weights
+blend **different predictions of the same hour**. They do not average adjacent
+hourly rainfall maps. The full trajectory uses shared continuous latent noise,
+so neither global ensemble members nor noise samples reset between windows.
+The nonnegative, accumulation-preserving coarse baseline is retained, while
+learned residuals can correct coarse rainfall bias. Horizon edges use replicated
+unavailable context; separate events are never stitched together.
+
+The experiment adds four June 2019 days to the original four November 2019 days:
+192 training hours, 24 validation hours in October 2020, 30 epochs and 900 optimizer
+steps. A small ensemble-mean MSE term supplements spatial/accumulation CRPS and
+signed-increment CRPS. Epoch 15 is selected using this fixed validation score:
+
+`finite-ensemble CRPS + 0.1 × mean-field RMSE + 0.1 × hourly-increment fair CRPS`.
+
+The May 16, 2024 test date was reserved before training and was not used for
+checkpoint selection. October 3, 2021 is a reused comparison case. Eight samples
+are used for both the original and joint models.
+
+| Day / metric | Original model | Joint decoder |
+| --- | ---: | ---: |
+| 2021 ensemble CRPS, mm ↓ | 0.2959 | 0.2947 |
+| 2021 RMSE, mm ↓ | 0.9506 | 0.9502 |
+| 2021 CSI, ≥1 mm ↑ | 0.3608 | 0.3871 |
+| 2021 FSS, ≥1 mm / 9 pixels ↑ | 0.6966 | 0.7305 |
+| 2021 boundary/within change ratio | 25.69 | 1.79 |
+| Fresh 2024 ensemble CRPS, mm ↓ | 0.2245 | 0.2249 |
+| Fresh 2024 RMSE, mm ↓ | 0.9508 | 0.9465 |
+| Fresh 2024 bias, mm (ideal 0) | −0.0517 | −0.0085 |
+| Fresh 2024 CSI, ≥1 mm ↑ | 0.1126 | 0.1592 |
+| Fresh 2024 FSS, ≥1 mm / 9 pixels ↑ | 0.3963 | 0.5077 |
+| Fresh 2024 boundary/within change ratio | 19.41 | 2.49 |
+
+This is a better practical compromise than the earlier continuity-only decoder:
+it largely retains the original marginal rainfall skill, improves event/footprint
+scores on both cases, and reduces artificial six-hour contrast. The tiny 2024
+CRPS difference is treated as approximately unchanged. Some boundary dependence
+and insufficient within-window variability remain; PARDIG's boundary ratios
+are 1.05 and 1.12. Eight training days and two test days do not establish broad
+forecast skill. The change combines architecture, training data, initialization
+and objectives, so these results are not a component ablation. Verification is
+still against PARDIG using ERA5 forcing, with no independent radar/gauge or
+operational global-forecast evaluation.
+
+The coarse baselines also remain important: on the fresh date, monotone coarse
+interpolation has RMSE 0.9436 mm and CSI 0.1752, slightly better than the joint
+model's point/event scores, but substantially worse ensemble CRPS (0.3069 versus
+0.2249 mm). The joint model is not consistently better than interpolation on
+every metric, and improvement over the previous downscaler is not proof of
+additional resolved storm detail.
+
+The [joint experiment record](examples/france_precipitation/joint_results.json)
+includes initialization, selection criteria, interior scores, temporal spectra,
+and the final checkpoint checksum. See the
+[fresh-date before/after movie](examples/france_precipitation/france_rainfall_joint_2024.gif).
+
+```bash
+# Fetch the extra training period and the predeclared fresh test period.
+uv run python scripts/precipitation.py fetch --start 2019-06-10T01:00 --end 2019-06-14T00:00 \
+  --out data/precipitation/train_2019_summer.zarr
+uv run python scripts/precipitation.py fetch --start 2024-05-16T01:00 --end 2024-05-17T00:00 \
+  --out data/precipitation/test_2024.zarr
+# Concatenate summer, autumn and validation packs as expanded_train_validation.zarr.
+uv run python scripts/precipitation.py --config config_precipitation_joint.yaml train \
+  --pairs data/precipitation/expanded_train_validation.zarr --out runs/precipitation_joint
+uv run python scripts/precipitation.py --config config_precipitation_joint.yaml evaluate \
+  --model runs/precipitation_joint/model.pt --pairs data/precipitation/test_2024.zarr \
+  --out outputs/precipitation_joint/test_2024
+```
+
+The joint model needs an entire twelve-hour sequence per forward call; `predict`
+handles overlapping windows and edge padding automatically. Existing spatial
+and continuous-path checkpoints remain supported.
 
 ### Evaluation recipe from both papers
 

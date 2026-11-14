@@ -103,3 +103,10 @@ def test_boundary_metric_detects_artificial_steps():
     assert report["model_mean"]["boundary_abs_change_mm"] > 0
     assert report["boundary_count"] == 3
     assert report["increment_crps_mm"] > 0
+
+
+def test_temporal_spectrum_identifies_six_hour_pulses():
+    ds = pack()
+    pulse = np.broadcast_to((2 + np.sin(2 * np.pi * np.arange(24) / 6))[:, None, None], (24, 9, 11))
+    report = temporal_scores(np.repeat(pulse[:, None], 2, axis=1), pulse, pulse, pulse, ds.time.values)
+    assert report["model_mean"]["six_hour_power_fraction"] == pytest.approx(1)
