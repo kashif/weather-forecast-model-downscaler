@@ -202,6 +202,22 @@ def prepare(cfg, cache):
     atomic_json(cache / 'progress.json', dict(stage='preparation_complete', hours=len(times)))
 
 
+def evaluate_once(command, model, pairs, output, fingerprint):
+    """Reuse completed reports; safely restart a partially written evaluation."""
+    output = Path(output)
+    expected = dict(model_sha256=hashlib.sha256(Path(model).read_bytes()).hexdigest(),
+                    data_and_config=fingerprint, members=8)
+    marker = output / 'complete.json'
+    if marker.exists() and json.loads(marker.read_text()) == expected and (output / 'evaluation.json').exists() and (output / 'predictions.zarr').exists():
+        return
+    for name in ('predictions.zarr', 'predictions.zarr.tmp'):
+        path = output / name
+        if path.exists():
+            shutil.rmtree(path)
+    subprocess.run(command + ['evaluate', '--model', str(model), '--pairs', str(pairs), '--out', str(output)], check=True)
+    atomic_json(marker, expected)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', default='config_precipitation_year.yaml')
@@ -236,10 +252,11 @@ def main():
     subprocess.run(command + ['train', '--pairs', str(cache / 'train_validation.zarr'), '--out', str(out)], check=True)
     atomic_json(out / 'status.json', dict(stage='evaluating'))
     output = Path(args.outputs)
-    subprocess.run(command + ['evaluate', '--model', str(out / 'model.pt'), '--pairs', str(cache / 'test.zarr'), '--out', str(output)], check=True)
+    fingerprint = json.loads((cache / 'manifest.json').read_text())['fingerprint']
+    evaluation_key = fingerprint + json.dumps(cfg, sort_keys=True)
+    evaluate_once(command, out / 'model.pt', cache / 'test.zarr', output, evaluation_key)
     previous = output / 'previous_terrain'
-    subprocess.run(command + ['evaluate', '--model', cfg['training']['init_checkpoint'],
-                              '--pairs', str(cache / 'test.zarr'), '--out', str(previous)], check=True)
+    evaluate_once(command, cfg['training']['init_checkpoint'], cache / 'test.zarr', previous, evaluation_key)
     reports = {name: json.loads(path.read_text()) for name, path in
                [('annual', output / 'evaluation.json'), ('previous_terrain', previous / 'evaluation.json')]}
     atomic_json(output / 'comparison.json', reports)
@@ -247,8 +264,10 @@ def main():
     movie_pairs = output / 'movie_pairs.zarr'
     movie_pred = output / 'movie_predictions.zarr'
     for src, dst in [(cache / 'test.zarr', movie_pairs), (output / 'predictions.zarr', movie_pred)]:
-        if not dst.exists():
-            write_pack(xr.open_zarr(src).isel(time=slice(0,24)).load(), dst)
+        for old in (dst, dst.with_name(dst.name + '.tmp')):
+            if old.exists():
+                shutil.rmtree(old)
+        write_pack(xr.open_zarr(src).isel(time=slice(0,24)).load(), dst)
     subprocess.run([sys.executable, 'scripts/movie_precipitation.py', '--pairs', str(movie_pairs),
                     '--predictions', str(movie_pred), '--out', str(output / 'france_rainfall_year.mp4')], check=True)
     atomic_json(out / 'status.json', dict(stage='complete', evaluation=str(output / 'evaluation.json'), movie=str(output / 'france_rainfall_year.mp4')))

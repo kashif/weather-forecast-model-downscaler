@@ -76,3 +76,26 @@ def test_mid_epoch_resume_reproduces_uninterrupted_training(tmp_path, monkeypatc
     changed=copy.deepcopy(cfg); changed['training']['learning_rate']=.01
     with pytest.raises(ValueError,match='resume data/config'):
         train(ds,changed,tmp_path/'resumed','cpu')
+
+
+def test_evaluation_resume_reuses_only_matching_completed_outputs(tmp_path, monkeypatch):
+    import scripts.precipitation_year as runner
+    model = tmp_path / 'model.pt'
+    model.write_bytes(b'first checkpoint')
+    output = tmp_path / 'evaluation'
+    output.mkdir()
+    (output / 'predictions.zarr.tmp').mkdir()
+    calls = []
+    def evaluate(command, check):
+        assert not (output / 'predictions.zarr.tmp').exists()
+        assert not (output / 'predictions.zarr').exists()
+        calls.append(command)
+        (output / 'predictions.zarr').mkdir()
+        (output / 'evaluation.json').write_text('{}')
+    monkeypatch.setattr(runner.subprocess, 'run', evaluate)
+    runner.evaluate_once(['python'], model, 'pairs', output, 'same data/config')
+    runner.evaluate_once(['python'], model, 'pairs', output, 'same data/config')
+    assert len(calls) == 1
+    model.write_bytes(b'new checkpoint')
+    runner.evaluate_once(['python'], model, 'pairs', output, 'same data/config')
+    assert len(calls) == 2
