@@ -1,0 +1,16 @@
+# Independent of temperature configs: all rain depths in the packs are millimetres.
+region: [40.0, 53.0, -7.0, 11.0]  # metropolitan France with surrounding context
+predictors: [tp, t2m, d2m, u10m, v10m, msl]
+forecast_interval_hours: 6
+validation_start: '2023-01-01T01:00:00'
+model:
+  base: 16
+  depth: 3
+  noise_factor: 8
+  members: 4
+training:
+  epochs: 20
+  batch_windows: 1
+  learning_rate: 0.001
+  seed: 0
+  max_steps: null

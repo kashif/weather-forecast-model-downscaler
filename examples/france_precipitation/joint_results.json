@@ -1,0 +1,272 @@
+{
+  "experiment": "Warm-started joint space-time decoder with overlapping same-hour predictions",
+  "config": "config_precipitation_joint.yaml",
+  "checkpoint_sha256": "33428e6d57e3df82e7216bb6010551e21de9ec61f4251e9d5aaffb8894435055",
+  "training": {
+    "hours": 192,
+    "validation_hours": 24,
+    "epochs": 30,
+    "optimizer_steps": 900,
+    "selection": "finite-ensemble CRPS + 0.1*RMSE + 0.1*hourly-increment fair CRPS, on 2020 validation only",
+    "selected": {
+      "epoch": 15,
+      "train_loss": 0.2476653203368187,
+      "validation_crps_mm": 0.41598968720812357,
+      "optimizer_steps": 30,
+      "validation_selection": 0.617405107445374,
+      "validation_rmse_mm": 1.292789101600647,
+      "validation_increment_crps_mm": 0.38644293878019553,
+      "validation_boundary_ratio": 1.967436823485597
+    },
+    "warm_start": "original four-day spatial model; original training-only normalization retained"
+  },
+  "test_design": {
+    "2021": "Previously inspected comparison day",
+    "2024": "2024-05-16; reserved before training and not used for model selection"
+  },
+  "results": {
+    "2021": {
+      "original": {
+        "hourly": {
+          "ensemble_crps_mm": 0.2959298176087166,
+          "crps_mm": 0.27142325696686626,
+          "rmse_mm": 0.9505910277366638,
+          "bias_mm": -0.018695393577218056,
+          "brier_1mm": 0.08883858363372915,
+          "csi_1mm": 0.3607953207561387,
+          "fss_1mm_9px": 0.6965528130531311
+        },
+        "temporal": {
+          "boundary_count": 3,
+          "within_window_count": 20,
+          "note": "physical changes can be rapid; compare against the target, not zero change",
+          "model_mean": {
+            "boundary_abs_change_mm": 0.4791996479034424,
+            "within_window_abs_change_mm": 0.01865447498857975,
+            "boundary_to_within_ratio": 25.68818732217379,
+            "six_hour_power_fraction": 0.0019566253758966923
+          },
+          "model_members": {
+            "boundary_abs_change_mm": 0.5776020884513855,
+            "within_window_abs_change_mm": 0.02262004278600216,
+            "boundary_to_within_ratio": 25.534968873216275,
+            "six_hour_power_fraction": 0.0022425767965614796
+          },
+          "target": {
+            "boundary_abs_change_mm": 0.27102455496788025,
+            "within_window_abs_change_mm": 0.2581706643104553,
+            "boundary_to_within_ratio": 1.0497883471453127,
+            "six_hour_power_fraction": 0.07796545326709747
+          },
+          "coarse": {
+            "boundary_abs_change_mm": 0.5459297299385071,
+            "within_window_abs_change_mm": 0.0,
+            "boundary_to_within_ratio": null,
+            "six_hour_power_fraction": 1.2274901393790036e-33
+          },
+          "smooth_coarse": {
+            "boundary_abs_change_mm": 0.16176839172840118,
+            "within_window_abs_change_mm": 0.09328615665435791,
+            "boundary_to_within_ratio": 1.7341092990654803,
+            "six_hour_power_fraction": 0.03278648480772972
+          },
+          "increment_crps_mm": 0.26003155736066164,
+          "boundary_increment_crps_mm": 0.3224826088658686,
+          "mean_increment_mae_mm": 0.30074256658554077
+        },
+        "interior_hourly": {
+          "ensemble_crps_mm": 0.3367617614558715,
+          "crps_mm": 0.3092048295896824,
+          "rmse_mm": 1.0323123931884766,
+          "bias_mm": -0.025406287983059883,
+          "brier_1mm": 0.10078984540694591,
+          "csi_1mm": 0.3699932665428799,
+          "fss_1mm_9px": 0.7028236389160156
+        }
+      },
+      "joint": {
+        "hourly": {
+          "ensemble_crps_mm": 0.29465713243639774,
+          "crps_mm": 0.2686701404589279,
+          "rmse_mm": 0.9502445459365845,
+          "bias_mm": 0.01069882232695818,
+          "brier_1mm": 0.08825902402283008,
+          "csi_1mm": 0.3871098850733749,
+          "fss_1mm_9px": 0.7305312156677246
+        },
+        "temporal": {
+          "boundary_count": 3,
+          "within_window_count": 20,
+          "note": "physical changes can be rapid; compare against the target, not zero change",
+          "model_mean": {
+            "boundary_abs_change_mm": 0.17054806649684906,
+            "within_window_abs_change_mm": 0.09519067406654358,
+            "boundary_to_within_ratio": 1.7916467991142333,
+            "six_hour_power_fraction": 0.04082093387842178
+          },
+          "model_members": {
+            "boundary_abs_change_mm": 0.20820367336273193,
+            "within_window_abs_change_mm": 0.1289990246295929,
+            "boundary_to_within_ratio": 1.613994167479691,
+            "six_hour_power_fraction": 0.046317461878061295
+          },
+          "target": {
+            "boundary_abs_change_mm": 0.27102455496788025,
+            "within_window_abs_change_mm": 0.2581706643104553,
+            "boundary_to_within_ratio": 1.0497883471453127,
+            "six_hour_power_fraction": 0.07796545326709747
+          },
+          "coarse": {
+            "boundary_abs_change_mm": 0.5459297299385071,
+            "within_window_abs_change_mm": 0.0,
+            "boundary_to_within_ratio": null,
+            "six_hour_power_fraction": 1.2274901393790036e-33
+          },
+          "smooth_coarse": {
+            "boundary_abs_change_mm": 0.16176839172840118,
+            "within_window_abs_change_mm": 0.09328615665435791,
+            "boundary_to_within_ratio": 1.7341092990654803,
+            "six_hour_power_fraction": 0.03278648480772972
+          },
+          "increment_crps_mm": 0.23582874648401564,
+          "boundary_increment_crps_mm": 0.25380668404400303,
+          "mean_increment_mae_mm": 0.2972487211227417
+        },
+        "interior_hourly": {
+          "ensemble_crps_mm": 0.33257038117836946,
+          "crps_mm": 0.30391637735583704,
+          "rmse_mm": 1.0286191701889038,
+          "bias_mm": -0.00021156319417059422,
+          "brier_1mm": 0.0988564656791269,
+          "csi_1mm": 0.3980236406619385,
+          "fss_1mm_9px": 0.7395884990692139
+        }
+      }
+    },
+    "2024": {
+      "original": {
+        "hourly": {
+          "ensemble_crps_mm": 0.2245209073476136,
+          "crps_mm": 0.20846001652900834,
+          "rmse_mm": 0.950781524181366,
+          "bias_mm": -0.051739174872636795,
+          "brier_1mm": 0.06622441113584959,
+          "csi_1mm": 0.11264075273792996,
+          "fss_1mm_9px": 0.3963046073913574
+        },
+        "temporal": {
+          "boundary_count": 3,
+          "within_window_count": 20,
+          "note": "physical changes can be rapid; compare against the target, not zero change",
+          "model_mean": {
+            "boundary_abs_change_mm": 0.26651135087013245,
+            "within_window_abs_change_mm": 0.013730987906455994,
+            "boundary_to_within_ratio": 19.409481144821704,
+            "six_hour_power_fraction": 0.004849668592214584
+          },
+          "model_members": {
+            "boundary_abs_change_mm": 0.3426074981689453,
+            "within_window_abs_change_mm": 0.01627589575946331,
+            "boundary_to_within_ratio": 21.04999339097774,
+            "six_hour_power_fraction": 0.004191585350781679
+          },
+          "target": {
+            "boundary_abs_change_mm": 0.2784723937511444,
+            "within_window_abs_change_mm": 0.2489151507616043,
+            "boundary_to_within_ratio": 1.1187442503965868,
+            "six_hour_power_fraction": 0.09678533673286438
+          },
+          "coarse": {
+            "boundary_abs_change_mm": 0.29169103503227234,
+            "within_window_abs_change_mm": 0.0,
+            "boundary_to_within_ratio": null,
+            "six_hour_power_fraction": 9.668406138024775e-34
+          },
+          "smooth_coarse": {
+            "boundary_abs_change_mm": 0.10281253606081009,
+            "within_window_abs_change_mm": 0.047827690839767456,
+            "boundary_to_within_ratio": 2.1496445731668943,
+            "six_hour_power_fraction": 0.03311137109994888
+          },
+          "increment_crps_mm": 0.2508866152298764,
+          "boundary_increment_crps_mm": 0.28099998923304537,
+          "mean_increment_mae_mm": 0.28016045689582825
+        },
+        "interior_hourly": {
+          "ensemble_crps_mm": 0.2312241215824665,
+          "crps_mm": 0.21457874994273202,
+          "rmse_mm": 0.9449890851974487,
+          "bias_mm": -0.050740569829940796,
+          "brier_1mm": 0.06793278046571227,
+          "csi_1mm": 0.11398108178236974,
+          "fss_1mm_9px": 0.4034932851791382
+        }
+      },
+      "joint": {
+        "hourly": {
+          "ensemble_crps_mm": 0.22490685065064045,
+          "crps_mm": 0.20690218044999908,
+          "rmse_mm": 0.9464699029922485,
+          "bias_mm": -0.008463752456009388,
+          "brier_1mm": 0.06776106826053152,
+          "csi_1mm": 0.15923401493021747,
+          "fss_1mm_9px": 0.5077146887779236
+        },
+        "temporal": {
+          "boundary_count": 3,
+          "within_window_count": 20,
+          "note": "physical changes can be rapid; compare against the target, not zero change",
+          "model_mean": {
+            "boundary_abs_change_mm": 0.14348161220550537,
+            "within_window_abs_change_mm": 0.05766366794705391,
+            "boundary_to_within_ratio": 2.4882498341459733,
+            "six_hour_power_fraction": 0.03780202567577362
+          },
+          "model_members": {
+            "boundary_abs_change_mm": 0.15825144946575165,
+            "within_window_abs_change_mm": 0.08247973024845123,
+            "boundary_to_within_ratio": 1.9186707932852778,
+            "six_hour_power_fraction": 0.044785622507333755
+          },
+          "target": {
+            "boundary_abs_change_mm": 0.2784723937511444,
+            "within_window_abs_change_mm": 0.2489151507616043,
+            "boundary_to_within_ratio": 1.1187442503965868,
+            "six_hour_power_fraction": 0.09678533673286438
+          },
+          "coarse": {
+            "boundary_abs_change_mm": 0.29169103503227234,
+            "within_window_abs_change_mm": 0.0,
+            "boundary_to_within_ratio": null,
+            "six_hour_power_fraction": 9.668406138024775e-34
+          },
+          "smooth_coarse": {
+            "boundary_abs_change_mm": 0.10281253606081009,
+            "within_window_abs_change_mm": 0.047827690839767456,
+            "boundary_to_within_ratio": 2.1496445731668943,
+            "six_hour_power_fraction": 0.03311137109994888
+          },
+          "increment_crps_mm": 0.2394442991074515,
+          "boundary_increment_crps_mm": 0.2705169596750551,
+          "mean_increment_mae_mm": 0.28751516342163086
+        },
+        "interior_hourly": {
+          "ensemble_crps_mm": 0.23533464575647386,
+          "crps_mm": 0.2165916474641967,
+          "rmse_mm": 0.9422745108604431,
+          "bias_mm": -0.0009064810001291335,
+          "brier_1mm": 0.07125564742400141,
+          "csi_1mm": 0.15846815403305115,
+          "fss_1mm_9px": 0.5040152072906494
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Eight training days and two test days do not establish seasonal skill.",
+    "Bundled change in architecture, objectives, initialization and training data; not an ablation.",
+    "ERA5 forcing proxy and PARDIG verification; independent radar/gauge and operational forecast tests remain necessary.",
+    "Residual boundary preference and insufficient within-window variability remain.",
+    "Fresh-date CRPS is approximately unchanged; not every metric improves."
+  ]
+}
