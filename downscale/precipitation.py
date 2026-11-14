@@ -58,18 +58,19 @@ def features(ds: xr.Dataset, mean=None, std=None, temporal_context=False, static
             if name == "tp" or name.endswith("_tp"):
                 data[:, i] = np.log1p(data[:, i])
     else:
-        data = ds.predictors.values.astype("float32").copy()
+        data = ds.predictors.values.astype("float32")
         data[:, 0] = np.log1p(data[:, 0])
     if mean is None:
         mean = data.mean((0, 2, 3), keepdims=True)
         std = np.maximum(data.std((0, 2, 3), keepdims=True), 1e-4)
     elif data.shape[1] != mean.shape[1]:
         raise ValueError("checkpoint feature layout differs; use matching code or retrain")
-    data = (data - mean) / std
+    data -= mean
+    data /= std
     n, _, h, w = data.shape
     lat, lon = np.meshgrid(ds.lat.values, ds.lon.values, indexing="ij")
-    geo = np.broadcast_to(np.stack([lat / 90, lon / 180])[None], (n, 2, h, w))
-    calendar = np.broadcast_to(time_features(ds.time.values)[:, :, None, None], (n, 4, h, w))
+    geo = np.broadcast_to(np.stack([lat / 90, lon / 180]).astype("float32")[None], (n, 2, h, w))
+    calendar = np.broadcast_to(time_features(ds.time.values).astype("float32")[:, :, None, None], (n, 4, h, w))
     arrays = [data, geo, calendar]
     if static is not None:
         from .rain_terrain import CHANNELS
@@ -77,7 +78,7 @@ def features(ds: xr.Dataset, mean=None, std=None, temporal_context=False, static
         if static.shape != (len(CHANNELS), h, w) or not np.isfinite(static).all():
             raise ValueError("static terrain must have the expected channels on the rainfall grid")
         arrays.append(np.broadcast_to(static[None], (n, *static.shape)))
-    return np.concatenate(arrays, 1).astype("float32"), mean, std
+    return np.concatenate(arrays, 1).astype("float32", copy=False), mean, std
 
 
 class RainNet(nn.Module):

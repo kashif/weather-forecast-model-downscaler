@@ -8,6 +8,7 @@ import argparse
 import json
 from pathlib import Path
 import sys
+import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -103,14 +104,36 @@ def train(ds, cfg, out, device):
         raise ValueError("no contiguous training sequences of the configured length")
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
-    history, best = [], float("inf")
+    from downscale.rain_resume import identity, save_resume, atomic_json
+    fingerprint = identity(ds, cfg, mean, std, static)
+    history, best, stale, start_epoch, cursor = [], float("inf"), 0, 0, 0
+    resumed_windows, resumed_losses = None, []
+    resume_path = out / "resume.pt"
+    if settings.get("resume") and resume_path.exists():
+        resumed = torch.load(resume_path, map_location="cpu", weights_only=True)
+        if resumed["fingerprint"] != fingerprint:
+            raise ValueError("resume data/config differs from this run")
+        net.load_state_dict(resumed["state_dict"])
+        opt.load_state_dict(resumed["optimizer"])
+        rng.bit_generator.state = resumed["rng"]
+        torch.set_rng_state(resumed["torch_rng"])
+        start_epoch, cursor = resumed["epoch"], resumed["cursor"]
+        resumed_windows, resumed_losses = resumed["windows"], resumed["losses"]
+        history, best, stale = resumed["history"], resumed["best"], resumed["stale"]
+        print(f"resuming epoch {start_epoch + 1}, sampler cursor {cursor}", flush=True)
+    started = time.monotonic()
+    completed_steps = 0
     if settings["epochs"] < 1 or settings["batch_windows"] < 1:
         raise ValueError("positive epochs and batch_windows required")
-    for epoch in range(settings["epochs"]):
+    for epoch in range(start_epoch, settings["epochs"]):
+        if settings.get("patience") and stale >= settings["patience"] and epoch >= settings.get("min_epochs", 0):
+            break
         net.train()
-        losses = []
-        windows = rng.permutation(candidates)
+        losses = resumed_losses if resumed_windows else []
+        windows = np.array(resumed_windows) if resumed_windows else rng.permutation(candidates)
         for step, i in enumerate(range(0, len(windows), settings["batch_windows"])):
+            if i < cursor:
+                continue
             if settings.get("max_steps") is not None and step >= settings["max_steps"]:
                 break
             idx = (windows[i:i + settings["batch_windows"], None] + np.arange(sequence_hours)).ravel()
@@ -129,6 +152,16 @@ def train(ds, cfg, out, device):
             torch.nn.utils.clip_grad_norm_(net.parameters(), 5.0)
             opt.step()
             losses.append(float(loss.detach().cpu()))
+            completed_steps += 1
+            if settings.get("resume") and (step + 1) % settings.get("checkpoint_every_steps", 100) == 0:
+                save_resume(resume_path, net, opt, rng, fingerprint, epoch,
+                            i + settings["batch_windows"], windows, losses, history, best, stale)
+                progress = dict(stage="training", epoch=epoch + 1, epochs=settings["epochs"],
+                                step=step + 1, steps_per_epoch=int(np.ceil(len(windows) / settings["batch_windows"])),
+                                seconds_per_step=(time.monotonic() - started) / completed_steps,
+                                train_loss=float(np.mean(losses)), train_hours=len(training), validation_hours=len(validation))
+                atomic_json(out / "progress.json", progress)
+                print(json.dumps(progress), flush=True)
         if not losses:
             raise ValueError("no optimizer steps; max_steps must be positive")
         net.eval()
@@ -159,9 +192,12 @@ def train(ds, cfg, out, device):
                        validation_boundary_ratio=temporal["model_mean"]["boundary_to_within_ratio"])
         history.append(row)
         print(json.dumps(row), flush=True)
-        if selection < best:
+        improved = selection < best
+        stale = 0 if improved else stale + 1
+        if improved:
             best = selection
-            save_model(out / "model.pt", net, ds, mean, std, static, static_metadata)
+            save_model(out / "model.tmp.pt", net, ds, mean, std, static, static_metadata)
+            (out / "model.tmp.pt").replace(out / "model.pt")
             report = {"reference": "PARDIG; target agreement only, not independent radar validation",
                       "selected_epoch": epoch + 1, "selection_score": selection,
                       "train_hours": len(training), "validation_hours": len(validation),
@@ -174,7 +210,13 @@ def train(ds, cfg, out, device):
             b6 = ds.predictors.values[validation, 0].reshape(-1, window, *target.shape[1:]).sum(1)[:, None]
             report["window_accumulation"] = {"hours": window, "model": score(p6, t6), "baseline": score(b6, t6)}
             (out / "evaluation.json").write_text(json.dumps(report, indent=2) + "\n")
-        (out / "history.json").write_text(json.dumps(history, indent=2) + "\n")
+        atomic_json(out / "history.json", history)
+        if settings.get("resume"):
+            save_resume(resume_path, net, opt, rng, fingerprint, epoch + 1, 0, [], [], history, best, stale)
+            atomic_json(out / "progress.json", dict(stage="epoch_complete", **row, stale_epochs=stale))
+        cursor, resumed_windows, resumed_losses = 0, None, []
+    if settings.get("resume"):
+        atomic_json(out / "progress.json", dict(stage="training_complete", epochs_completed=len(history), best_selection=best))
     return out / "model.pt"
 
 

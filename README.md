@@ -592,3 +592,42 @@ Evaluate interpolation, statistical calibration, the existing U-Net baseline and
 the proposed decoder at matched member counts. Reserve post-2023 radar/gauge data
 where possible because PARDIG itself was trained on 2016–2023 satellite targets.
 PARDIG agreement and independent observation skill must be reported separately.
+
+### Full-year rainfall training
+
+`config_precipitation_year.yaml` expands the terrain model to **all 8,760 hourly
+intervals in 2019**, including dry weather. Validation uses the 15th day of every
+month in 2020 (288 hours); test uses January/April/July/October 15 in 2022 (96
+hours). These periods are fixed before fitting. Output remains hourly at 0.1°.
+The joint decoder, coherent noise, terrain covariates and losses are unchanged.
+Weights and training-only normalization are initialized from the small terrain
+experiment. The run allows 30 full epochs, with validation selection and early
+stopping after five stale epochs (at least five epochs). No training-step cap is
+used; each epoch has 1,459 overlapping twelve-hour sequences.
+
+```sh
+.venv/bin/python -u scripts/precipitation_year.py
+# Re-run this command after an interruption to resume preparation/training.
+```
+
+The runner reads the PARDIG timeseries layout through the guide's unsigned
+`obstore`/Zarr access: 999 regional 5×5 tiles, each read once across **all** selected
+training, validation and test timestamps. Their decoded source-chunk footprint
+is about 35.0 GB; this is not compressed network traffic. Quarter-hour rates are
+integrated into hourly mm and cached atomically per tile. ERA5 preparation is
+cached daily, reading hourly rainfall but only six-hour endpoint atmospheric
+states. Source arrays stay backend-lazy until regional/time selection. Neither
+global fields nor the full decade are saved locally. The in-memory trainer is
+intended for the current 128 GiB machine; training features alone occupy about
+17 GB. Data preparation is bounded by tiles and days.
+
+`data/precipitation/year_2019/progress.json` tracks preparation. Training writes
+`runs/precipitation_year/progress.json`, `history.json`, the best `model.pt` and
+`resume.pt` every 100 steps and each epoch. Resume state includes optimizer,
+shuffled sampler, cursor and noise RNG; data/config changes are rejected.
+The runner subsequently evaluates the selected model and the previous terrain
+checkpoint with paired noise on the same untouched 2022 dates, writes their
+reports to `outputs/precipitation_year/`, and renders a 24-hour MP4. It does not
+use test scores for checkpoint selection. These remain PARDIG agreement scores
+with ERA5 as a forcing proxy; completing this run does not establish operational
+forecast skill or independent radar/gauge skill.
