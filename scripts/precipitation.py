@@ -19,7 +19,7 @@ import yaml
 
 from downscale.hourly import default_device
 from downscale.precip_data import PARDIG, build_pairs, condition_on_intervals, crop, forecast_pack, plan_pardig
-from downscale.precipitation import RainConfig, RainNet, check_pack, features, predict, rain_loss, save_model, score
+from downscale.precipitation import RainConfig, RainNet, check_pack, evaluate_rain, features, predict, rain_loss, save_model, score
 
 
 def write_pack(ds, path):
@@ -42,14 +42,19 @@ def train(ds, cfg, out, device):
     check_pack(ds)
     cut = np.datetime64(cfg["validation_start"])
     window = int(ds.attrs["forecast_interval_hours"])
-    if len(ds.time) % window or not np.all(np.diff(ds.time.values) == np.timedelta64(1, "h")):
-        raise ValueError("training pack must contain consecutive complete forecast windows")
+    if len(ds.time) % window or not np.all(np.diff(ds.time.values.reshape(-1, window), axis=1) == np.timedelta64(1, "h")):
+        raise ValueError("training pack must contain complete, internally consecutive forecast windows")
     training = np.flatnonzero(ds.time.values < cut)
     validation = np.flatnonzero(ds.time.values >= cut)
     if not len(training) or not len(validation) or len(training) % window or len(validation) % window:
         raise ValueError("validation_start must split complete windows into nonempty train/validation sets")
     x_train, mean, std = features(ds.isel(time=training))
     x_val, _, _ = features(ds.isel(time=validation), mean, std)
+    ds = ds.copy(deep=False)
+    ds.attrs = {**ds.attrs, "training_start": str(ds.time.values[training[0]]),
+                "training_end": str(ds.time.values[training[-1]]),
+                "validation_start": str(ds.time.values[validation[0]]),
+                "validation_end": str(ds.time.values[validation[-1]])}
     settings = cfg["training"]
     torch.manual_seed(settings["seed"])
     rng = np.random.default_rng(settings["seed"])
@@ -135,6 +140,12 @@ def main():
     apply.add_argument("--out", required=True)
     apply.add_argument("--members", type=int, default=8)
     apply.add_argument("--device", default=default_device())
+    evaluate = sub.add_parser("evaluate", help="evaluate an untouched target period")
+    evaluate.add_argument("--model", required=True)
+    evaluate.add_argument("--pairs", required=True)
+    evaluate.add_argument("--out", required=True)
+    evaluate.add_argument("--members", type=int, default=8)
+    evaluate.add_argument("--device", default=default_device())
     forcing = sub.add_parser("forcing", help="convert one global forecast initialization/member to hourly inputs")
     forcing.add_argument("--forecast", required=True, help="Zarr dataset with 'fields' in Earth2Studio layout")
     forcing.add_argument("--model", required=True)
@@ -162,7 +173,7 @@ def main():
         for i in range(0, len(times), window):
             print(f"fetching {times[i]} through {times[i + window - 1]}", flush=True)
             ds = build_pairs(times[i:i + window], cfg["predictors"], args.backend, pardig_url=source,
-                             box=tuple(cfg["region"]), target=truth)
+                             box=tuple(cfg["region"]), target=truth, forcing_hours=window)
             ds = condition_on_intervals(ds.load(), window)
             check_pack(ds)
             batches.append(ds)
@@ -183,6 +194,26 @@ def main():
                            checkpoint["config"]["window_hours"], args.accumulation)
         check_pack(ds, target=False)
         write_pack(ds, args.out)
+    elif args.command == "evaluate":
+        ds = xr.open_zarr(args.pairs).load()
+        checkpoint = torch.load(args.model, map_location="cpu", weights_only=True)
+        attrs = checkpoint["data_attrs"]
+        if not all(f"{split}_{bound}" in attrs for split in ("training", "validation") for bound in ("start", "end")):
+            raise ValueError("checkpoint lacks split boundaries; retrain before claiming an untouched test")
+        for split in ("training", "validation"):
+            if f"{split}_start" in attrs:
+                overlap = (ds.time.values >= np.datetime64(attrs[f"{split}_start"])) & (ds.time.values <= np.datetime64(attrs[f"{split}_end"]))
+                if overlap.any():
+                    raise ValueError(f"test period overlaps {split}; choose an untouched period")
+        torch.manual_seed(cfg["training"]["seed"] + 2)
+        predictions = predict(args.model, ds, args.device, args.members)
+        report = evaluate_rain(predictions, ds)
+        out = Path(args.out)
+        out.mkdir(parents=True, exist_ok=True)
+        write_pack(predictions, out / "predictions.zarr")
+        (out / "evaluation.json").write_text(json.dumps(report, indent=2) + "\n")
+        print(json.dumps({"hourly_model_crps_mm": report["hourly"]["model"]["crps_mm"],
+                          "hourly_baseline_crps_mm": report["hourly"]["baseline"]["crps_mm"]}), flush=True)
     else:
         ds = xr.open_zarr(args.forcing).load()
         write_pack(predict(args.model, ds, args.device, args.members), args.out)

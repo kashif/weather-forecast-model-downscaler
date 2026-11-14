@@ -11,7 +11,7 @@ import torch
 import xarray as xr
 
 from downscale.precip_data import PARDIG, condition_on_intervals, crop, forecast_pack, hourly_pardig, read_cost
-from downscale.precipitation import RainConfig, RainNet, check_pack, features, predict, rain_loss, save_model, score
+from downscale.precipitation import RainConfig, RainNet, check_pack, evaluate_rain, features, predict, rain_loss, save_model, score
 
 
 def pack(n=12, h=9, w=11):
@@ -72,6 +72,36 @@ def test_read_planner_counts_boundary_chunks_without_reading_rainfall():
     assert plan["decoded_bytes_upper_bound"] == 8 * 3 * 3 * 4
     with pytest.raises(ValueError, match="outside"):
         read_cost(ds.precipitation, ["2020-01-02T01:00"], (44, 46, -1, 1))
+
+
+def test_endpoint_only_download_matches_full_hourly_conditioning(monkeypatch):
+    import downscale.precip_data as data
+    ds = pack()
+    calls = []
+
+    def fake_era5(times, variables, backend, box):
+        calls.append((len(times), list(variables)))
+        return ds.predictors.sel(time=times, variable=variables)
+
+    monkeypatch.setattr(data, "era5_fields", fake_era5)
+    full = data.condition_on_intervals(data.build_pairs(ds.time.values, ["tp", "t2m"], target=ds.target), 6)
+    calls.clear()
+    minimal = data.condition_on_intervals(data.build_pairs(ds.time.values, ["tp", "t2m"], target=ds.target, forcing_hours=6), 6)
+    xr.testing.assert_equal(full, minimal)
+    assert calls == [(12, ["tp"]), (2, ["t2m"])]
+
+
+def test_evaluation_scores_hourly_and_daily_totals_and_rejects_misalignment():
+    ds = condition_on_intervals(pack(n=24), 6)
+    pred = xr.Dataset({"precipitation": (("time", "sample", "lat", "lon"), np.repeat(ds.target.values[:, None], 2, axis=1))},
+                      coords={"time": ds.time, "sample": [0, 1], "lat": ds.lat, "lon": ds.lon})
+    pred.precipitation.attrs["units"] = "mm"
+    report = evaluate_rain(pred, ds)
+    assert report["hourly"]["model"]["crps_mm"] == 0
+    assert report["accumulations"]["24"]["model"]["crps_mm"] == 0
+    assert len(report["per_window"]) == 4
+    with pytest.raises(ValueError, match="time"):
+        evaluate_rain(pred.assign_coords(time=ds.time + np.timedelta64(1, "h")), ds)
 
 
 def test_pack_writer_removes_remote_v3_encoding_and_refuses_overwrite(tmp_path):
@@ -149,12 +179,16 @@ def test_scores_report_probabilities_neighbourhoods_and_no_event_support():
     pred = np.repeat(truth[:, None], 4, axis=1)
     metrics = score(pred, truth)
     assert metrics["crps_mm"] == 0
+    assert metrics["ensemble_crps_mm"] == 0
     assert metrics["brier_1mm"] == 0
     assert metrics["csi_1mm"] == 1
     assert metrics["fss_1mm_3px"] == 1
     assert metrics["csi_10mm"] is None
     assert metrics["observed_events_10mm"] == 0
     assert sum(b["n"] for b in metrics["reliability_1mm"]) == truth.size
+    two = score(np.array([[[[0.]], [[2.]]]]), np.ones((1, 1, 1)))
+    assert two["crps_mm"] == 0
+    assert two["ensemble_crps_mm"] == .5
 
 
 def test_cli_runs_training_and_prediction_without_network(tmp_path):
@@ -174,3 +208,7 @@ def test_cli_runs_training_and_prediction_without_network(tmp_path):
     subprocess.run([sys.executable, str(root / "scripts/precipitation.py"), "predict", "--model", str(run / "model.pt"),
                     "--forcing", str(pairs), "--out", str(output), "--device", "cpu"], cwd=root, check=True, capture_output=True)
     assert xr.open_zarr(output).precipitation.shape == (12, 8, 9, 11)
+    rejected = subprocess.run([sys.executable, str(root / "scripts/precipitation.py"), "evaluate", "--model", str(run / "model.pt"),
+                               "--pairs", str(pairs), "--out", str(tmp_path / "invalid_test")], cwd=root, capture_output=True, text=True)
+    assert rejected.returncode != 0
+    assert "test period overlaps training" in rejected.stderr

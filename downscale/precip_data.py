@@ -141,13 +141,27 @@ def era5_fields(times, variables, backend="arco", box=REGION_PRESETS["france"]):
 
 
 def build_pairs(times, variables=("tp", "t2m", "d2m", "u10m", "v10m", "msl"),
-                backend="arco", pardig_url=PARDIG_NRT, box=REGION_PRESETS["france"], target=None):
+                backend="arco", pardig_url=PARDIG_NRT, box=REGION_PRESETS["france"], target=None,
+                forcing_hours=1):
     """Pair ERA5 0.25° hourly predictors with PARDIG 0.1° hourly rainfall."""
     if not variables or variables[0] != "tp" or len(set(variables)) != len(variables):
         raise ValueError("predictors must be unique and start with tp")
     truth = (PARDIG(pardig_url, box)(times, ["tp"]).sel(variable="tp", drop=True)
              if target is None else target.sel(time=times))
-    fields = era5_fields(times, list(variables), backend, box)
+    if forcing_hours > 1:
+        if len(times) % forcing_hours:
+            raise ValueError("predictor request must contain complete forcing windows")
+        fields = era5_fields(times, ["tp"], backend, box)
+        if len(variables) > 1:
+            endpoints = pd.DatetimeIndex(times)[forcing_hours - 1::forcing_hours]
+            context = era5_fields(endpoints, list(variables[1:]), backend, box)
+            # Endpoint states are all the model consumes: avoid downloading five
+            # intermediate global fields for every six-hour window.
+            index = np.repeat(np.arange(len(endpoints)), forcing_hours)
+            context = context.isel(time=index).assign_coords(time=pd.DatetimeIndex(times))
+            fields = xr.concat([fields, context], dim="variable")
+    else:
+        fields = era5_fields(times, list(variables), backend, box)
     fields = fields.interp(lat=truth.lat, lon=truth.lon).astype("float32")
     # Both ERA5 tp and aggregated PARDIG are depths in m over the preceding hour.
     fields.loc[dict(variable="tp")] = fields.sel(variable="tp") * 1000.0

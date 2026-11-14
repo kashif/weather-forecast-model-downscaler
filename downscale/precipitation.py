@@ -112,6 +112,10 @@ def score(pred, truth):
     result = {"rmse_mm": float(np.sqrt(np.mean((mean - truth) ** 2))),
               "bias_mm": float(np.mean(mean - truth)),
               "crps_mm": float(fair_crps(pred, truth, axis=1).mean()) if pred.shape[1] > 1 else float(np.abs(mean - truth).mean())}
+    # WN3 reports actual finite-ensemble CRPS at evaluation, whereas fair CRPS
+    # estimates the underlying generator score. Report both, with explicit names.
+    skill = float(np.abs(pred - truth[:, None]).mean())
+    result["ensemble_crps_mm"] = result["crps_mm"] + (skill - result["crps_mm"]) / pred.shape[1]
     for threshold in (0.1, 1.0, 5.0, 10.0):
         observed = truth >= threshold
         prob = (pred >= threshold).mean(1)
@@ -137,6 +141,55 @@ def score(pred, truth):
             denom = np.mean(a * a + b * b)
             result[f"fss_{threshold:g}mm_{size}px"] = float(1 - np.mean((a - b) ** 2) / denom) if denom else None
     return result
+
+
+def evaluate_rain(prediction: xr.Dataset, pairs: xr.Dataset, interior_margin=8):
+    """Score exactly aligned hourly predictions and accumulated window totals."""
+    check_pack(pairs)
+    rain = prediction.precipitation
+    if rain.dims != ("time", "sample", "lat", "lon") or rain.attrs.get("units") != "mm":
+        raise ValueError("prediction must be time, sample, lat, lon in mm")
+    for name in ("time", "lat", "lon"):
+        if not np.array_equal(prediction[name], pairs[name]):
+            raise ValueError(f"prediction and target {name} differ")
+    pred, truth = rain.values, pairs.target.values
+    if not np.isfinite(pred).all() or np.any(pred < 0):
+        raise ValueError("predicted rain must be finite and nonnegative")
+    baseline = pairs.predictors.sel(variable="tp").values[:, None]
+    window = int(pairs.attrs["forecast_interval_hours"])
+    if len(truth) % window:
+        raise ValueError("evaluation requires complete forcing windows")
+    report = {
+        "reference": "PARDIG proxy; not independent radar/gauge verification",
+        "start": str(pairs.time.values[0]), "end": str(pairs.time.values[-1]),
+        "hours": len(truth), "members": pred.shape[1], "domain": "rectangular France context; uniform pixel weights",
+        "hourly": {"model": score(pred, truth), "baseline": score(baseline, truth)},
+        "accumulations": {},
+    }
+    # A context ring is useful for regional models. Report the interior
+    # separately so edge-padding behaviour cannot hide behind a domain mean.
+    if interior_margin > 0 and min(truth.shape[-2:]) > 2 * interior_margin:
+        core = (slice(None), slice(interior_margin, -interior_margin), slice(interior_margin, -interior_margin))
+        pc = pred[:, :, interior_margin:-interior_margin, interior_margin:-interior_margin]
+        bc = baseline[:, :, interior_margin:-interior_margin, interior_margin:-interior_margin]
+        report["interior_hourly"] = {"excluded_context_cells": interior_margin,
+                                      "model": score(pc, truth[core]), "baseline": score(bc, truth[core])}
+    for hours in sorted({window, 24}):
+        if len(truth) % hours or not np.all(np.diff(pairs.time.values.reshape(-1, hours), axis=1) == np.timedelta64(1, "h")):
+            continue
+        p = pred.reshape(-1, hours, *pred.shape[1:]).sum(1)
+        t = truth.reshape(-1, hours, *truth.shape[1:]).sum(1)
+        b = baseline.reshape(-1, hours, *baseline.shape[1:]).sum(1)
+        report["accumulations"][str(hours)] = {"units": f"mm/{hours}h", "model": score(p, t), "baseline": score(b, t)}
+    # Paired per-window scores make timing/volume failures inspectable. A few
+    # windows from one event do not justify independent bootstrap confidence claims.
+    report["per_window"] = []
+    for i in range(0, len(truth), window):
+        end = i + window
+        report["per_window"].append({"start": str(pairs.time.values[i]),
+                                      "model_crps_mm": score(pred[i:end], truth[i:end])["crps_mm"],
+                                      "baseline_crps_mm": score(baseline[i:end], truth[i:end])["crps_mm"]})
+    return report
 
 
 def save_model(path, net, ds, mean, std):

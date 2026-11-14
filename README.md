@@ -198,7 +198,8 @@ the best checkpoint is selected on validation CRPS. For a scientific experiment,
 use complete seasons and split by years/events, for example 2016–2021 training,
 2022 validation and 2023–2025 untouched testing. The current trainer loads the
 regional pack into RAM: use small pilot packs before building a streaming trainer
-for a multi-year experiment. It does not yet implement an untouched test campaign.
+for a multi-year experiment. The separate `evaluate` command rejects test dates
+overlapping the checkpoint's recorded training or validation periods.
 
 Local pilot completed on Apple MPS: 24 hours on a 131 × 180 grid, 18 training
 hours and 6 validation hours, two epochs with two optimizer steps each. Best
@@ -210,6 +211,74 @@ radar validation or an operational global-forecast test. The metadata-only read
 plan for this 24-hour request touches 25 global spatial chunks (2.59 GB decoded)
 versus 999 full-time-series tiles (35.03 GB decoded); compressed transfer sizes
 are data-dependent.
+
+### Cross-year training, test evaluation and movie
+
+`config_precipitation_experiment.yaml` records the completed small experiment:
+96 training hours from 21–24 November 2019, 24 validation hours from 2 October
+2020, and 24 untouched test hours from 3 October 2021 (all right-labelled UTC).
+The fresh model trained for 30 epochs / 480 optimizer steps on Apple MPS, using
+only training statistics for normalization. Epoch 21 was selected on validation
+CRPS. The test period was evaluated once with eight samples after selection;
+adding finite-ensemble metrics reused the same saved predictions.
+
+| Test metric | Coarse interval mean | Downscaler |
+| --- | ---: | ---: |
+| Hourly fair CRPS, mm ↓ | 0.4138 | 0.2714 |
+| Hourly finite-ensemble CRPS, mm ↓ | 0.4138 | 0.2959 |
+| Hourly ensemble-mean RMSE, mm ↓ | 0.9520 | 0.9506 |
+| Hourly bias, mm (ideal 0) | +0.0688 | −0.0187 |
+| Brier score, ≥1 mm ↓ | 0.1211 | 0.0888 |
+| CSI, ≥1 mm ↑ | 0.4416 | 0.3608 |
+| FSS, ≥1 mm over 9-pixel neighbourhoods ↑ | 0.7518 | 0.6966 |
+| Six-hour fair CRPS, mm ↓ | 1.7962 | 1.2044 |
+| Daily fair CRPS, mm ↓ | 5.4290 | 3.7895 |
+
+Probability scores and rainfall-volume bias improve; RMSE barely changes, and
+threshold-event footprint scores worsen. This does not establish sharper or
+more accurate storm placement. These are comparisons to the learned PARDIG
+target with ERA5 forcing, not independent rainfall verification or operational
+forecast skill. Four training days and one test day cannot establish seasonal
+performance. The [recorded results](examples/france_precipitation/results.json)
+include split dates and the checkpoint checksum.
+
+The local Neural-LAM checkout (`../neural-lam`, inspected at `9d5aa0f`) provided
+useful checks: keep forcing distinct from prediction targets, normalize each
+category exactly once, separate train/validation/test, and inspect regional
+boundaries separately. See `neural_lam/models/modules/base.py` and
+`neural_lam/models/forecasters/base.py` there. This downscaler retains its U-Net
+and does not copy target values onto domain boundaries; test reports additionally
+exclude an eight-cell context ring for an interior comparison.
+
+For the cached training/validation pack and separate test pack:
+
+```bash
+uv run python scripts/precipitation.py --config config_precipitation_experiment.yaml train \
+  --pairs data/precipitation/train_validation.zarr --out runs/precipitation_cross_year
+uv run python scripts/precipitation.py --config config_precipitation_experiment.yaml evaluate \
+  --model runs/precipitation_cross_year/model.pt \
+  --pairs data/precipitation/test_2021.zarr --out outputs/precipitation_cross_year/test
+uv run python scripts/movie_precipitation.py \
+  --pairs data/precipitation/test_2021.zarr \
+  --predictions outputs/precipitation_cross_year/test/predictions.zarr \
+  --out outputs/precipitation_cross_year/test/france_hourly_rain.mp4 \
+  --gif outputs/precipitation_cross_year/test/france_hourly_rain.gif
+```
+
+Fetch each period with `fetch --start ... --end ...` as above; the `periods` entries
+in the experiment config record bounds rather than automatically downloading
+them. Concatenate the training and validation packs in time using
+`xr.concat([train, validation], dim="time", join="exact")`; the trainer permits
+gaps between complete six-hour windows. Atmospheric predictors are downloaded
+only at the endpoint actually used by the model, reducing five of every six
+temperature/dewpoint/wind/pressure reads. Rainfall still requires all hourly
+increments to construct the six-hour forcing total.
+
+The MP4/GIF compares coarse interval-mean forcing, one stochastic member,
+ensemble mean and PARDIG with common rainfall bins, plus a domain-mean time
+series. Rendering an MP4 requires `ffmpeg`; GIF output uses Pillow.
+The 24-frame, 12-second test animation is available as a
+[GIF preview](examples/france_precipitation/france_hourly_rain.gif).
 
 ### Global forecast forcing and Earth2Studio
 
@@ -258,7 +327,7 @@ the rectangular context domain; they are not area-weighted or France-land-only.
 
 | Metric | Why it matters | Current implementation |
 | --- | --- | --- |
-| Fair CRPS | Probabilistic error in physical rainfall units | Hourly and forcing-interval totals; marginal scores with ≥2 members |
+| Fair and finite-ensemble CRPS | Generator score and actual ensemble score in physical rainfall units (WN3 A.2.1 distinguishes these) | Hourly, forcing-interval and daily totals; fair CRPS with ≥2 members |
 | RMSE and bias | Mean error and water-volume bias | Hourly and interval totals |
 | Brier score and reliability | Rain-event probabilities and calibration | 0.1, 1, 5, 10 mm thresholds, reliability bins and observed-event counts |
 | CSI | Hits versus misses and false alarms; both papers evaluate threshold skill | Median-probability event at the same thresholds; null for no-event unions |
