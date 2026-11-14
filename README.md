@@ -1,5 +1,8 @@
 # weather-forecast-model-downscaler
 
+The experimental hourly **France precipitation downscaler** is described below under
+[Hourly precipitation](#hourly-precipitation). Temperature workflows remain as documented here.
+
 Train a downscaler that turns a 0.25° ensemble temperature forecast into 5.5 km maps over France, and
 apply it to AIFS Ensemble 1.0 forecasts read from Earthmover.
 
@@ -83,3 +86,191 @@ reads IFS ENS (or `ifs`, `aifs-single`) from the same open data.
 - `scripts/`: the pipeline steps above.
 - `tests/`: `uv run pytest`, on synthetic data, no network needed.
 - `findings.md`: behaviour of the data and libraries worth knowing.
+
+## Hourly precipitation
+
+`config_precipitation.yaml` and `scripts/precipitation.py` implement a separate regional
+rainfall prototype: **global forecast forcing → hourly probabilistic rainfall over France**.
+The initial target is PARDIG-NRT at 0.1° (roughly 8 km east–west × 11 km north–south
+over France). The bounding box includes France and surrounding countries and sea;
+reported scores cover that box, not a France administrative land mask.
+
+Historical training uses ERA5 at 0.25° with PARDIG targets. For six-hour forcing,
+the model receives the interval's average rainfall, its endpoint temperature,
+dewpoint, 10 m wind components and pressure, and the hour's phase in the interval.
+The intermediate hourly ERA5 states are hidden to match forecast-time inputs.
+Geographical coordinates and calendar cycles supply spatial and diurnal context.
+This baseline does not yet have a fine-resolution terrain encoder or upper-air inputs.
+
+### Architecture evidence and implementation
+
+The [WN3 paper](https://arxiv.org/abs/2609.03582), especially §§2.2 and A.1,
+is more precise than the [announcement](https://blog.google/innovation-and-ai/models-and-research/google-deepmind/introducing-weathernext-3/):
+
+| Component | What the paper describes | What this branch implements |
+| --- | --- | --- |
+| Global backbone | 0.25° and 0.1° encoders/decoders, shared 40,962-node icosahedral mesh, 32 transformer layers, latent width 1,024 | A regional U-Net with bilinear decoder upsampling; no global backbone retraining |
+| Hourly output | Native hourly subtime channels inside six-hour outer steps | Hour-conditioned decoder evaluated for six successive hours, with shared member noise and an accumulation loss; it is not WN3's simultaneous subtime-channel decoder |
+| Stochastic predictions | Noise modulates conditional normalization; two samples during CRPS training | Coherent low-resolution spatial noise concatenated to inputs, four training members |
+| Rainfall objective | Marginal fair CRPS; additional globally pooled CRPS weighted 0.3; 1 h and 6 h accumulation targets | Physical-unit multiscale fair CRPS, domain-mean CRPS at 0.3, interval accumulation CRPS at 0.3 after division by interval hours |
+| Local observation head | Refine 0.1° latents with a 4-layer width-768 CNN; bilinear latent sampling; metadata MLP for elevation, land/sea and time; 2-hidden-layer width-768 output MLP | Deferred: requires independent high-resolution observations; gridded rainfall output only |
+| 0.05° output | Station-trained temperature and dewpoint, with backbone frozen during head training | No claim that PARDIG supplies validated 0.05° rainfall |
+
+The regional U-Net predicts an additive correction in log1p rainfall space, then
+decodes nonnegative depths. An initial 0.01 offset permits gradients over dry inputs;
+the numerical upper bound is 500 mm/h. This is an implementation bound, not an
+extreme-rain skill claim. Shared noise and accumulated losses encourage temporal
+coherence; outputs are not constrained to exactly reproduce the coarse total, since
+the target may correct coarse-model rainfall bias.
+
+The [PARDIG paper](https://arxiv.org/abs/2611.13941), §§2.3–2.4 and A.3.4,
+describes a related **retrieval** system, not a causal global forecaster. It uses
+four hours of analysis/satellite context, including observations after the target
+time, a 16-layer width-512 mesh transformer, and a continuous query decoder trained
+with cross-entropy over 14 rainfall bins against sparse GPM CORRA observations.
+The public dense product is a calibrated deterministic reconstruction, rather than
+an ensemble of precipitation observations. Our CRPS ensemble measures uncertainty
+conditional on those proxy targets; matching PARDIG does not certify calibration
+against actual rainfall.
+
+### Data conventions and satellite availability
+
+The [PARDIG guide](https://developers.google.com/weathernext/guides/pardig)
+and live metadata specify instantaneous `precipitation` in **m/h**. Following
+paper Eq. A.3.8, each hour ending at `t` uses rates at `t−45, t−30, t−15, t`
+minutes, each weighted by 0.25 hours, then converted to **mm**. Missing samples
+raise or remain missing; they never become zero rainfall. ERA5 `tp` is already
+the preceding hour's accumulated depth in metres, so it is multiplied by 1,000.
+Greenwich-crossing crops are selected before interpolation and sorted into signed
+longitude. Interpolation of rainfall is bilinear, not area-conservative.
+
+Use NRT consistently for 2016 onward; do not silently concatenate the LR and NRT
+variants. Their upstream inputs differ. PARDIG is a learned reference with known
+limitations in the Alps, snowfall and drizzle, and a 75 mm/h instantaneous-rate
+cap. The 0.1° target cannot supervise genuine 1–5 km rainfall detail. A later stage
+can use radar/gauge targets on a finer grid; independent evaluation must establish
+whether the added detail is useful.
+
+The [SatWeave guide](https://developers.google.com/weathernext/guides/satweave)
+documents 17 bands, 30-minute archives in 2016–2025, hourly operational imagery,
+and approximately one-hour latency. WN3 used an 11-band subset. Meteosat-compatible
+thermal/water-vapour bands (e.g. 6.2 and 11.2 μm) are sensible France inputs;
+several other bands have no European coverage and visible bands are missing at night.
+**This prototype does not ingest SatWeave.** Future imagery at a forecast's valid
+time would leak observations. A satellite-assisted extension must use only frames
+available at issuance, encode their ages and validity masks, and measure gains by
+lead time against a forcing-only ablation. PARDIG is target-only because its
+publication latency is approximately 2–8 hours.
+
+### Run a small real-data training check
+
+No Earthmover account is needed for the direct ARCO/PARDIG path. The reader uses
+the guide's `obstore.store.GCSStore` → `zarr.storage.ObjectStore` → `xr.open_zarr`
+pattern with anonymous public reads and backend-lazy indexing. Public spatial
+chunks span the globe: even a France crop downloads global compressed chunks.
+`--plan` compares chunk metadata for the spatial and time-series layouts without
+fetching rainfall or ERA5 fields; `--pardig-layout auto` chooses the smaller
+decoded-byte estimate. This is a chunk-cost estimate, not measured compressed
+network traffic. Only the `precipitation` field, requested quarters of each hour,
+and France cells are selected; all target hours are read together to avoid
+re-fetching shared boundary chunks. No SatWeave bands are downloaded in this version.
+Start small; fetch bounds are inclusive hourly interval endpoints.
+
+```bash
+uv sync
+uv run python scripts/precipitation.py fetch \
+  --start 2020-10-02T01:00 --end 2020-10-03T00:00 \
+  --out data/precipitation/pilot.zarr --plan
+uv run python scripts/precipitation.py fetch \
+  --start 2020-10-02T01:00 --end 2020-10-03T00:00 \
+  --out data/precipitation/pilot.zarr
+uv run python scripts/precipitation.py train \
+  --pairs data/precipitation/pilot.zarr --out runs/precipitation_pilot \
+  --epochs 2 --max-steps 2 --validation-start 2020-10-02T19:00
+uv run python scripts/precipitation.py predict \
+  --model runs/precipitation_pilot/model.pt \
+  --forcing data/precipitation/pilot.zarr --out outputs/precipitation_pilot.zarr
+```
+
+That single-event split is a pipeline smoke test, not an independent skill estimate.
+`model.pt`, `history.json` and `evaluation.json` are written under the run directory;
+the best checkpoint is selected on validation CRPS. For a scientific experiment,
+use complete seasons and split by years/events, for example 2016–2021 training,
+2022 validation and 2023–2025 untouched testing. The current trainer loads the
+regional pack into RAM: use small pilot packs before building a streaming trainer
+for a multi-year experiment. It does not yet implement an untouched test campaign.
+
+Local pilot completed on Apple MPS: 24 hours on a 131 × 180 grid, 18 training
+hours and 6 validation hours, two epochs with two optimizer steps each. Best
+validation hourly CRPS was 0.6416 mm versus 0.6635 mm for the interval-mean coarse
+baseline; six-hour-total CRPS was 3.0015 mm versus 3.1220 mm. Hourly 1 mm CSI
+was slightly worse (0.3726 versus 0.3750), so the metrics do not show uniform
+improvement. These are PARDIG agreement numbers on one event, without independent
+radar validation or an operational global-forecast test. The metadata-only read
+plan for this 24-hour request touches 25 global spatial chunks (2.59 GB decoded)
+versus 999 full-time-series tiles (35.03 GB decoded); compressed transfer sizes
+are data-dependent.
+
+### Global forecast forcing and Earth2Studio
+
+The direct xarray path works on this project's CPU/Apple MPS environment. The
+optional `--backend earth2studio` calls `earth2studio.data.ARCO_ERA5` for historical
+inputs when Earth2Studio is installed in your environment. The `PARDIG` class in
+`downscale/precip_data.py` follows Earth2Studio's `(time, variable) -> DataArray`
+interface for regional hourly `tp` in metres. There is no built-in PARDIG/SatWeave
+Earth2Studio adapter assumed here. Earth2Studio is an optional integration, not
+required for the direct training path.
+
+At deployment the forcing comes from a **global forecast**, such as
+[IFS_FX](https://nvidia.github.io/earth2studio/main/modules/generated/data/forecast/IFS_FX/),
+AIFS or a compatible Earth2Studio rollout. Export one initialization and one global
+ensemble member at a time as a Zarr dataset with `fields(lead_time, variable, lat,
+lon)` and a scalar `time` initialization coordinate. `tp` must be **metres**;
+other variables use the training units (K, m/s, Pa). Six-hour leads must be equally
+spaced. For accumulations since initialization, include lead zero; for interval
+totals, start at lead six. Verify these semantics in the chosen model's metadata;
+Earth2Studio variable names alone do not establish an accumulation interval.
+
+```bash
+uv run python scripts/precipitation.py forcing \
+  --forecast outputs/global_member.zarr --accumulation cumulative \
+  --model runs/precipitation_pilot/model.pt --out outputs/france_forcing.zarr
+uv run python scripts/precipitation.py predict \
+  --forcing outputs/france_forcing.zarr --model runs/precipitation_pilot/model.pt \
+  --out outputs/france_hourly_rain.zarr
+```
+
+`forecast_pack` deaccumulates within that single run/member, rejects negative
+resets, interpolates onto the trained France grid and produces each hourly phase.
+Use a halo around France when exporting fields to cover interpolation boundaries.
+Apply separately to every global ensemble member, retaining global member IDs
+alongside the downscaler sample IDs in downstream workflows. Forecast access and
+running a global model remain external to this CLI. The forecast adapter is tested
+with synthetic cumulative fields; an operational IFS/AIFS integration has not yet
+been validated. Reanalysis-trained downscalers need evaluation and preferably
+fine-tuning on forecast hindcasts, stratified by lead time.
+
+### Evaluation recipe from both papers
+
+`evaluation.json` compares the downscaler with the interval-mean/interpolated coarse
+baseline on the same held-out PARDIG hours. Scores are uniform pixel averages over
+the rectangular context domain; they are not area-weighted or France-land-only.
+
+| Metric | Why it matters | Current implementation |
+| --- | --- | --- |
+| Fair CRPS | Probabilistic error in physical rainfall units | Hourly and forcing-interval totals; marginal scores with ≥2 members |
+| RMSE and bias | Mean error and water-volume bias | Hourly and interval totals |
+| Brier score and reliability | Rain-event probabilities and calibration | 0.1, 1, 5, 10 mm thresholds, reliability bins and observed-event counts |
+| CSI | Hits versus misses and false alarms; both papers evaluate threshold skill | Median-probability event at the same thresholds; null for no-event unions |
+| FSS | Tolerates small displacement errors and checks storm footprints (PARDIG A.10.6) | Median-probability footprint, 1/3/9-pixel square neighbourhoods; boundary padding excluded |
+| Multi-hour totals | Timing and catchment-relevant rainfall (PARDIG A.13; WN3 A.1.2) | Forcing-interval totals; thresholds denote total mm over that interval |
+
+Before a skill claim, add independent rain gauges and quality-controlled radar
+(e.g. EURADCLIM/OPERA where access and rainfall products permit), conservative
+aggregation to common spatial support, 24-hour and catchment totals, spectra and
+temporal structure checks, equal-area neighbourhoods, land/terrain/season/lead
+stratification, and confidence intervals bootstrapped by storm or initialization.
+Evaluate interpolation, statistical calibration, the existing U-Net baseline and
+the proposed decoder at matched member counts. Reserve post-2023 radar/gauge data
+where possible because PARDIG itself was trained on 2016–2023 satellite targets.
+PARDIG agreement and independent observation skill must be reported separately.
