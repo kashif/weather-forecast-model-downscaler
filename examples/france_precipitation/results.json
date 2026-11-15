@@ -1,0 +1,140 @@
+{
+  "experiment": "Small cross-year France precipitation pilot",
+  "config": "config_precipitation_experiment.yaml",
+  "checkpoint_sha256": "133535004af4c05a2ea38e017b6f510192b575e5d66cadbef60baab5613f2156",
+  "training": {
+    "hours": 96,
+    "start": "2019-11-21T01:00",
+    "end": "2019-11-25T00:00",
+    "epochs": 30,
+    "best_epoch": 21,
+    "optimizer_steps": 480,
+    "device": "Apple MPS"
+  },
+  "validation": {
+    "hours": 24,
+    "start": "2020-10-02T01:00",
+    "end": "2020-10-03T00:00",
+    "fair_crps_mm": {
+      "model": 0.43611787193012824,
+      "baseline": 0.6318133473396301
+    }
+  },
+  "test": {
+    "hours": 24,
+    "start": "2021-10-03T01:00:00.000000000",
+    "end": "2021-10-04T00:00:00.000000000",
+    "members": 8,
+    "hourly": {
+      "model": {
+        "crps_mm": 0.27142325696686626,
+        "ensemble_crps_mm": 0.2959298176087166,
+        "rmse_mm": 0.9505910277366638,
+        "bias_mm": -0.018695393577218056,
+        "brier_1mm": 0.08883858363372915,
+        "csi_1mm": 0.3607953207561387,
+        "fss_1mm_9px": 0.6965528130531311
+      },
+      "baseline": {
+        "crps_mm": 0.4137570858001709,
+        "ensemble_crps_mm": 0.4137570858001709,
+        "rmse_mm": 0.951985239982605,
+        "bias_mm": 0.06879226118326187,
+        "brier_1mm": 0.12108955329375176,
+        "csi_1mm": 0.44160331157666577,
+        "fss_1mm_9px": 0.7517762780189514
+      }
+    },
+    "interior_hourly": {
+      "model": {
+        "crps_mm": 0.3092048295896824,
+        "ensemble_crps_mm": 0.3367617614558715,
+        "rmse_mm": 1.0323123931884766,
+        "bias_mm": -0.025406287983059883,
+        "brier_1mm": 0.10078984540694591,
+        "csi_1mm": 0.3699932665428799,
+        "fss_1mm_9px": 0.7028236389160156
+      },
+      "baseline": {
+        "crps_mm": 0.46660590171813965,
+        "ensemble_crps_mm": 0.46660590171813965,
+        "rmse_mm": 1.0348097085952759,
+        "bias_mm": 0.07285069674253464,
+        "brier_1mm": 0.13574363732767764,
+        "csi_1mm": 0.4507544606142954,
+        "fss_1mm_9px": 0.7601913213729858
+      }
+    },
+    "accumulations": {
+      "6": {
+        "model": {
+          "crps_mm": 1.2044248243188052,
+          "ensemble_crps_mm": 1.3511217835062037,
+          "rmse_mm": 3.8492913246154785,
+          "bias_mm": -0.11217236518859863,
+          "brier_1mm": 0.12706295722010177,
+          "csi_1mm": 0.6181732346071659,
+          "fss_1mm_9px": 0.8811414837837219
+        },
+        "baseline": {
+          "crps_mm": 1.7961504459381104,
+          "ensemble_crps_mm": 1.7961504459381104,
+          "rmse_mm": 3.8246607780456543,
+          "bias_mm": 0.4127535820007324,
+          "brier_1mm": 0.17872137404580152,
+          "csi_1mm": 0.6258821962803498,
+          "fss_1mm_9px": 0.8750218749046326
+        }
+      },
+      "24": {
+        "model": {
+          "crps_mm": 3.7895025893482632,
+          "ensemble_crps_mm": 4.218920561063184,
+          "rmse_mm": 8.738992691040039,
+          "bias_mm": -0.44868943095207214,
+          "brier_1mm": 0.10396787531806616,
+          "csi_1mm": 0.8311018592988598,
+          "fss_1mm_9px": 0.949059784412384
+        },
+        "baseline": {
+          "crps_mm": 5.4290008544921875,
+          "ensemble_crps_mm": 5.4290008544921875,
+          "rmse_mm": 8.783446311950684,
+          "bias_mm": 1.6510142087936401,
+          "brier_1mm": 0.11823579304495335,
+          "csi_1mm": 0.8658841639407351,
+          "fss_1mm_9px": 0.9601541757583618
+        }
+      }
+    },
+    "per_window": [
+      {
+        "start": "2021-10-03T01:00:00.000000000",
+        "model_crps_mm": 0.31458283050223707,
+        "baseline_crps_mm": 0.4560207724571228
+      },
+      {
+        "start": "2021-10-03T07:00:00.000000000",
+        "model_crps_mm": 0.28022657432194725,
+        "baseline_crps_mm": 0.46117883920669556
+      },
+      {
+        "start": "2021-10-03T13:00:00.000000000",
+        "model_crps_mm": 0.261194163245625,
+        "baseline_crps_mm": 0.37404319643974304
+      },
+      {
+        "start": "2021-10-03T19:00:00.000000000",
+        "model_crps_mm": 0.22968945979765581,
+        "baseline_crps_mm": 0.3637854754924774
+      }
+    ]
+  },
+  "limitations": [
+    "ERA5 global-state forcing proxy; not an operational global forecast test.",
+    "PARDIG proxy targets; no independent radar or gauge verification.",
+    "Four training days, one validation day and one test day are not enough to establish seasonal skill.",
+    "Event CSI and neighbourhood FSS worsen despite better probabilistic scores.",
+    "0.1-degree grid; no claim of genuine 1-5 km rainfall detail."
+  ]
+}

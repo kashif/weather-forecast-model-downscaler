@@ -1,0 +1,20 @@
+# Small, reproducible cross-year pilot. No test hours are used for model selection.
+region: [40.0, 53.0, -7.0, 11.0]
+predictors: [tp, t2m, d2m, u10m, v10m, msl]
+forecast_interval_hours: 6
+validation_start: '2020-10-02T01:00:00'
+periods:
+  train: ['2019-11-21T01:00:00', '2019-11-25T00:00:00']
+  validation: ['2020-10-02T01:00:00', '2020-10-03T00:00:00']
+  test: ['2021-10-03T01:00:00', '2021-10-04T00:00:00']
+model:
+  base: 16
+  depth: 3
+  noise_factor: 8
+  members: 4
+training:
+  epochs: 30
+  batch_windows: 1
+  learning_rate: 0.0003
+  seed: 0
+  max_steps: null

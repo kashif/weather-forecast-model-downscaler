@@ -1,0 +1,176 @@
+{
+  "experiment": "Static terrain covariate ablation",
+  "config": "config_precipitation_terrain.yaml",
+  "static_metadata": {
+    "source": "CERRA 5.5 km terrain, with ERA5 static fallback outside the cached fine crop",
+    "aggregation": "3x3 target-cell midpoint quadrature weighted by cos(latitude)",
+    "slopes": "east/north gradients at target resolution; percent rise",
+    "coast": "exp(-distance_to_sea_km/25); distance uses mean target-grid spacing",
+    "coverage_mean": 0.99860018491745,
+    "sha256": "cf492c46856b0d5cb43c7197b000081beff08c62f969f8dd4838fa59a6496c9c"
+  },
+  "static_channels": [
+    "elevation_km",
+    "fine_minus_coarse_km",
+    "slope_east_percent",
+    "slope_north_percent",
+    "relief_500m",
+    "land_fraction",
+    "coast_proximity",
+    "fine_coverage"
+  ],
+  "checkpoint_sha256": "19ca78760d501708c6b592ebaa2981680aa5ac83e2d454388b25c0a3a950452b",
+  "design": {
+    "training_hours": 192,
+    "validation_hours": 24,
+    "epochs_per_arm": 5,
+    "steps_per_arm": 150,
+    "initial_checkpoint": "runs/precipitation_joint/model.pt",
+    "learning_rate": 5e-05,
+    "seed": 0,
+    "evaluation_noise_seed": 2,
+    "pairing": "identical batches and noise draws; extra terrain weights initially zero",
+    "selection": "same 2020 validation selection rule in both arms; both selected epoch 5",
+    "comparison_dates": "Previously inspected 2021-10-03 and 2024-05-16; no fresh independent holdout"
+  },
+  "results": {
+    "2021": {
+      "control": {
+        "hourly": {
+          "ensemble_crps_mm": 0.289639564764514,
+          "rmse_mm": 0.9484415054321289,
+          "bias_mm": -0.015246481634676456,
+          "csi_1mm": 0.3828181132744933
+        },
+        "elevation_bands": {
+          "lowland_below_200m": {
+            "cells": 6434,
+            "ensemble_crps_mm": 0.294431200984475,
+            "rmse_mm": 0.9309028387069702,
+            "bias_mm": 0.04909846931695938,
+            "csi_1mm": 0.40909773307311215
+          },
+          "hills_200_to_1000m": {
+            "cells": 7212,
+            "ensemble_crps_mm": 0.38317060789418644,
+            "rmse_mm": 1.1660611629486084,
+            "bias_mm": -0.03048461116850376,
+            "csi_1mm": 0.3974092546411748
+          },
+          "mountains_above_1000m": {
+            "cells": 1872,
+            "ensemble_crps_mm": 0.2223391630775241,
+            "rmse_mm": 0.7832779288291931,
+            "bias_mm": 0.060525670647621155,
+            "csi_1mm": 0.3409977703455964
+          }
+        },
+        "boundary_ratio": 1.944131651930293
+      },
+      "terrain": {
+        "hourly": {
+          "ensemble_crps_mm": 0.2894697366534795,
+          "rmse_mm": 0.948301374912262,
+          "bias_mm": -0.02027030475437641,
+          "csi_1mm": 0.383143333363044
+        },
+        "elevation_bands": {
+          "lowland_below_200m": {
+            "cells": 6434,
+            "ensemble_crps_mm": 0.29615700776284204,
+            "rmse_mm": 0.933956503868103,
+            "bias_mm": 0.05069870874285698,
+            "csi_1mm": 0.4082039524509682
+          },
+          "hills_200_to_1000m": {
+            "cells": 7212,
+            "ensemble_crps_mm": 0.3820908099239181,
+            "rmse_mm": 1.1651616096496582,
+            "bias_mm": -0.04530005902051926,
+            "csi_1mm": 0.3977790765634132
+          },
+          "mountains_above_1000m": {
+            "cells": 1872,
+            "ensemble_crps_mm": 0.2161507081984481,
+            "rmse_mm": 0.7705386877059937,
+            "bias_mm": 0.036928873509168625,
+            "csi_1mm": 0.3389830508474576
+          }
+        },
+        "boundary_ratio": 1.9521615228005154
+      }
+    },
+    "2024": {
+      "control": {
+        "hourly": {
+          "ensemble_crps_mm": 0.22339869149507116,
+          "rmse_mm": 0.9450969696044922,
+          "bias_mm": -0.039367809891700745,
+          "csi_1mm": 0.15765953024319268
+        },
+        "elevation_bands": {
+          "lowland_below_200m": {
+            "cells": 6434,
+            "ensemble_crps_mm": 0.26123578832592736,
+            "rmse_mm": 1.0901546478271484,
+            "bias_mm": -0.08169057965278625,
+            "csi_1mm": 0.1598113414500384
+          },
+          "hills_200_to_1000m": {
+            "cells": 7212,
+            "ensemble_crps_mm": 0.2494568648436703,
+            "rmse_mm": 0.999788761138916,
+            "bias_mm": -0.011305154301226139,
+            "csi_1mm": 0.2212295157855754
+          },
+          "mountains_above_1000m": {
+            "cells": 1872,
+            "ensemble_crps_mm": 0.15303987481578468,
+            "rmse_mm": 0.4650537371635437,
+            "bias_mm": 0.046427734196186066,
+            "csi_1mm": 0.10350921484473617
+          }
+        },
+        "boundary_ratio": 2.3491627405919044
+      },
+      "terrain": {
+        "hourly": {
+          "ensemble_crps_mm": 0.22286239805869024,
+          "rmse_mm": 0.9457303285598755,
+          "bias_mm": -0.04198475182056427,
+          "csi_1mm": 0.1554322521923299
+        },
+        "elevation_bands": {
+          "lowland_below_200m": {
+            "cells": 6434,
+            "ensemble_crps_mm": 0.2617769869477554,
+            "rmse_mm": 1.0923811197280884,
+            "bias_mm": -0.08271495252847672,
+            "csi_1mm": 0.15532544378698224
+          },
+          "hills_200_to_1000m": {
+            "cells": 7212,
+            "ensemble_crps_mm": 0.2475138311913458,
+            "rmse_mm": 1.000289797782898,
+            "bias_mm": -0.019946860149502754,
+            "csi_1mm": 0.2217873143126621
+          },
+          "mountains_above_1000m": {
+            "cells": 1872,
+            "ensemble_crps_mm": 0.14996394177260927,
+            "rmse_mm": 0.45965898036956787,
+            "bias_mm": 0.037017304450273514,
+            "csi_1mm": 0.10211081794195251
+          }
+        },
+        "boundary_ratio": 2.355825268045809
+      }
+    }
+  },
+  "limitations": [
+    "Five-epoch exploratory fine-tune on eight training days.",
+    "Small high-terrain RMSE/CRPS improvements do not establish significant or general gains.",
+    "Full-domain metrics and event CSI are mixed.",
+    "ERA5 forcing and PARDIG targets; no independent radar/gauge validation."
+  ]
+}

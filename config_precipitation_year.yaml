@@ -1,0 +1,47 @@
+# All 8,760 hourly targets in 2019; seasonal 2020 validation and 2022 test.
+region:
+- 40.0
+- 53.0
+- -7.0
+- 11.0
+predictors:
+- tp
+- t2m
+- d2m
+- u10m
+- v10m
+- msl
+forecast_interval_hours: 6
+validation_start: '2020-01-01T01:00:00'
+static_path: data/precipitation/terrain.zarr
+evaluation_noise_seed: 2
+model:
+  base: 16
+  depth: 3
+  noise_factor: 8
+  members: 4
+  temporal_context: false
+  architecture: joint
+  sequence_hours: 12
+  terrain: true
+training:
+  epochs: 30
+  batch_windows: 1
+  sequence_windows: 2
+  temporal_weight: 0.15
+  mean_loss_weight: 0.1
+  learning_rate: 5.0e-05
+  seed: 0
+  paired_noise: true
+  max_steps: null
+  init_checkpoint: runs/precipitation_terrain/model.pt
+  selection: joint
+  resume: true
+  checkpoint_every_steps: 100
+  patience: 5
+  min_epochs: 5
+annual:
+  year: 2019
+  validation_year: 2020
+  test_year: 2022
+  download_workers: 4

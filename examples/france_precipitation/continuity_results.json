@@ -1,0 +1,111 @@
+{
+  "experiment": "Continuous forcing paths and noise across six-hour windows",
+  "config": "config_precipitation_continuous.yaml",
+  "checkpoint_sha256": "59a392358b50f583640d013befb39374cfbce6c65bbc47fe96c1764718d8334f",
+  "training": {
+    "hours": 96,
+    "validation_hours": 24,
+    "epochs": 30,
+    "optimizer_steps": 450,
+    "best_epoch": 21,
+    "best_validation_crps_mm": 0.43607865129433254
+  },
+  "comparison_day": "2021-10-03 (previously inspected; not a fresh independent research holdout)",
+  "results": {
+    "previous": {
+      "hourly": {
+        "crps_mm": 0.27142325696686626,
+        "ensemble_crps_mm": 0.2959298176087166,
+        "rmse_mm": 0.9505910277366638,
+        "bias_mm": -0.018695393577218056,
+        "brier_1mm": 0.08883858363372915,
+        "csi_1mm": 0.3607953207561387,
+        "fss_1mm_9px": 0.6965528130531311
+      },
+      "temporal": {
+        "boundary_count": 3,
+        "within_window_count": 20,
+        "note": "physical changes can be rapid; compare against the target, not zero change",
+        "model_mean": {
+          "boundary_abs_change_mm": 0.4791996479034424,
+          "within_window_abs_change_mm": 0.01865447498857975,
+          "boundary_to_within_ratio": 25.68818732217379
+        },
+        "model_members": {
+          "boundary_abs_change_mm": 0.5776020884513855,
+          "within_window_abs_change_mm": 0.02262004278600216,
+          "boundary_to_within_ratio": 25.534968873216275
+        },
+        "target": {
+          "boundary_abs_change_mm": 0.27102455496788025,
+          "within_window_abs_change_mm": 0.2581706643104553,
+          "boundary_to_within_ratio": 1.0497883471453127
+        },
+        "coarse": {
+          "boundary_abs_change_mm": 0.5459297299385071,
+          "within_window_abs_change_mm": 0.0,
+          "boundary_to_within_ratio": null
+        },
+        "smooth_coarse": {
+          "boundary_abs_change_mm": 0.16176839172840118,
+          "within_window_abs_change_mm": 0.09328615665435791,
+          "boundary_to_within_ratio": 1.7341092990654803
+        },
+        "increment_crps_mm": 0.26003155736066164,
+        "boundary_increment_crps_mm": 0.3224826088658686,
+        "mean_increment_mae_mm": 0.30074256658554077
+      }
+    },
+    "continuous": {
+      "hourly": {
+        "crps_mm": 0.2947959599998584,
+        "ensemble_crps_mm": 0.3132075665735818,
+        "rmse_mm": 0.9933026432991028,
+        "bias_mm": -0.06290403008460999,
+        "brier_1mm": 0.09850956186386768,
+        "csi_1mm": 0.3194425762018778,
+        "fss_1mm_9px": 0.6438027620315552
+      },
+      "temporal": {
+        "boundary_count": 3,
+        "within_window_count": 20,
+        "note": "physical changes can be rapid; compare against the target, not zero change",
+        "model_mean": {
+          "boundary_abs_change_mm": 0.13114036619663239,
+          "within_window_abs_change_mm": 0.08937536180019379,
+          "boundary_to_within_ratio": 1.46729885681255
+        },
+        "model_members": {
+          "boundary_abs_change_mm": 0.15142230689525604,
+          "within_window_abs_change_mm": 0.12607452273368835,
+          "boundary_to_within_ratio": 1.2010539767428723
+        },
+        "target": {
+          "boundary_abs_change_mm": 0.27102455496788025,
+          "within_window_abs_change_mm": 0.2581706643104553,
+          "boundary_to_within_ratio": 1.0497883471453127
+        },
+        "coarse": {
+          "boundary_abs_change_mm": 0.5459297299385071,
+          "within_window_abs_change_mm": 0.0,
+          "boundary_to_within_ratio": null
+        },
+        "smooth_coarse": {
+          "boundary_abs_change_mm": 0.16176839172840118,
+          "within_window_abs_change_mm": 0.09328615665435791,
+          "boundary_to_within_ratio": 1.7341092990654803
+        },
+        "increment_crps_mm": 0.24035176003147543,
+        "boundary_increment_crps_mm": 0.2548691389704717,
+        "mean_increment_mae_mm": 0.29350098967552185
+      }
+    }
+  },
+  "limitations": [
+    "Temporal continuity improves but marginal rainfall CRPS and CSI worsen on this case.",
+    "Within-window variability remains weaker than the target.",
+    "Bundled architectural/training change, not a component ablation.",
+    "ERA5 proxy forcing and PARDIG targets; no independent radar validation.",
+    "Preserved accumulations apply to the coarse baseline; learned residuals may correct forecast totals."
+  ]
+}
