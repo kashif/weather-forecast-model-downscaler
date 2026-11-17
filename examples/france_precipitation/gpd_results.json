@@ -1,0 +1,2519 @@
+{
+  "reference": "PARDIG proxy; not independent radar/gauge validation",
+  "event_definition": "Y > threshold (strict), hourly depth in mm",
+  "book": "https://otexts.com/weird/univariate.html (section 2.10); section 7.3 is a separate surprisal use",
+  "selection": {
+    "config": {
+      "checkpoint": "runs/precipitation_year/model.pt",
+      "static_path": "data/precipitation/terrain.zarr",
+      "region": [
+        40.0,
+        53.0,
+        -7.0,
+        11.0
+      ],
+      "predictors": [
+        "tp",
+        "t2m",
+        "d2m",
+        "u10m",
+        "v10m",
+        "msl"
+      ],
+      "forecast_interval_hours": 6,
+      "members": 32,
+      "splits": {
+        "fit": [
+          "2021-01-15",
+          "2021-02-15",
+          "2021-03-15",
+          "2021-04-15",
+          "2021-05-15",
+          "2021-06-15",
+          "2021-07-15",
+          "2021-08-15",
+          "2021-09-15",
+          "2021-10-15",
+          "2021-11-15",
+          "2021-12-15"
+        ],
+        "selection": [
+          "2023-01-15",
+          "2023-04-15",
+          "2023-07-15",
+          "2023-10-15"
+        ],
+        "test": [
+          "2024-01-15",
+          "2024-04-15",
+          "2024-07-15",
+          "2024-10-15"
+        ]
+      },
+      "thresholds_mm": [
+        1.0,
+        2.0,
+        3.0,
+        5.0
+      ],
+      "shape_range": [
+        0.0,
+        0.45
+      ],
+      "max_negative_fit_points": 200000,
+      "max_iterations": 120,
+      "regularization": 0.001,
+      "seed": 17,
+      "selection": {
+        "objective": "sum_twcrps_5_10_mm",
+        "max_overall_crps_ratio": 1.05
+      }
+    },
+    "raw_crps_mm": 0.06885527705550595,
+    "raw_tail_objective": 0.003745105209890245,
+    "candidates": [
+      {
+        "threshold_mm": 1.0,
+        "fit_points": 6791040,
+        "exceedances": 123246,
+        "fit_days": 12,
+        "exceedance_days": 11,
+        "likelihood_evaluations": 73,
+        "initial_loss": 1.3876925873855592,
+        "final_loss": 1.2233641501660848,
+        "shape": 0.2591053992133421,
+        "checkpoint_sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+        "feature_names": [
+          "log_mean",
+          "log_std",
+          "log_max",
+          "log_neighbour_max_mean",
+          "log_coarse_rain",
+          "dewpoint_depression_10K",
+          "wind_speed_10ms",
+          "pressure_anomaly_100hPa",
+          "elevation_km",
+          "relief_500m",
+          "land_fraction",
+          "sin_year",
+          "cos_year",
+          "sin_hour",
+          "cos_hour",
+          "latitude_scaled",
+          "longitude_scaled"
+        ],
+        "fit_dates": [
+          "2021-01-15",
+          "2021-02-15",
+          "2021-03-15",
+          "2021-04-15",
+          "2021-05-15",
+          "2021-06-15",
+          "2021-07-15",
+          "2021-08-15",
+          "2021-09-15",
+          "2021-10-15",
+          "2021-11-15",
+          "2021-12-15"
+        ],
+        "reference": "PARDIG proxy; not independent radar/gauge observations",
+        "selection_crps_mm": 0.06988043417675645,
+        "selection_tail_objective": 0.0039107980758038025,
+        "eligible": true
+      },
+      {
+        "threshold_mm": 2.0,
+        "fit_points": 6791040,
+        "exceedances": 46559,
+        "fit_days": 12,
+        "exceedance_days": 11,
+        "likelihood_evaluations": 65,
+        "initial_loss": 1.7516946760853989,
+        "final_loss": 1.6359118535637187,
+        "shape": 0.20439893695003264,
+        "checkpoint_sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+        "feature_names": [
+          "log_mean",
+          "log_std",
+          "log_max",
+          "log_neighbour_max_mean",
+          "log_coarse_rain",
+          "dewpoint_depression_10K",
+          "wind_speed_10ms",
+          "pressure_anomaly_100hPa",
+          "elevation_km",
+          "relief_500m",
+          "land_fraction",
+          "sin_year",
+          "cos_year",
+          "sin_hour",
+          "cos_hour",
+          "latitude_scaled",
+          "longitude_scaled"
+        ],
+        "fit_dates": [
+          "2021-01-15",
+          "2021-02-15",
+          "2021-03-15",
+          "2021-04-15",
+          "2021-05-15",
+          "2021-06-15",
+          "2021-07-15",
+          "2021-08-15",
+          "2021-09-15",
+          "2021-10-15",
+          "2021-11-15",
+          "2021-12-15"
+        ],
+        "reference": "PARDIG proxy; not independent radar/gauge observations",
+        "selection_crps_mm": 0.06976160354103328,
+        "selection_tail_objective": 0.003918224180930556,
+        "eligible": true
+      },
+      {
+        "threshold_mm": 3.0,
+        "fit_points": 6791040,
+        "exceedances": 24037,
+        "fit_days": 12,
+        "exceedance_days": 11,
+        "likelihood_evaluations": 111,
+        "initial_loss": 1.988299433015552,
+        "final_loss": 1.889197644363014,
+        "shape": 0.15642253799294026,
+        "checkpoint_sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+        "feature_names": [
+          "log_mean",
+          "log_std",
+          "log_max",
+          "log_neighbour_max_mean",
+          "log_coarse_rain",
+          "dewpoint_depression_10K",
+          "wind_speed_10ms",
+          "pressure_anomaly_100hPa",
+          "elevation_km",
+          "relief_500m",
+          "land_fraction",
+          "sin_year",
+          "cos_year",
+          "sin_hour",
+          "cos_hour",
+          "latitude_scaled",
+          "longitude_scaled"
+        ],
+        "fit_dates": [
+          "2021-01-15",
+          "2021-02-15",
+          "2021-03-15",
+          "2021-04-15",
+          "2021-05-15",
+          "2021-06-15",
+          "2021-07-15",
+          "2021-08-15",
+          "2021-09-15",
+          "2021-10-15",
+          "2021-11-15",
+          "2021-12-15"
+        ],
+        "reference": "PARDIG proxy; not independent radar/gauge observations",
+        "selection_crps_mm": 0.06901203701662863,
+        "selection_tail_objective": 0.0038191011905354833,
+        "eligible": true
+      },
+      {
+        "threshold_mm": 5.0,
+        "fit_points": 6791040,
+        "exceedances": 9522,
+        "fit_days": 12,
+        "exceedance_days": 9,
+        "likelihood_evaluations": 151,
+        "initial_loss": 2.285900035856876,
+        "final_loss": 2.220781158211287,
+        "shape": 0.10745187422609946,
+        "checkpoint_sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+        "feature_names": [
+          "log_mean",
+          "log_std",
+          "log_max",
+          "log_neighbour_max_mean",
+          "log_coarse_rain",
+          "dewpoint_depression_10K",
+          "wind_speed_10ms",
+          "pressure_anomaly_100hPa",
+          "elevation_km",
+          "relief_500m",
+          "land_fraction",
+          "sin_year",
+          "cos_year",
+          "sin_hour",
+          "cos_hour",
+          "latitude_scaled",
+          "longitude_scaled"
+        ],
+        "fit_dates": [
+          "2021-01-15",
+          "2021-02-15",
+          "2021-03-15",
+          "2021-04-15",
+          "2021-05-15",
+          "2021-06-15",
+          "2021-07-15",
+          "2021-08-15",
+          "2021-09-15",
+          "2021-10-15",
+          "2021-11-15",
+          "2021-12-15"
+        ],
+        "reference": "PARDIG proxy; not independent radar/gauge observations",
+        "selection_crps_mm": 0.06887874824591289,
+        "selection_tail_objective": 0.0037288224156741072,
+        "eligible": true
+      }
+    ],
+    "selected_threshold_mm": 5.0,
+    "selected": "gpd",
+    "decision_made_before_loading_test": true
+  },
+  "raw_test": {
+    "crps_mm": 0.109463363150809,
+    "twcrps_5mm": 0.011689379109738147,
+    "twcrps_10mm": 0.002114828325380863,
+    "bias_mm": -0.015696550662617985,
+    "predicted_mean_mm": 0.12388372496760494,
+    "observed_mean_mm": 0.13958027451126664,
+    "brier_0.1mm": 0.07468429923495702,
+    "hits_0.1mm": 122182,
+    "misses_0.1mm": 138454,
+    "false_alarms_0.1mm": 93693,
+    "observed_events_0.1mm": 260636,
+    "mean_probability_0.1mm": 0.13602912348476817,
+    "brier_1mm": 0.030138136863978125,
+    "hits_1mm": 23519,
+    "misses_1mm": 68288,
+    "false_alarms_1mm": 20063,
+    "observed_events_1mm": 91807,
+    "mean_probability_1mm": 0.03542337587468193,
+    "brier_5mm": 0.004206281278576257,
+    "hits_5mm": 812,
+    "misses_5mm": 8595,
+    "false_alarms_5mm": 1975,
+    "observed_events_5mm": 9407,
+    "mean_probability_5mm": 0.0022068738735156915,
+    "brier_10mm": 0.0007659808572214271,
+    "hits_10mm": 33,
+    "misses_10mm": 1548,
+    "false_alarms_10mm": 401,
+    "observed_events_10mm": 1581,
+    "mean_probability_10mm": 0.00037538432994062764,
+    "brier_20mm": 2.3271271088448897e-05,
+    "hits_20mm": 0,
+    "misses_20mm": 42,
+    "false_alarms_20mm": 0,
+    "observed_events_20mm": 42,
+    "mean_probability_20mm": 2.9004209959004805e-05,
+    "rmse_mm": 0.6113567418250146,
+    "csi_0.1mm": 0.3448264183851731,
+    "precision_0.1mm": 0.5659849449913145,
+    "recall_0.1mm": 0.46878405132061574,
+    "csi_1mm": 0.21023509430589077,
+    "precision_1mm": 0.5396493965398559,
+    "recall_1mm": 0.2561787227553455,
+    "csi_5mm": 0.07134071340713408,
+    "precision_5mm": 0.2913527090060998,
+    "recall_5mm": 0.0863186988412884,
+    "csi_10mm": 0.016649848637739658,
+    "precision_10mm": 0.07603686635944701,
+    "recall_10mm": 0.020872865275142316,
+    "csi_20mm": 0.0,
+    "precision_20mm": null,
+    "recall_20mm": 0.0,
+    "tail_objective": 0.01380420743511901,
+    "per_day": [
+      {
+        "date": "2024-01-15",
+        "crps_mm": 0.05797444612979839,
+        "twcrps_5mm": 0.0013845365150197198,
+        "twcrps_10mm": 2.5630683119700794e-05,
+        "bias_mm": -0.023559903215478968,
+        "predicted_mean_mm": 0.04480326160186086,
+        "observed_mean_mm": 0.06836316388038245,
+        "brier_0.1mm": 0.07220556826991889,
+        "hits_0.1mm": 13547,
+        "misses_0.1mm": 38891,
+        "false_alarms_0.1mm": 15964,
+        "observed_events_0.1mm": 52438,
+        "mean_probability_0.1mm": 0.0904511127897936,
+        "brier_1mm": 0.016260115925727136,
+        "hits_1mm": 377,
+        "misses_1mm": 10239,
+        "false_alarms_1mm": 357,
+        "observed_events_1mm": 10616,
+        "mean_probability_1mm": 0.008993707149420414,
+        "brier_5mm": 0.0008212533076671615,
+        "hits_5mm": 0,
+        "misses_5mm": 465,
+        "false_alarms_5mm": 0,
+        "observed_events_5mm": 465,
+        "mean_probability_5mm": 7.730774667797569e-07,
+        "brier_10mm": 2.473847893695222e-05,
+        "hits_10mm": 0,
+        "misses_10mm": 14,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 14,
+        "mean_probability_10mm": 0.0,
+        "brier_20mm": 0.0,
+        "hits_20mm": 0,
+        "misses_20mm": 0,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 0,
+        "mean_probability_20mm": 0.0,
+        "rmse_mm": 0.3167896328556117,
+        "csi_0.1mm": 0.1980497646267653,
+        "precision_0.1mm": 0.4590491681068076,
+        "recall_0.1mm": 0.258343186238987,
+        "csi_1mm": 0.034357058233846716,
+        "precision_1mm": 0.5136239782016349,
+        "recall_1mm": 0.03551243406179352,
+        "csi_5mm": 0.0,
+        "precision_5mm": null,
+        "recall_5mm": 0.0,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": null,
+        "precision_20mm": null,
+        "recall_20mm": null,
+        "tail_objective": 0.0014101671981394206
+      },
+      {
+        "date": "2024-04-15",
+        "crps_mm": 0.04919290907256763,
+        "twcrps_5mm": 0.00015396889905126148,
+        "twcrps_10mm": 5.908925080993669e-06,
+        "bias_mm": -0.0011466609241937492,
+        "predicted_mean_mm": 0.06400454227015026,
+        "observed_mean_mm": 0.06515120349093484,
+        "brier_0.1mm": 0.060870275047157724,
+        "hits_0.1mm": 27576,
+        "misses_0.1mm": 24726,
+        "false_alarms_0.1mm": 22324,
+        "observed_events_0.1mm": 52302,
+        "mean_probability_0.1mm": 0.1233333002014419,
+        "brier_1mm": 0.01701306921969978,
+        "hits_1mm": 291,
+        "misses_1mm": 11281,
+        "false_alarms_1mm": 306,
+        "observed_events_1mm": 11572,
+        "mean_probability_1mm": 0.014023128269013288,
+        "brier_5mm": 0.00012694863838970172,
+        "hits_5mm": 0,
+        "misses_5mm": 72,
+        "false_alarms_5mm": 0,
+        "observed_events_5mm": 72,
+        "mean_probability_5mm": 1.7118143907266045e-06,
+        "brier_10mm": 5.301102629346904e-06,
+        "hits_10mm": 0,
+        "misses_10mm": 3,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 3,
+        "mean_probability_10mm": 0.0,
+        "brier_20mm": 0.0,
+        "hits_20mm": 0,
+        "misses_20mm": 0,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 0,
+        "mean_probability_20mm": 0.0,
+        "rmse_mm": 0.24262298188709017,
+        "csi_0.1mm": 0.369522686463163,
+        "precision_0.1mm": 0.552625250501002,
+        "recall_0.1mm": 0.5272456120224848,
+        "csi_1mm": 0.02449907391816804,
+        "precision_1mm": 0.48743718592964824,
+        "recall_1mm": 0.02514690632561355,
+        "csi_5mm": 0.0,
+        "precision_5mm": null,
+        "recall_5mm": 0.0,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": null,
+        "precision_20mm": null,
+        "recall_20mm": null,
+        "tail_objective": 0.00015987782413225514
+      },
+      {
+        "date": "2024-07-15",
+        "crps_mm": 0.21904780346194344,
+        "twcrps_5mm": 0.03988698715083676,
+        "twcrps_10mm": 0.007248062556120416,
+        "bias_mm": -0.057094556934118336,
+        "predicted_mean_mm": 0.22788777134328836,
+        "observed_mean_mm": 0.284982322237739,
+        "brier_0.1mm": 0.07884175325134295,
+        "hits_0.1mm": 52324,
+        "misses_0.1mm": 30409,
+        "false_alarms_0.1mm": 31651,
+        "observed_events_0.1mm": 82733,
+        "mean_probability_0.1mm": 0.18040546808736216,
+        "brier_1mm": 0.05183812972681651,
+        "hits_1mm": 14659,
+        "misses_1mm": 28419,
+        "false_alarms_1mm": 12796,
+        "observed_events_1mm": 43078,
+        "mean_probability_1mm": 0.06819614521487136,
+        "brier_5mm": 0.013595809699250777,
+        "hits_5mm": 809,
+        "misses_5mm": 7090,
+        "false_alarms_5mm": 1624,
+        "observed_events_5mm": 7899,
+        "mean_probability_5mm": 0.006044582273112807,
+        "brier_10mm": 0.0027394448696370513,
+        "hits_10mm": 33,
+        "misses_10mm": 1381,
+        "false_alarms_10mm": 401,
+        "observed_events_10mm": 1414,
+        "mean_probability_10mm": 0.0012884992578456318,
+        "brier_20mm": 7.18754969783715e-05,
+        "hits_20mm": 0,
+        "misses_20mm": 30,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 30,
+        "mean_probability_20mm": 0.00011585118037885214,
+        "rmse_mm": 1.0226896583307132,
+        "csi_0.1mm": 0.45744160022380753,
+        "precision_0.1mm": 0.6230902054182792,
+        "recall_0.1mm": 0.6324441274944702,
+        "csi_1mm": 0.26235816300962883,
+        "precision_1mm": 0.533928246221089,
+        "recall_1mm": 0.34028970704303824,
+        "csi_5mm": 0.0849522209387798,
+        "precision_5mm": 0.33251130291820796,
+        "recall_5mm": 0.10241802759843018,
+        "csi_10mm": 0.01818181818181818,
+        "precision_10mm": 0.07603686635944701,
+        "recall_10mm": 0.02333804809052334,
+        "csi_20mm": 0.0,
+        "precision_20mm": null,
+        "recall_20mm": 0.0,
+        "tail_objective": 0.04713504970695717
+      },
+      {
+        "date": "2024-10-15",
+        "crps_mm": 0.11163829393892648,
+        "twcrps_5mm": 0.0053320238740448495,
+        "twcrps_10mm": 0.0011797111372023417,
+        "bias_mm": 0.01901491783687817,
+        "predicted_mean_mm": 0.15883932520785776,
+        "observed_mean_mm": 0.1398244054161764,
+        "brier_0.1mm": 0.0868196003714085,
+        "hits_0.1mm": 28735,
+        "misses_0.1mm": 44428,
+        "false_alarms_0.1mm": 23754,
+        "observed_events_0.1mm": 73163,
+        "mean_probability_0.1mm": 0.14992661286047498,
+        "brier_1mm": 0.03544123258366907,
+        "hits_1mm": 8192,
+        "misses_1mm": 18349,
+        "false_alarms_1mm": 6604,
+        "observed_events_1mm": 26541,
+        "mean_probability_1mm": 0.05048052286542268,
+        "brier_5mm": 0.0022811134689973847,
+        "hits_5mm": 3,
+        "misses_5mm": 968,
+        "false_alarms_5mm": 351,
+        "observed_events_5mm": 971,
+        "mean_probability_5mm": 0.0027804283290924514,
+        "brier_10mm": 0.0002944389776823579,
+        "hits_10mm": 0,
+        "misses_10mm": 150,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 150,
+        "mean_probability_10mm": 0.00021303806191687872,
+        "brier_20mm": 2.120958737542409e-05,
+        "hits_20mm": 0,
+        "misses_20mm": 12,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 12,
+        "mean_probability_20mm": 1.6565945716709075e-07,
+        "rmse_mm": 0.5384352815692449,
+        "csi_0.1mm": 0.29649081172549707,
+        "precision_0.1mm": 0.5474480367315057,
+        "recall_0.1mm": 0.39275316758470813,
+        "csi_1mm": 0.24715643385125963,
+        "precision_1mm": 0.5536631522032982,
+        "recall_1mm": 0.30865453449380204,
+        "csi_5mm": 0.0022692889561270802,
+        "precision_5mm": 0.00847457627118644,
+        "recall_5mm": 0.003089598352214212,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": 0.0,
+        "precision_20mm": null,
+        "recall_20mm": 0.0,
+        "tail_objective": 0.006511735011247191
+      }
+    ],
+    "points": 2263680,
+    "reliability": {
+      "0.1": [
+        {
+          "n": 1563943,
+          "probability": 0.017461833647389964,
+          "frequency": 0.02297526188614291
+        },
+        {
+          "n": 193811,
+          "probability": 0.15243394337782684,
+          "frequency": 0.15018239418815238
+        },
+        {
+          "n": 125364,
+          "probability": 0.2474618909734852,
+          "frequency": 0.19361220126990206
+        },
+        {
+          "n": 92500,
+          "probability": 0.3421793918918919,
+          "frequency": 0.2639891891891892
+        },
+        {
+          "n": 72187,
+          "probability": 0.4357402475514982,
+          "frequency": 0.34249934198678433
+        },
+        {
+          "n": 67254,
+          "probability": 0.5432757717013115,
+          "frequency": 0.426844499955393
+        },
+        {
+          "n": 39393,
+          "probability": 0.6550211966593049,
+          "frequency": 0.49704262178559644
+        },
+        {
+          "n": 33488,
+          "probability": 0.7488176734949833,
+          "frequency": 0.5691889632107023
+        },
+        {
+          "n": 28443,
+          "probability": 0.8430138786344619,
+          "frequency": 0.6501072320078753
+        },
+        {
+          "n": 47297,
+          "probability": 0.9630539463390912,
+          "frequency": 0.7683996870837474
+        }
+      ],
+      "1.0": [
+        {
+          "n": 2061747,
+          "probability": 0.005847831959983451,
+          "frequency": 0.014255871355699803
+        },
+        {
+          "n": 78034,
+          "probability": 0.15097425481200502,
+          "frequency": 0.18189507137914243
+        },
+        {
+          "n": 38538,
+          "probability": 0.24637695261819503,
+          "frequency": 0.26213088380299965
+        },
+        {
+          "n": 24201,
+          "probability": 0.34127205487376555,
+          "frequency": 0.33345729515309286
+        },
+        {
+          "n": 17578,
+          "probability": 0.43547331892137897,
+          "frequency": 0.3714870861303903
+        },
+        {
+          "n": 15722,
+          "probability": 0.5427029003943519,
+          "frequency": 0.4228469660348556
+        },
+        {
+          "n": 8033,
+          "probability": 0.6536630150628657,
+          "frequency": 0.4930909996265405
+        },
+        {
+          "n": 6115,
+          "probability": 0.7486048650858544,
+          "frequency": 0.5443990188062142
+        },
+        {
+          "n": 5195,
+          "probability": 0.8423664581328201,
+          "frequency": 0.636381135707411
+        },
+        {
+          "n": 8517,
+          "probability": 0.963191264529764,
+          "frequency": 0.7367617705764941
+        }
+      ],
+      "5.0": [
+        {
+          "n": 2251624,
+          "probability": 0.0004060263836235535,
+          "frequency": 0.0033091670722998155
+        },
+        {
+          "n": 4540,
+          "probability": 0.14818281938325992,
+          "frequency": 0.08612334801762114
+        },
+        {
+          "n": 2203,
+          "probability": 0.24738992283250114,
+          "frequency": 0.1316386745347254
+        },
+        {
+          "n": 1488,
+          "probability": 0.34219590053763443,
+          "frequency": 0.16733870967741934
+        },
+        {
+          "n": 1038,
+          "probability": 0.4346399325626204,
+          "frequency": 0.20616570327552985
+        },
+        {
+          "n": 1026,
+          "probability": 0.5423062865497076,
+          "frequency": 0.20272904483430798
+        },
+        {
+          "n": 580,
+          "probability": 0.6577047413793103,
+          "frequency": 0.35
+        },
+        {
+          "n": 537,
+          "probability": 0.7486033519553073,
+          "frequency": 0.33891992551210426
+        },
+        {
+          "n": 421,
+          "probability": 0.8421912114014252,
+          "frequency": 0.37292161520190026
+        },
+        {
+          "n": 223,
+          "probability": 0.9367993273542601,
+          "frequency": 0.27802690582959644
+        }
+      ],
+      "10.0": [
+        {
+          "n": 2261387,
+          "probability": 5.277458037920975e-05,
+          "frequency": 0.0006044962671139438
+        },
+        {
+          "n": 809,
+          "probability": 0.15173053152039556,
+          "frequency": 0.05686032138442522
+        },
+        {
+          "n": 475,
+          "probability": 0.2493421052631579,
+          "frequency": 0.09894736842105263
+        },
+        {
+          "n": 306,
+          "probability": 0.34160539215686275,
+          "frequency": 0.1437908496732026
+        },
+        {
+          "n": 269,
+          "probability": 0.4379646840148699,
+          "frequency": 0.16356877323420074
+        },
+        {
+          "n": 231,
+          "probability": 0.5468073593073594,
+          "frequency": 0.0735930735930736
+        },
+        {
+          "n": 129,
+          "probability": 0.6514050387596899,
+          "frequency": 0.10852713178294573
+        },
+        {
+          "n": 55,
+          "probability": 0.7403409090909091,
+          "frequency": 0.03636363636363636
+        },
+        {
+          "n": 19,
+          "probability": 0.8322368421052632,
+          "frequency": 0.0
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        }
+      ],
+      "20.0": [
+        {
+          "n": 2263446,
+          "probability": 9.043180177481592e-06,
+          "frequency": 1.8555777341275205e-05
+        },
+        {
+          "n": 149,
+          "probability": 0.15625,
+          "frequency": 0.0
+        },
+        {
+          "n": 73,
+          "probability": 0.2478595890410959,
+          "frequency": 0.0
+        },
+        {
+          "n": 12,
+          "probability": 0.3177083333333333,
+          "frequency": 0.0
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        }
+      ]
+    }
+  },
+  "calibrated_test": {
+    "crps_mm": 0.10776860582253134,
+    "twcrps_5mm": 0.010722459702168409,
+    "twcrps_10mm": 0.0017781660204197341,
+    "bias_mm": -0.008737999048858303,
+    "predicted_mean_mm": 0.13084227509210786,
+    "observed_mean_mm": 0.13958027451126664,
+    "brier_0.1mm": 0.07476839978790296,
+    "hits_0.1mm": 122164,
+    "misses_0.1mm": 138472,
+    "false_alarms_0.1mm": 93642,
+    "observed_events_0.1mm": 260636,
+    "mean_probability_0.1mm": 0.13687843053774054,
+    "brier_1mm": 0.03016443207283032,
+    "hits_1mm": 23424,
+    "misses_1mm": 68383,
+    "false_alarms_1mm": 20044,
+    "observed_events_1mm": 91807,
+    "mean_probability_1mm": 0.036676244456841416,
+    "brier_5mm": 0.003958326886036173,
+    "hits_5mm": 0,
+    "misses_5mm": 9407,
+    "false_alarms_5mm": 0,
+    "observed_events_5mm": 9407,
+    "mean_probability_5mm": 0.002864648363157107,
+    "brier_10mm": 0.0006912092382226929,
+    "hits_10mm": 0,
+    "misses_10mm": 1581,
+    "false_alarms_10mm": 0,
+    "observed_events_10mm": 1581,
+    "mean_probability_10mm": 0.0004366520792190832,
+    "brier_20mm": 1.8571057837605608e-05,
+    "hits_20mm": 0,
+    "misses_20mm": 42,
+    "false_alarms_20mm": 0,
+    "observed_events_20mm": 42,
+    "mean_probability_20mm": 4.5160797307465975e-05,
+    "rmse_mm": 0.5913160897454808,
+    "csi_0.1mm": 0.3448252502272227,
+    "precision_0.1mm": 0.566082500023169,
+    "recall_0.1mm": 0.46871498948725426,
+    "csi_1mm": 0.20942146248133678,
+    "precision_1mm": 0.5388791754854145,
+    "recall_1mm": 0.2551439432722995,
+    "csi_5mm": 0.0,
+    "precision_5mm": null,
+    "recall_5mm": 0.0,
+    "csi_10mm": 0.0,
+    "precision_10mm": null,
+    "recall_10mm": 0.0,
+    "csi_20mm": 0.0,
+    "precision_20mm": null,
+    "recall_20mm": 0.0,
+    "tail_objective": 0.012500625722588143,
+    "per_day": [
+      {
+        "date": "2024-01-15",
+        "crps_mm": 0.057800403395757496,
+        "twcrps_5mm": 0.0013717589633669446,
+        "twcrps_10mm": 2.5656881235436887e-05,
+        "bias_mm": -0.018016656474330758,
+        "predicted_mean_mm": 0.0503465082713192,
+        "observed_mean_mm": 0.06836316388038245,
+        "brier_0.1mm": 0.07221286281405494,
+        "hits_0.1mm": 13547,
+        "misses_0.1mm": 38891,
+        "false_alarms_0.1mm": 15964,
+        "observed_events_0.1mm": 52438,
+        "mean_probability_0.1mm": 0.09100273879721679,
+        "brier_1mm": 0.016216607848848028,
+        "hits_1mm": 377,
+        "misses_1mm": 10239,
+        "false_alarms_1mm": 357,
+        "observed_events_1mm": 10616,
+        "mean_probability_1mm": 0.009741647945603314,
+        "brier_5mm": 0.00080529308954003,
+        "hits_5mm": 0,
+        "misses_5mm": 465,
+        "false_alarms_5mm": 0,
+        "observed_events_5mm": 465,
+        "mean_probability_5mm": 0.0008077192478800037,
+        "brier_10mm": 2.47334318613432e-05,
+        "hits_10mm": 0,
+        "misses_10mm": 14,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 14,
+        "mean_probability_10mm": 8.346254512114471e-05,
+        "brier_20mm": 3.6314652790114493e-10,
+        "hits_20mm": 0,
+        "misses_20mm": 0,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 0,
+        "mean_probability_20mm": 8.513287294299354e-06,
+        "rmse_mm": 0.3153606753599883,
+        "csi_0.1mm": 0.1980497646267653,
+        "precision_0.1mm": 0.4590491681068076,
+        "recall_0.1mm": 0.258343186238987,
+        "csi_1mm": 0.034357058233846716,
+        "precision_1mm": 0.5136239782016349,
+        "recall_1mm": 0.03551243406179352,
+        "csi_5mm": 0.0,
+        "precision_5mm": null,
+        "recall_5mm": 0.0,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": null,
+        "precision_20mm": null,
+        "recall_20mm": null,
+        "tail_objective": 0.0013974158446023815
+      },
+      {
+        "date": "2024-04-15",
+        "crps_mm": 0.049165599312680205,
+        "twcrps_5mm": 0.0001544264710351248,
+        "twcrps_10mm": 5.9385821394486106e-06,
+        "bias_mm": 0.0032534961621996854,
+        "predicted_mean_mm": 0.06840470011010086,
+        "observed_mean_mm": 0.06515120349093484,
+        "brier_0.1mm": 0.06090741853450068,
+        "hits_0.1mm": 27576,
+        "misses_0.1mm": 24726,
+        "false_alarms_0.1mm": 22324,
+        "observed_events_0.1mm": 52302,
+        "mean_probability_0.1mm": 0.12375327694227095,
+        "brier_1mm": 0.016993584167713256,
+        "hits_1mm": 291,
+        "misses_1mm": 11281,
+        "false_alarms_1mm": 306,
+        "observed_events_1mm": 11572,
+        "mean_probability_1mm": 0.014630444238362267,
+        "brier_5mm": 0.00012742763384908446,
+        "hits_5mm": 0,
+        "misses_5mm": 72,
+        "false_alarms_5mm": 0,
+        "observed_events_5mm": 72,
+        "mean_probability_5mm": 0.000661374435416036,
+        "brier_10mm": 5.315755970849573e-06,
+        "hits_10mm": 0,
+        "misses_10mm": 3,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 3,
+        "mean_probability_10mm": 6.034823015900345e-05,
+        "brier_20mm": 1.907431132910081e-10,
+        "hits_20mm": 0,
+        "misses_20mm": 0,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 0,
+        "mean_probability_20mm": 5.507027779230841e-06,
+        "rmse_mm": 0.24257325740247965,
+        "csi_0.1mm": 0.369522686463163,
+        "precision_0.1mm": 0.552625250501002,
+        "recall_0.1mm": 0.5272456120224848,
+        "csi_1mm": 0.02449907391816804,
+        "precision_1mm": 0.48743718592964824,
+        "recall_1mm": 0.02514690632561355,
+        "csi_5mm": 0.0,
+        "precision_5mm": null,
+        "recall_5mm": 0.0,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": null,
+        "precision_20mm": null,
+        "recall_20mm": null,
+        "tail_objective": 0.0001603650531745734
+      },
+      {
+        "date": "2024-07-15",
+        "crps_mm": 0.21334089371298054,
+        "twcrps_5mm": 0.03675792692386993,
+        "twcrps_10mm": 0.0059330675323424,
+        "bias_mm": -0.06221294266936085,
+        "predicted_mean_mm": 0.22276938014098063,
+        "observed_mean_mm": 0.284982322237739,
+        "brier_0.1mm": 0.0789546221212713,
+        "hits_0.1mm": 52312,
+        "misses_0.1mm": 30421,
+        "false_alarms_0.1mm": 31622,
+        "observed_events_0.1mm": 82733,
+        "mean_probability_0.1mm": 0.18134091167645675,
+        "brier_1mm": 0.05176300169995548,
+        "hits_1mm": 14498,
+        "misses_1mm": 28580,
+        "false_alarms_1mm": 12596,
+        "observed_events_1mm": 43078,
+        "mean_probability_1mm": 0.06959934718076093,
+        "brier_5mm": 0.013010055085138451,
+        "hits_5mm": 0,
+        "misses_5mm": 7899,
+        "false_alarms_5mm": 0,
+        "observed_events_5mm": 7899,
+        "mean_probability_5mm": 0.004746869225261153,
+        "brier_10mm": 0.0024617093197675612,
+        "hits_10mm": 0,
+        "misses_10mm": 1414,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 1414,
+        "mean_probability_10mm": 0.0006419797760298636,
+        "brier_20mm": 5.296291708328816e-05,
+        "hits_20mm": 0,
+        "misses_20mm": 30,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 30,
+        "mean_probability_20mm": 5.262757826769174e-05,
+        "rmse_mm": 0.9756269695857391,
+        "csi_0.1mm": 0.45745266931922524,
+        "precision_0.1mm": 0.6232516024495437,
+        "recall_0.1mm": 0.6322990825909854,
+        "csi_1mm": 0.2604088084204476,
+        "precision_1mm": 0.5351000221451244,
+        "recall_1mm": 0.33655230047820234,
+        "csi_5mm": 0.0,
+        "precision_5mm": null,
+        "recall_5mm": 0.0,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": 0.0,
+        "precision_20mm": null,
+        "recall_20mm": 0.0,
+        "tail_objective": 0.04269099445621233
+      },
+      {
+        "date": "2024-10-15",
+        "crps_mm": 0.11076752686870706,
+        "twcrps_5mm": 0.004605726450401645,
+        "twcrps_10mm": 0.0011480010859616513,
+        "bias_mm": 0.04202410678605872,
+        "predicted_mean_mm": 0.18184851184603082,
+        "observed_mean_mm": 0.1398244054161764,
+        "brier_0.1mm": 0.08699869568178507,
+        "hits_0.1mm": 28729,
+        "misses_0.1mm": 44434,
+        "false_alarms_0.1mm": 23732,
+        "observed_events_0.1mm": 73163,
+        "mean_probability_0.1mm": 0.15141679473501776,
+        "brier_1mm": 0.0356845345748045,
+        "hits_1mm": 8258,
+        "misses_1mm": 18283,
+        "false_alarms_1mm": 6785,
+        "observed_events_1mm": 26541,
+        "mean_probability_1mm": 0.05273353846263918,
+        "brier_5mm": 0.0018905317356171267,
+        "hits_5mm": 0,
+        "misses_5mm": 971,
+        "false_alarms_5mm": 0,
+        "observed_events_5mm": 971,
+        "mean_probability_5mm": 0.0052426305440712315,
+        "brier_10mm": 0.00027307844529101825,
+        "hits_10mm": 0,
+        "misses_10mm": 150,
+        "false_alarms_10mm": 0,
+        "observed_events_10mm": 150,
+        "mean_probability_10mm": 0.0009608177655663209,
+        "brier_20mm": 2.1320760377493086e-05,
+        "hits_20mm": 0,
+        "misses_20mm": 12,
+        "false_alarms_20mm": 0,
+        "observed_events_20mm": 12,
+        "mean_probability_20mm": 0.00011399529588864195,
+        "rmse_mm": 0.5371003141072735,
+        "csi_0.1mm": 0.29649620723463543,
+        "precision_0.1mm": 0.5476258553973428,
+        "recall_0.1mm": 0.3926711589191258,
+        "csi_1mm": 0.2477945147932545,
+        "precision_1mm": 0.5489596490061823,
+        "recall_1mm": 0.3111412531554953,
+        "csi_5mm": 0.0,
+        "precision_5mm": null,
+        "recall_5mm": 0.0,
+        "csi_10mm": 0.0,
+        "precision_10mm": null,
+        "recall_10mm": 0.0,
+        "csi_20mm": 0.0,
+        "precision_20mm": null,
+        "recall_20mm": 0.0,
+        "tail_objective": 0.005753727536363296
+      }
+    ],
+    "points": 2263680,
+    "reliability": {
+      "0.1": [
+        {
+          "n": 1563939,
+          "probability": 0.01795204141036768,
+          "frequency": 0.02297532064869538
+        },
+        {
+          "n": 193778,
+          "probability": 0.1533141127227154,
+          "frequency": 0.15020796994498858
+        },
+        {
+          "n": 125386,
+          "probability": 0.24870722188290742,
+          "frequency": 0.19354632893624488
+        },
+        {
+          "n": 92551,
+          "probability": 0.34397787431322213,
+          "frequency": 0.2639841816944171
+        },
+        {
+          "n": 72220,
+          "probability": 0.43814358774027956,
+          "frequency": 0.3424674605372473
+        },
+        {
+          "n": 65179,
+          "probability": 0.5443503635007347,
+          "frequency": 0.4263643197962534
+        },
+        {
+          "n": 40952,
+          "probability": 0.6550381364909316,
+          "frequency": 0.4952627466302012
+        },
+        {
+          "n": 33932,
+          "probability": 0.7511493619181459,
+          "frequency": 0.5677531533655547
+        },
+        {
+          "n": 28730,
+          "probability": 0.8456512724474926,
+          "frequency": 0.6496693351896972
+        },
+        {
+          "n": 47013,
+          "probability": 0.9638321448069879,
+          "frequency": 0.7691915002233425
+        }
+      ],
+      "1.0": [
+        {
+          "n": 2058533,
+          "probability": 0.006450300062133357,
+          "frequency": 0.01405418324603006
+        },
+        {
+          "n": 79693,
+          "probability": 0.1528811648102879,
+          "frequency": 0.18066831465749814
+        },
+        {
+          "n": 39222,
+          "probability": 0.25115084458849857,
+          "frequency": 0.2600581306409668
+        },
+        {
+          "n": 24840,
+          "probability": 0.3490986641753191,
+          "frequency": 0.329549114331723
+        },
+        {
+          "n": 17924,
+          "probability": 0.44681048054114497,
+          "frequency": 0.3720151751841107
+        },
+        {
+          "n": 13262,
+          "probability": 0.5449877418234009,
+          "frequency": 0.41479414869552106
+        },
+        {
+          "n": 9834,
+          "probability": 0.6452841050611201,
+          "frequency": 0.4854586129753915
+        },
+        {
+          "n": 7153,
+          "probability": 0.7499118304261619,
+          "frequency": 0.5464839927303229
+        },
+        {
+          "n": 5738,
+          "probability": 0.8492822810579482,
+          "frequency": 0.6549320320669223
+        },
+        {
+          "n": 7481,
+          "probability": 0.9651161845029566,
+          "frequency": 0.7327897339927817
+        }
+      ],
+      "5.0": [
+        {
+          "n": 2254598,
+          "probability": 0.002290752556706825,
+          "frequency": 0.003674269204532249
+        },
+        {
+          "n": 8011,
+          "probability": 0.1323511060992464,
+          "frequency": 0.11334415179128698
+        },
+        {
+          "n": 977,
+          "probability": 0.23326460432835397,
+          "frequency": 0.21084953940634596
+        },
+        {
+          "n": 90,
+          "probability": 0.33410030689177145,
+          "frequency": 0.1
+        },
+        {
+          "n": 4,
+          "probability": 0.42195421381516984,
+          "frequency": 0.0
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        }
+      ],
+      "10.0": [
+        {
+          "n": 2263677,
+          "probability": 0.0004365139904821758,
+          "frequency": 0.0006984211970170656
+        },
+        {
+          "n": 3,
+          "probability": 0.10463275131131189,
+          "frequency": 0.0
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        }
+      ],
+      "20.0": [
+        {
+          "n": 2263680,
+          "probability": 4.5160797307465975e-05,
+          "frequency": 1.8553859202714164e-05
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        },
+        {
+          "n": 0,
+          "probability": null,
+          "frequency": null
+        }
+      ]
+    }
+  },
+  "uncertainty": {
+    "days": 4,
+    "warning": "exploratory day bootstrap; four test days cannot establish general heavy-rain skill",
+    "scores": {
+      "crps_mm": {
+        "calibrated_minus_raw": -0.0016947573282776619,
+        "day_bootstrap_95_interval": [
+          -0.0043236929952324005,
+          -0.00010067624696416186
+        ]
+      },
+      "tail_objective": {
+        "calibrated_minus_raw": -0.0013035817125308649,
+        "day_bootstrap_95_interval": [
+          -0.0033362292764428925,
+          -6.132062247360439e-06
+        ]
+      },
+      "brier_5mm": {
+        "calibrated_minus_raw": -0.0002479543925400832,
+        "day_bootstrap_95_interval": [
+          -0.00048816817374629207,
+          -7.740611333874355e-06
+        ]
+      },
+      "brier_10mm": {
+        "calibrated_minus_raw": -7.477161899873403e-05,
+        "day_bootstrap_95_interval": [
+          -0.00020830292417101982,
+          4.803132946824727e-09
+        ]
+      }
+    }
+  },
+  "ablation_note": "Explanatory fits at the selected threshold; not used to select the deployed model",
+  "ablations": {
+    "conditional_exponential": {
+      "crps_mm": 0.10775597143655137,
+      "twcrps_5mm": 0.010708606871413824,
+      "twcrps_10mm": 0.0017772062384850405,
+      "bias_mm": -0.008632323410241493,
+      "predicted_mean_mm": 0.1309479507307247,
+      "observed_mean_mm": 0.13958027451126664,
+      "brier_0.1mm": 0.0747686873980965,
+      "hits_0.1mm": 122164,
+      "misses_0.1mm": 138472,
+      "false_alarms_0.1mm": 93642,
+      "observed_events_0.1mm": 260636,
+      "mean_probability_0.1mm": 0.13687944382557676,
+      "brier_1mm": 0.030164841826525648,
+      "hits_1mm": 23425,
+      "misses_1mm": 68382,
+      "false_alarms_1mm": 20047,
+      "observed_events_1mm": 91807,
+      "mean_probability_1mm": 0.03667804623568073,
+      "brier_5mm": 0.003958602905594933,
+      "hits_5mm": 0,
+      "misses_5mm": 9407,
+      "false_alarms_5mm": 0,
+      "observed_events_5mm": 9407,
+      "mean_probability_5mm": 0.0028667595968160154,
+      "brier_10mm": 0.0006903903883300498,
+      "hits_10mm": 0,
+      "misses_10mm": 1581,
+      "false_alarms_10mm": 0,
+      "observed_events_10mm": 1581,
+      "mean_probability_10mm": 0.0004574729390651811,
+      "brier_20mm": 1.8559740547978696e-05,
+      "hits_20mm": 0,
+      "misses_20mm": 42,
+      "false_alarms_20mm": 0,
+      "observed_events_20mm": 42,
+      "mean_probability_20mm": 3.495356571307727e-05,
+      "rmse_mm": 0.5912885941570661,
+      "csi_0.1mm": 0.3448252502272227,
+      "precision_0.1mm": 0.566082500023169,
+      "recall_0.1mm": 0.46871498948725426,
+      "csi_1mm": 0.20942478588159566,
+      "precision_1mm": 0.5388525947736474,
+      "recall_1mm": 0.25515483568791053,
+      "csi_5mm": 0.0,
+      "precision_5mm": null,
+      "recall_5mm": 0.0,
+      "csi_10mm": 0.0,
+      "precision_10mm": null,
+      "recall_10mm": 0.0,
+      "csi_20mm": 0.0,
+      "precision_20mm": null,
+      "recall_20mm": 0.0,
+      "tail_objective": 0.012485813109898864,
+      "per_day": [
+        {
+          "date": "2024-01-15",
+          "crps_mm": 0.05780001000348147,
+          "twcrps_5mm": 0.0013712845479683308,
+          "twcrps_10mm": 2.565335125144398e-05,
+          "bias_mm": -0.01807498465024647,
+          "predicted_mean_mm": 0.050288180095403485,
+          "observed_mean_mm": 0.06836316388038245,
+          "brier_0.1mm": 0.07221286823489759,
+          "hits_0.1mm": 13547,
+          "misses_0.1mm": 38891,
+          "false_alarms_0.1mm": 15964,
+          "observed_events_0.1mm": 52438,
+          "mean_probability_0.1mm": 0.09100155597487555,
+          "brier_1mm": 0.016216604289149013,
+          "hits_1mm": 377,
+          "misses_1mm": 10239,
+          "false_alarms_1mm": 357,
+          "observed_events_1mm": 10616,
+          "mean_probability_1mm": 0.009740270138902708,
+          "brier_5mm": 0.0008053031042847871,
+          "hits_5mm": 0,
+          "misses_5mm": 465,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 465,
+          "mean_probability_5mm": 0.0008062826421815079,
+          "brier_10mm": 2.4732032632007187e-05,
+          "hits_10mm": 0,
+          "misses_10mm": 14,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 14,
+          "mean_probability_10mm": 8.008868849546832e-05,
+          "brier_20mm": 2.6881074658075697e-10,
+          "hits_20mm": 0,
+          "misses_20mm": 0,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 0,
+          "mean_probability_20mm": 6.381858211820827e-06,
+          "rmse_mm": 0.3153695111406436,
+          "csi_0.1mm": 0.1980497646267653,
+          "precision_0.1mm": 0.4590491681068076,
+          "recall_0.1mm": 0.258343186238987,
+          "csi_1mm": 0.034357058233846716,
+          "precision_1mm": 0.5136239782016349,
+          "recall_1mm": 0.03551243406179352,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": null,
+          "precision_20mm": null,
+          "recall_20mm": null,
+          "tail_objective": 0.0013969378992197748
+        },
+        {
+          "date": "2024-04-15",
+          "crps_mm": 0.049165661045604034,
+          "twcrps_5mm": 0.00015442005473380484,
+          "twcrps_10mm": 5.933400914687334e-06,
+          "bias_mm": 0.0031983275420537642,
+          "predicted_mean_mm": 0.06834953148995496,
+          "observed_mean_mm": 0.06515120349093484,
+          "brier_0.1mm": 0.060907344849728866,
+          "hits_0.1mm": 27576,
+          "misses_0.1mm": 24726,
+          "false_alarms_0.1mm": 22324,
+          "observed_events_0.1mm": 52302,
+          "mean_probability_0.1mm": 0.12375255037588034,
+          "brier_1mm": 0.016993630787250556,
+          "hits_1mm": 291,
+          "misses_1mm": 11281,
+          "false_alarms_1mm": 306,
+          "observed_events_1mm": 11572,
+          "mean_probability_1mm": 0.0146292696423214,
+          "brier_5mm": 0.0001274233499207292,
+          "hits_5mm": 0,
+          "misses_5mm": 72,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 72,
+          "mean_probability_5mm": 0.0006600522098639283,
+          "brier_10mm": 5.314076749948678e-06,
+          "hits_10mm": 0,
+          "misses_10mm": 3,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 3,
+          "mean_probability_10mm": 5.655257709738954e-05,
+          "brier_20mm": 1.203946285978509e-10,
+          "hits_20mm": 0,
+          "misses_20mm": 0,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 0,
+          "mean_probability_20mm": 3.987595404260178e-06,
+          "rmse_mm": 0.2425706993786191,
+          "csi_0.1mm": 0.369522686463163,
+          "precision_0.1mm": 0.552625250501002,
+          "recall_0.1mm": 0.5272456120224848,
+          "csi_1mm": 0.02449907391816804,
+          "precision_1mm": 0.48743718592964824,
+          "recall_1mm": 0.02514690632561355,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": null,
+          "precision_20mm": null,
+          "recall_20mm": null,
+          "tail_objective": 0.00016035345564849218
+        },
+        {
+          "date": "2024-07-15",
+          "crps_mm": 0.21326153515232454,
+          "twcrps_5mm": 0.036677352092121515,
+          "twcrps_10mm": 0.005929261952719597,
+          "bias_mm": -0.061687856957144224,
+          "predicted_mean_mm": 0.2232944658531972,
+          "observed_mean_mm": 0.284982322237739,
+          "brier_0.1mm": 0.07895503035034972,
+          "hits_0.1mm": 52312,
+          "misses_0.1mm": 30421,
+          "false_alarms_0.1mm": 31622,
+          "observed_events_0.1mm": 82733,
+          "mean_probability_0.1mm": 0.1813431941477517,
+          "brier_1mm": 0.05176350305324654,
+          "hits_1mm": 14499,
+          "misses_1mm": 28579,
+          "false_alarms_1mm": 12598,
+          "observed_events_1mm": 43078,
+          "mean_probability_1mm": 0.06960307349276568,
+          "brier_5mm": 0.013010728765895738,
+          "hits_5mm": 0,
+          "misses_5mm": 7899,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 7899,
+          "mean_probability_5mm": 0.004750184780632289,
+          "brier_10mm": 0.002457524302913513,
+          "hits_10mm": 0,
+          "misses_10mm": 1414,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 1414,
+          "mean_probability_10mm": 0.0006982829793972446,
+          "brier_20mm": 5.297182866351363e-05,
+          "hits_20mm": 0,
+          "misses_20mm": 30,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 30,
+          "mean_probability_20mm": 3.9583980336031934e-05,
+          "rmse_mm": 0.9754900290121936,
+          "csi_0.1mm": 0.45745266931922524,
+          "precision_0.1mm": 0.6232516024495437,
+          "recall_0.1mm": 0.6322990825909854,
+          "csi_1mm": 0.2604174150441842,
+          "precision_1mm": 0.5350776838764438,
+          "recall_1mm": 0.336575514183574,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": 0.0,
+          "precision_20mm": null,
+          "recall_20mm": 0.0,
+          "tail_objective": 0.04260661404484111
+        },
+        {
+          "date": "2024-10-15",
+          "crps_mm": 0.11079667954479545,
+          "twcrps_5mm": 0.004631370790831671,
+          "twcrps_10mm": 0.0011479762490544344,
+          "bias_mm": 0.04203522042437096,
+          "predicted_mean_mm": 0.18185962548434306,
+          "observed_mean_mm": 0.1398244054161764,
+          "brier_0.1mm": 0.08699950615740981,
+          "hits_0.1mm": 28729,
+          "misses_0.1mm": 44434,
+          "false_alarms_0.1mm": 23732,
+          "observed_events_0.1mm": 73163,
+          "mean_probability_0.1mm": 0.15142047480379944,
+          "brier_1mm": 0.035685629176456485,
+          "hits_1mm": 8258,
+          "misses_1mm": 18283,
+          "false_alarms_1mm": 6786,
+          "observed_events_1mm": 26541,
+          "mean_probability_1mm": 0.05273957166873316,
+          "brier_5mm": 0.001890956402278472,
+          "hits_5mm": 0,
+          "misses_5mm": 971,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 971,
+          "mean_probability_5mm": 0.005250518754586342,
+          "brier_10mm": 0.0002739911410247312,
+          "hits_10mm": 0,
+          "misses_10mm": 150,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 150,
+          "mean_probability_10mm": 0.0009949675112706222,
+          "brier_20mm": 2.1266744323025987e-05,
+          "hits_20mm": 0,
+          "misses_20mm": 12,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 12,
+          "mean_probability_20mm": 8.986082890019615e-05,
+          "rmse_mm": 0.5372239168769641,
+          "csi_0.1mm": 0.29649620723463543,
+          "precision_0.1mm": 0.5476258553973428,
+          "recall_0.1mm": 0.3926711589191258,
+          "csi_1mm": 0.24778707954511356,
+          "precision_1mm": 0.5489231587343791,
+          "recall_1mm": 0.3111412531554953,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": 0.0,
+          "precision_20mm": null,
+          "recall_20mm": 0.0,
+          "tail_objective": 0.0057793470398861055
+        }
+      ],
+      "points": 2263680,
+      "reliability": {
+        "0.1": [
+          {
+            "n": 1563939,
+            "probability": 0.01795193801953641,
+            "frequency": 0.02297532064869538
+          },
+          {
+            "n": 193778,
+            "probability": 0.15331485563951602,
+            "frequency": 0.15020796994498858
+          },
+          {
+            "n": 125385,
+            "probability": 0.24870863582012614,
+            "frequency": 0.19353989711688002
+          },
+          {
+            "n": 92552,
+            "probability": 0.3439811590889793,
+            "frequency": 0.26399213415161205
+          },
+          {
+            "n": 72220,
+            "probability": 0.43814927525246605,
+            "frequency": 0.3424674605372473
+          },
+          {
+            "n": 65165,
+            "probability": 0.5443448850193447,
+            "frequency": 0.4263484999616359
+          },
+          {
+            "n": 40964,
+            "probability": 0.6550271844212308,
+            "frequency": 0.4952641343618787
+          },
+          {
+            "n": 33930,
+            "probability": 0.7511494134318566,
+            "frequency": 0.5677866195107575
+          },
+          {
+            "n": 28734,
+            "probability": 0.8456500630071659,
+            "frequency": 0.6496136980580497
+          },
+          {
+            "n": 47013,
+            "probability": 0.9638330586961313,
+            "frequency": 0.7691915002233425
+          }
+        ],
+        "1.0": [
+          {
+            "n": 2058510,
+            "probability": 0.006449437504988202,
+            "frequency": 0.014052397122190322
+          },
+          {
+            "n": 79692,
+            "probability": 0.15286164481143716,
+            "frequency": 0.18068313005069517
+          },
+          {
+            "n": 39235,
+            "probability": 0.25112632530186063,
+            "frequency": 0.25997196380782467
+          },
+          {
+            "n": 24848,
+            "probability": 0.34910075093105464,
+            "frequency": 0.32956374758531876
+          },
+          {
+            "n": 17923,
+            "probability": 0.4468271424376658,
+            "frequency": 0.37198013725380796
+          },
+          {
+            "n": 13262,
+            "probability": 0.544992918594875,
+            "frequency": 0.41464334187905294
+          },
+          {
+            "n": 9841,
+            "probability": 0.6453056972727493,
+            "frequency": 0.4856213799410629
+          },
+          {
+            "n": 7149,
+            "probability": 0.7499354431826296,
+            "frequency": 0.546370121695342
+          },
+          {
+            "n": 5739,
+            "probability": 0.8492693992421982,
+            "frequency": 0.6549921589127026
+          },
+          {
+            "n": 7481,
+            "probability": 0.9651120413027494,
+            "frequency": 0.7327897339927817
+          }
+        ],
+        "5.0": [
+          {
+            "n": 2254594,
+            "probability": 0.0022925445472866085,
+            "frequency": 0.003675606339766716
+          },
+          {
+            "n": 8013,
+            "probability": 0.1323615284114589,
+            "frequency": 0.11306626731561213
+          },
+          {
+            "n": 981,
+            "probability": 0.23333408668511757,
+            "frequency": 0.20998980632008155
+          },
+          {
+            "n": 88,
+            "probability": 0.3348433993675734,
+            "frequency": 0.09090909090909091
+          },
+          {
+            "n": 4,
+            "probability": 0.42232443297743893,
+            "frequency": 0.0
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          }
+        ],
+        "10.0": [
+          {
+            "n": 2263675,
+            "probability": 0.00045724205386530004,
+            "frequency": 0.0006984218140855025
+          },
+          {
+            "n": 5,
+            "probability": 0.10498728390719636,
+            "frequency": 0.0
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          }
+        ],
+        "20.0": [
+          {
+            "n": 2263680,
+            "probability": 3.495356571307727e-05,
+            "frequency": 1.8553859202714164e-05
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          }
+        ]
+      }
+    },
+    "pooled_gpd": {
+      "crps_mm": 0.10782874839050181,
+      "twcrps_5mm": 0.010988117624113863,
+      "twcrps_10mm": 0.0017856659782481267,
+      "bias_mm": -0.015305091471807676,
+      "predicted_mean_mm": 0.1242751826691585,
+      "observed_mean_mm": 0.13958027451126664,
+      "brier_0.1mm": 0.07467058535490596,
+      "hits_0.1mm": 122133,
+      "misses_0.1mm": 138503,
+      "false_alarms_0.1mm": 93553,
+      "observed_events_0.1mm": 260636,
+      "mean_probability_0.1mm": 0.13715230716740962,
+      "brier_1mm": 0.030026264054664645,
+      "hits_1mm": 22964,
+      "misses_1mm": 68843,
+      "false_alarms_1mm": 19130,
+      "observed_events_1mm": 91807,
+      "mean_probability_1mm": 0.03641410420309588,
+      "brier_5mm": 0.004145935160740463,
+      "hits_5mm": 0,
+      "misses_5mm": 9407,
+      "false_alarms_5mm": 0,
+      "observed_events_5mm": 9407,
+      "mean_probability_5mm": 0.001402141645462258,
+      "brier_10mm": 0.0006980731589011497,
+      "hits_10mm": 0,
+      "misses_10mm": 1581,
+      "false_alarms_10mm": 0,
+      "observed_events_10mm": 1581,
+      "mean_probability_10mm": 0.00032334913120333786,
+      "brier_20mm": 1.855396898993747e-05,
+      "hits_20mm": 0,
+      "misses_20mm": 42,
+      "false_alarms_20mm": 0,
+      "observed_events_20mm": 42,
+      "mean_probability_20mm": 3.9861907321566536e-05,
+      "rmse_mm": 0.5891447400285036,
+      "csi_0.1mm": 0.3448243734277462,
+      "precision_0.1mm": 0.5662537206865536,
+      "recall_0.1mm": 0.46859604966313173,
+      "csi_1mm": 0.2070003695791305,
+      "precision_1mm": 0.5455409321993633,
+      "recall_1mm": 0.2501334320912349,
+      "csi_5mm": 0.0,
+      "precision_5mm": null,
+      "recall_5mm": 0.0,
+      "csi_10mm": 0.0,
+      "precision_10mm": null,
+      "recall_10mm": 0.0,
+      "csi_20mm": 0.0,
+      "precision_20mm": null,
+      "recall_20mm": 0.0,
+      "tail_objective": 0.01277378360236199,
+      "per_day": [
+        {
+          "date": "2024-01-15",
+          "crps_mm": 0.05791757401688992,
+          "twcrps_5mm": 0.0013852692193103088,
+          "twcrps_10mm": 2.5841789047836477e-05,
+          "bias_mm": -0.01150452192392119,
+          "predicted_mean_mm": 0.05685864282172876,
+          "observed_mean_mm": 0.06836316388038245,
+          "brier_0.1mm": 0.07217504191628879,
+          "hits_0.1mm": 13547,
+          "misses_0.1mm": 38891,
+          "false_alarms_0.1mm": 15964,
+          "observed_events_0.1mm": 52438,
+          "mean_probability_0.1mm": 0.09172640070254492,
+          "brier_1mm": 0.016235905130087925,
+          "hits_1mm": 375,
+          "misses_1mm": 10241,
+          "false_alarms_1mm": 357,
+          "observed_events_1mm": 10616,
+          "mean_probability_1mm": 0.010382895037674979,
+          "brier_5mm": 0.0008213327107460322,
+          "hits_5mm": 0,
+          "misses_5mm": 465,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 465,
+          "mean_probability_5mm": 0.0014021416454622557,
+          "brier_10mm": 2.4827035266259048e-05,
+          "hits_10mm": 0,
+          "misses_10mm": 14,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 14,
+          "mean_probability_10mm": 0.00032334913120333786,
+          "brier_20mm": 1.5889716553131635e-09,
+          "hits_20mm": 0,
+          "misses_20mm": 0,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 0,
+          "mean_probability_20mm": 3.9861907321566597e-05,
+          "rmse_mm": 0.3161655406852767,
+          "csi_0.1mm": 0.1980497646267653,
+          "precision_0.1mm": 0.4590491681068076,
+          "recall_0.1mm": 0.258343186238987,
+          "csi_1mm": 0.03417479267292445,
+          "precision_1mm": 0.5122950819672131,
+          "recall_1mm": 0.03532403918613414,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": null,
+          "precision_20mm": null,
+          "recall_20mm": null,
+          "tail_objective": 0.0014111110083581452
+        },
+        {
+          "date": "2024-04-15",
+          "crps_mm": 0.04919466371087104,
+          "twcrps_5mm": 0.00015691199237738914,
+          "twcrps_10mm": 6.130707270518976e-06,
+          "bias_mm": 0.010876875615760872,
+          "predicted_mean_mm": 0.07602807956366206,
+          "observed_mean_mm": 0.06515120349093484,
+          "brier_0.1mm": 0.06091791790290562,
+          "hits_0.1mm": 27576,
+          "misses_0.1mm": 24726,
+          "false_alarms_0.1mm": 22324,
+          "observed_events_0.1mm": 52302,
+          "mean_probability_0.1mm": 0.12456227273297849,
+          "brier_1mm": 0.01699889800561601,
+          "hits_1mm": 291,
+          "misses_1mm": 11281,
+          "false_alarms_1mm": 306,
+          "observed_events_1mm": 11572,
+          "mean_probability_1mm": 0.015404358793945402,
+          "brier_5mm": 0.0001288356852536184,
+          "hits_5mm": 0,
+          "misses_5mm": 72,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 72,
+          "mean_probability_5mm": 0.0014021416454622555,
+          "brier_10mm": 5.402229076137616e-06,
+          "hits_10mm": 0,
+          "misses_10mm": 3,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 3,
+          "mean_probability_10mm": 0.00032334913120333786,
+          "brier_20mm": 1.5889716553131635e-09,
+          "hits_20mm": 0,
+          "misses_20mm": 0,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 0,
+          "mean_probability_20mm": 3.98619073215666e-05,
+          "rmse_mm": 0.24291978166891023,
+          "csi_0.1mm": 0.369522686463163,
+          "precision_0.1mm": 0.552625250501002,
+          "recall_0.1mm": 0.5272456120224848,
+          "csi_1mm": 0.02449907391816804,
+          "precision_1mm": 0.48743718592964824,
+          "recall_1mm": 0.02514690632561355,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": null,
+          "precision_20mm": null,
+          "recall_20mm": null,
+          "tail_objective": 0.00016304269964790812
+        },
+        {
+          "date": "2024-07-15",
+          "crps_mm": 0.21567569128986028,
+          "twcrps_5mm": 0.03808717264359549,
+          "twcrps_10mm": 0.0059786924052974725,
+          "bias_mm": -0.07890250920994042,
+          "predicted_mean_mm": 0.20607981360040098,
+          "observed_mean_mm": 0.284982322237739,
+          "brier_0.1mm": 0.07882975288532049,
+          "hits_0.1mm": 52311,
+          "misses_0.1mm": 30422,
+          "false_alarms_0.1mm": 31605,
+          "observed_events_0.1mm": 82733,
+          "mean_probability_0.1mm": 0.18138249320358235,
+          "brier_1mm": 0.0515469300961039,
+          "hits_1mm": 14306,
+          "misses_1mm": 28772,
+          "false_alarms_1mm": 12222,
+          "observed_events_1mm": 43078,
+          "mean_probability_1mm": 0.06869224480077223,
+          "brier_5mm": 0.01392062758990787,
+          "hits_5mm": 0,
+          "misses_5mm": 7899,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 7899,
+          "mean_probability_5mm": 0.0014021416454622557,
+          "brier_10mm": 0.0024970750958271688,
+          "hits_10mm": 0,
+          "misses_10mm": 1414,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 1414,
+          "mean_probability_10mm": 0.00032334913120333786,
+          "brier_20mm": 5.3008389023890085e-05,
+          "hits_20mm": 0,
+          "misses_20mm": 30,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 30,
+          "mean_probability_20mm": 3.98619073215666e-05,
+          "rmse_mm": 0.9826663819665614,
+          "csi_0.1mm": 0.4575119382882331,
+          "precision_0.1mm": 0.6233733733733734,
+          "recall_0.1mm": 0.6322869955156951,
+          "csi_1mm": 0.25869801084990957,
+          "precision_1mm": 0.539279252110977,
+          "recall_1mm": 0.3320952690468453,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": 0.0,
+          "precision_20mm": null,
+          "recall_20mm": 0.0,
+          "tail_objective": 0.04406586504889296
+        },
+        {
+          "date": "2024-10-15",
+          "crps_mm": 0.10852706454438592,
+          "twcrps_5mm": 0.004323116641172255,
+          "twcrps_10mm": 0.0011319990113766794,
+          "bias_mm": 0.01830978963087003,
+          "predicted_mean_mm": 0.15813419469084214,
+          "observed_mean_mm": 0.1398244054161764,
+          "brier_0.1mm": 0.08675962871510894,
+          "hits_0.1mm": 28699,
+          "misses_0.1mm": 44464,
+          "false_alarms_0.1mm": 23660,
+          "observed_events_0.1mm": 73163,
+          "mean_probability_0.1mm": 0.1509380620305327,
+          "brier_1mm": 0.03532332298685072,
+          "hits_1mm": 7992,
+          "misses_1mm": 18549,
+          "false_alarms_1mm": 6245,
+          "observed_events_1mm": 26541,
+          "mean_probability_1mm": 0.05117691817999098,
+          "brier_5mm": 0.0017129446570543305,
+          "hits_5mm": 0,
+          "misses_5mm": 971,
+          "false_alarms_5mm": 0,
+          "observed_events_5mm": 971,
+          "mean_probability_5mm": 0.0014021416454622555,
+          "brier_10mm": 0.0002649882754350331,
+          "hits_10mm": 0,
+          "misses_10mm": 150,
+          "false_alarms_10mm": 0,
+          "observed_events_10mm": 150,
+          "mean_probability_10mm": 0.0003233491312033378,
+          "brier_20mm": 2.120430899254922e-05,
+          "hits_20mm": 0,
+          "misses_20mm": 12,
+          "false_alarms_20mm": 0,
+          "observed_events_20mm": 12,
+          "mean_probability_20mm": 3.9861907321566597e-05,
+          "rmse_mm": 0.5135778530299722,
+          "csi_0.1mm": 0.2964068454809291,
+          "precision_0.1mm": 0.5481197119883878,
+          "recall_0.1mm": 0.3922611155912141,
+          "csi_1mm": 0.24376258158970293,
+          "precision_1mm": 0.561354217882981,
+          "recall_1mm": 0.301119023397762,
+          "csi_5mm": 0.0,
+          "precision_5mm": null,
+          "recall_5mm": 0.0,
+          "csi_10mm": 0.0,
+          "precision_10mm": null,
+          "recall_10mm": 0.0,
+          "csi_20mm": 0.0,
+          "precision_20mm": null,
+          "recall_20mm": 0.0,
+          "tail_objective": 0.005455115652548935
+        }
+      ],
+      "points": 2263680,
+      "reliability": {
+        "0.1": [
+          {
+            "n": 1563943,
+            "probability": 0.018839491328689083,
+            "frequency": 0.02297526188614291
+          },
+          {
+            "n": 193811,
+            "probability": 0.153622351043097,
+            "frequency": 0.15018239418815238
+          },
+          {
+            "n": 125394,
+            "probability": 0.24852265145179336,
+            "frequency": 0.19365360384069413
+          },
+          {
+            "n": 92596,
+            "probability": 0.343133247351906,
+            "frequency": 0.2639854853341397
+          },
+          {
+            "n": 72250,
+            "probability": 0.4365797593590803,
+            "frequency": 0.34238062283737025
+          },
+          {
+            "n": 67124,
+            "probability": 0.543817957012501,
+            "frequency": 0.42719444609975565
+          },
+          {
+            "n": 39493,
+            "probability": 0.6549787999314772,
+            "frequency": 0.49755652900514014
+          },
+          {
+            "n": 33571,
+            "probability": 0.7486597194381226,
+            "frequency": 0.570373238807304
+          },
+          {
+            "n": 29139,
+            "probability": 0.8438241885614524,
+            "frequency": 0.6498163972682659
+          },
+          {
+            "n": 46359,
+            "probability": 0.9633658344238885,
+            "frequency": 0.770616277314006
+          }
+        ],
+        "1.0": [
+          {
+            "n": 2061788,
+            "probability": 0.007243379662570814,
+            "frequency": 0.01426140805941251
+          },
+          {
+            "n": 78256,
+            "probability": 0.15221184182246625,
+            "frequency": 0.1820818850950726
+          },
+          {
+            "n": 38912,
+            "probability": 0.24757152249638067,
+            "frequency": 0.2607678865131579
+          },
+          {
+            "n": 24657,
+            "probability": 0.34290134448439313,
+            "frequency": 0.3365778480755972
+          },
+          {
+            "n": 17973,
+            "probability": 0.4377672709594799,
+            "frequency": 0.3752295109330663
+          },
+          {
+            "n": 14960,
+            "probability": 0.5420113956225177,
+            "frequency": 0.4304144385026738
+          },
+          {
+            "n": 8255,
+            "probability": 0.6484749258764164,
+            "frequency": 0.5005451241671715
+          },
+          {
+            "n": 6396,
+            "probability": 0.7460776294699436,
+            "frequency": 0.5678549093183239
+          },
+          {
+            "n": 5455,
+            "probability": 0.8447743291170716,
+            "frequency": 0.6669110907424382
+          },
+          {
+            "n": 7028,
+            "probability": 0.9655458267986637,
+            "frequency": 0.7289413773477519
+          }
+        ],
+        "5.0": [
+          {
+            "n": 2263680,
+            "probability": 0.001402141645462258,
+            "frequency": 0.0041556227028555276
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          }
+        ],
+        "10.0": [
+          {
+            "n": 2263680,
+            "probability": 0.00032334913120333786,
+            "frequency": 0.0006984202714164546
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          }
+        ],
+        "20.0": [
+          {
+            "n": 2263680,
+            "probability": 3.9861907321566536e-05,
+            "frequency": 1.8553859202714164e-05
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          },
+          {
+            "n": 0,
+            "probability": null,
+            "frequency": null
+          }
+        ]
+      }
+    }
+  },
+  "excess_pit": {
+    "n": 9407,
+    "mean": 0.5240854074960408,
+    "counts": [
+      877,
+      881,
+      921,
+      861,
+      859,
+      861,
+      888,
+      958,
+      1123,
+      1178
+    ],
+    "edges": [
+      0.0,
+      0.1,
+      0.2,
+      0.30000000000000004,
+      0.4,
+      0.5,
+      0.6000000000000001,
+      0.7000000000000001,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "note": "Conditional excess CDF values on test exceedances; correlated pixels, no iid significance test"
+  }
+}

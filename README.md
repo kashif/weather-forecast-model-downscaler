@@ -670,3 +670,77 @@ Sampling uses reproducible groups of eight with independent group seeds, preserv
 earlier samples when the ensemble grows. Larger ensembles stabilize Monte Carlo
 estimates; sample variance measures conditional rainfall spread and is not the
 variance of the estimated mean. All members retain the checkpoint's terrain.
+
+### Experimental EVT tail calibration
+
+On `feat/rainfall-gpd-calibration`, `config_rain_tail.yaml` defines a separate
+experiment with the full-year terrain downscaler frozen. The main reference is
+[That's Weird, §2.10: extreme value theory](https://otexts.com/weird/univariate.html).
+The implementation applies peaks over threshold to **reference rainfall excesses**.
+The book's [§7.3 surprisal method](https://otexts.com/weird/density.html#sec-approximate-surprisal-prob)
+is a different application, fitting tails of anomaly scores; it is not claimed
+as the rainfall calibration implemented here.
+
+```sh
+.venv/bin/python scripts/prepare_rain_tail.py
+.venv/bin/python scripts/calibrate_rain_tail.py
+```
+
+Dates are fixed in the config: 12 monthly days from 2021 for fitting, four
+quarterly days from 2023 for selection, and four quarterly days from 2024 for
+assessment. They are disjoint from the downscaler's 2019 training and 2020
+validation periods. Preparation reads PARDIG regional tiles once across all
+480 requested hours and uses only the necessary ERA5 forcing fields. Each hour
+has 32 frozen-downscaler samples. These remain ERA5/PARDIG proxy experiments,
+not independent radar/gauge or operational AIFS validation.
+
+For thresholds `u` of 1, 2, 3 and 5 mm, the calibrator learns `P(Y > u | x)` and a
+positive GPD scale from ensemble summaries, neighbourhood rain, forcing,
+calendar and terrain. One shared shape parameter is learned per candidate.
+The empirical body conditional on `Y <= u` retains its shape and receives mass
+`1 - P(Y > u | x)`; the remaining mass is assigned to a shifted GPD. A body with
+no raw samples below `u` falls back to a point mass at `u`. Reference labels
+fit the tail; fitting a GPD independently to each 32/64-member ensemble is not
+used. Dry-hour frequency can change through this mass adjustment and is assessed
+alongside heavy-rain scores.
+
+Occurrence likelihood uses inverse-probability weights when non-exceedances
+are subsampled, while severity uses the conditional GPD likelihood of all
+reference exceedances. PyTorch's `GeneralizedPareto` provides likelihood and
+gradients. Its current float64 zero-comparison issue is worked around by
+computing that likelihood in float32. This pilot restricts the shape to
+`0 <= xi < 0.45` for finite mean and variance; EVT also permits negative shapes,
+which this pilot does not fit.
+
+Selection minimizes the sum of threshold-weighted CRPS above 5 and 10 mm,
+subject to overall CRPS being no more than 5% worse than the raw ensemble.
+Threshold-weighted CRPS is the score of rainfall censored from below at the
+stated threshold; overall and tail CRPS are computed analytically. A failing
+candidate leaves the raw model selected. The selection decision is written
+before test labels are loaded. Events use strict `Y > threshold`, and grid cells
+have uniform weights. Separate exponential-tail and pooled-GPD fits at the
+selected threshold provide explanatory ablations without changing selection.
+
+Outputs in `runs/rain_tail/` include candidate checkpoints, `selection.json`,
+`evaluation.json`, reliability diagrams and threshold sensitivity. A day-level
+bootstrap is descriptive only: the test contains four days, and correlated
+pixels are not independent storm replicates. The fitted object represents
+marginal distributions; it does not produce a newly validated coherent
+space-time ensemble or automatically replace the operational movie checkpoint.
+
+The first pilot selected `u = 5 mm/hour`, with fitted shape `xi = 0.107`.
+On its four 2024 test dates, overall CRPS fell from 0.10946 to 0.10777 mm,
+and the combined tail-weighted CRPS fell from 0.01380 to 0.01250 mm (9.4%).
+Brier scores improved by 5.9% at 5 mm/hour and 9.8% at 10 mm/hour. Most of the
+aggregate gain comes from one wet July day. A fixed 50% alert rule performs
+worse: 5 mm/hour CSI drops from 0.0713 to zero. The conditional exponential-tail
+ablation performs essentially the same as the GPD, so this experiment does not
+establish a benefit from learning a nonzero tail shape. Threshold sensitivity
+also remains visible; more independent storms and observation-based evaluation
+are required before deployment.
+
+The [experiment record](examples/france_precipitation/gpd_results.json) includes
+all candidates, per-day scores and the ablations. The
+[diagnostic figure](examples/france_precipitation/gpd_diagnostics.png) shows
+reliability, threshold sensitivity and conditional excess CDF values (a tail
+intensity PIT check), following the book's probability-integral-transform idea.
