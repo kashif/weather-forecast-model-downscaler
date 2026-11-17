@@ -1,0 +1,14 @@
+# All choices below are frozen before loading fresh 2025 target labels.
+checkpoint: runs/precipitation_year/model.pt
+static_path: data/precipitation/terrain.zarr
+region: [40.0, 53.0, -7.0, 11.0]
+predictors: [tp, t2m, d2m, u10m, v10m, msl]
+forecast_interval_hours: 6
+members: 32
+splits:
+  test: ['2025-01-15', '2025-04-15', '2025-07-15', '2025-10-15']
+alert_rainfall_thresholds_mm: [5.0, 10.0, 20.0]
+probability_cutoffs: [0.001, 0.002, 0.005, 0.01, 0.02, 0.03, 0.05, 0.075, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 0.9, 1.0]
+# Maximize CSI on selection only; ties choose fewer alerts (higher cutoff).
+alert_selection_objective: csi
+matched_validation_false_alarm_rate: 0.001

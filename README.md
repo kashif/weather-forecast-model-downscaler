@@ -744,3 +744,53 @@ all candidates, per-day scores and the ablations. The
 [diagnostic figure](examples/france_precipitation/gpd_diagnostics.png) shows
 reliability, threshold sensitivity and conditional excess CDF values (a tail
 intensity PIT check), following the book's probability-integral-transform idea.
+
+### Frozen alert cutoffs and a fresh-year check
+
+`config_rain_alerts.yaml` fixes four seasonal 2025 dates before their labels are
+used for assessment. The downscaler and the previously fitted GPD/exponential
+calibrators stay frozen. Alert probability cutoffs are chosen from a stated grid
+on the existing 2023 selection dates, separately for rain above 5, 10 and
+20 mm/hour. One rule maximizes validation CSI; another maximizes recall subject
+to a validation false-positive-rate budget. The rule/configuration/checkpoint
+fingerprints are saved before the 2025 test data are loaded, and mismatching
+reruns are rejected.
+
+```sh
+.venv/bin/python scripts/prepare_rain_tail.py \
+  --config config_rain_alerts.yaml --cache data/precipitation/gpd_alerts_2025
+.venv/bin/python scripts/check_rain_alerts.py
+```
+
+The preparer now compares both PARDIG layouts and reuses completed target caches.
+For these 96 hours, the spatial layout has a 10.4 GB decoded-chunk footprint,
+versus 35.0 GB for the timeseries layout; compressed transfer bytes differ.
+
+The report distinguishes exact, tie-grouped average precision (ranking), Brier
+scores (probability quality), and frozen-cutoff contingency scores (decisions).
+`false_positive_rate` means FP / all observed non-events, while
+`false_alarm_ratio` means FP / all forecast alerts. A recall-at-FPR curve summary
+is a discrimination diagnostic, not a cutoff selected for deployment on test.
+
+On the fresh 2025 dates, validation-selected CSI is mixed:
+
+| Hourly rainfall event | Raw ensemble CSI | GPD CSI | Exponential CSI |
+| --- | ---: | ---: | ---: |
+| >5 mm | 0.0636 | 0.0503 | 0.0504 |
+| >10 mm | 0.0172 | 0.0613 | 0.0589 |
+| >20 mm | 0.0000 | 0.0173 | 0.0182 |
+
+Average precision improves from 0.0378 to 0.0740 at 5 mm, and from 0.00123 to
+0.0369 at 10 mm for the GPD. This is more than an effect of changing the 50%
+cutoff: risk ranking improves too. But false alerts remain numerous. At 10 mm,
+the GPD's frozen 3% probability cutoff catches 246 of 588 observed wet
+pixel-hours with 3,425 false-positive pixel-hours; the raw rule catches 27 with
+986 false positives. The simpler exponential remains comparable. Budgets chosen
+on validation do not guarantee the same false-positive rate in a new year.
+
+These are four ERA5/PARDIG proxy test days, with only 87 pixel-hours above 20 mm
+concentrated in two dates. Pixels are correlated, and this is neither independent
+storm replication nor operational AIFS/radar/gauge validation. The
+[alert comparison](examples/france_precipitation/alert_comparison.png) and
+[full record](examples/france_precipitation/alert_results.json) retain all
+operating points, per-day counts and descriptive day-bootstrap intervals.

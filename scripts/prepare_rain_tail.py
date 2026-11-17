@@ -13,12 +13,12 @@ import pandas as pd
 import torch
 import xarray as xr
 import yaml
-from downscale.precip_data import open_store,crop,ERA5_NAMES
+from downscale.precip_data import open_store,crop,ERA5_NAMES,plan_pardig,PARDIG
 from downscale.sources import ERA5_ARCO
 from downscale.precipitation import check_pack
 from downscale.rain_resume import atomic_json
 from scripts.precipitation import write_pack
-from scripts.precipitation_year import targets,day_pack,hour_ends
+from scripts.precipitation_year import targets,day_pack,hour_ends,atomic_array
 from scripts.precipitation_live import conditional_ensemble
 
 
@@ -46,7 +46,23 @@ def prepare(cfg,cache):
     grid=xr.open_zarr(cfg['static_path']).load()
     for name in ['lat','lon']:
         if not np.array_equal(grid[name],cp[name].numpy()):raise ValueError('static/checkpoint grid differs')
-    truth=targets(times,grid,cache,workers=4)
+    target_path=cache/'targets.npy'
+    if target_path.exists():
+        truth=np.load(target_path,mmap_mode='r')
+        if truth.shape!=(len(times),len(grid.lat),len(grid.lon)):raise ValueError('cached target shape differs')
+    else:
+        plan=plan_pardig(times,tuple(cfg['region']))
+        atomic_json(cache/'read_plan.json',plan)
+        print(json.dumps(plan),flush=True)
+        if plan['chosen']=='timeseries':
+            truth=targets(times,grid,cache,workers=4)
+        else:
+            source_url=plan['candidates'][plan['chosen']]['url']
+            result=PARDIG(source_url,tuple(cfg['region']))(times,['tp']).sel(variable='tp',drop=True)
+            for name in ['lat','lon']:
+                if not np.array_equal(result[name],grid[name]):raise ValueError('PARDIG/static grid differs')
+            atomic_array(target_path,result.values.astype('float32')*1000)
+            truth=np.load(target_path,mmap_mode='r')
     box=cfg['region']
     source=crop(open_store(ERA5_ARCO)[list(ERA5_NAMES.values())],(box[0]-1,box[1]+1,box[2]-1,box[3]+1))
     for index,(role,day) in enumerate(dates):
