@@ -19,6 +19,9 @@ def probabilities(data,model,thresholds):
     output=np.empty((len(data.rain),len(thresholds)),dtype='float64')
     for start in range(0,len(data.rain),32768):
         stop=start+32768;r=data.rain[start:stop]
+        if model is not None and hasattr(model,'probabilities'):
+            output[start:stop]=model.probabilities(data.x[start:stop],r,thresholds)
+            continue
         if model is not None:p,s,xi=model.parameters(data.x[start:stop],r)
         for j,t in enumerate(thresholds):
             output[start:stop,j]=(r>t).mean(1) if model is None else spliced_survival(r,t,model.threshold,p,s,xi)

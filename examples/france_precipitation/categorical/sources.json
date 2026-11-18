@@ -1,0 +1,803 @@
+{
+  "source": "M\u00e9t\u00e9o-France hourly climatological RR1 archive",
+  "licence": "Etalab Open Licence 2.0",
+  "quality_codes": [
+    0,
+    1
+  ],
+  "units": "mm, already decimal values",
+  "time_zone": "UTC, metropolitan archives only",
+  "interval_note": "RR1 interpreted as preceding-hour accumulation; +/-1h sensitivity reported separately",
+  "signature": {
+    "dates": [
+      "2025-01-10",
+      "2025-02-10",
+      "2025-03-10",
+      "2025-04-10",
+      "2025-05-10",
+      "2025-06-10",
+      "2025-07-10",
+      "2025-08-10",
+      "2025-09-10",
+      "2025-10-10",
+      "2025-11-10",
+      "2025-12-10"
+    ],
+    "quality_codes": [
+      0,
+      1
+    ],
+    "columns": [
+      "NUM_POSTE",
+      "NOM_USUEL",
+      "LAT",
+      "LON",
+      "ALTI",
+      "AAAAMMJJHH",
+      "RR1",
+      "QRR1"
+    ]
+  },
+  "resources": [
+    {
+      "department": "01",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_01_latest-2025-2026.csv.gz",
+      "resource_id": "5c6e8f51-0d49-4379-9b40-31ba904dff4d",
+      "compressed_bytes": 7597120,
+      "raw_sha256": "fa75e991542d85240c53c7308bf633a6b06cb38a0c79fd7bf7c3a7ab396c1788",
+      "retained_rows": 4176
+    },
+    {
+      "department": "02",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_02_latest-2025-2026.csv.gz",
+      "resource_id": "214e7a8e-ce86-47b7-90d0-5a34f1a3190b",
+      "compressed_bytes": 7735796,
+      "raw_sha256": "980aca145e34bce880ab58fbf34f4e557305b1eb46f812e1a024dc5b479b7666",
+      "retained_rows": 4056
+    },
+    {
+      "department": "03",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_03_latest-2025-2026.csv.gz",
+      "resource_id": "33ba5fe2-df2e-49cf-963c-2517b43ca5a0",
+      "compressed_bytes": 9237243,
+      "raw_sha256": "9b1ef27a446669dc496550bc90d6dc873a180d451463ac720b85774c40b56fde",
+      "retained_rows": 6858
+    },
+    {
+      "department": "04",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_04_latest-2025-2026.csv.gz",
+      "resource_id": "7d9c4e73-68b8-4e93-97a6-0f94feb21e50",
+      "compressed_bytes": 10152710,
+      "raw_sha256": "4489773645e3ac23e8747c0895282b084a9dc70ddd2a4a0a0ce5ba3cc423686a",
+      "retained_rows": 5876
+    },
+    {
+      "department": "05",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_05_latest-2025-2026.csv.gz",
+      "resource_id": "053768ac-e0ce-4305-8d4a-c6d043ed5525",
+      "compressed_bytes": 15567260,
+      "raw_sha256": "2257d84f9f47a7c4d9b0fe66f74a7c6c7db91b1e25291e896c30c47bb6aabb11",
+      "retained_rows": 7409
+    },
+    {
+      "department": "06",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_06_latest-2025-2026.csv.gz",
+      "resource_id": "1eb49075-5855-4390-a23f-0ecae7113fbd",
+      "compressed_bytes": 20279720,
+      "raw_sha256": "2b87f5edff6be5617de8db93457698333685b40fa328241d997f17bbe38ceb6f",
+      "retained_rows": 11232
+    },
+    {
+      "department": "07",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_07_latest-2025-2026.csv.gz",
+      "resource_id": "b0ee1750-e00d-4564-b5e9-41b012d24913",
+      "compressed_bytes": 16131097,
+      "raw_sha256": "9198e49ff13ea42338739fe0496bed2bc2df9017204893bdb88d7b303f7942fe",
+      "retained_rows": 12355
+    },
+    {
+      "department": "08",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_08_latest-2025-2026.csv.gz",
+      "resource_id": "8aaec82b-b3a2-481f-b282-e36422e47e1a",
+      "compressed_bytes": 7592967,
+      "raw_sha256": "aefdbfad2eabcd4e45a81b0dfcc69291116581e1130f1fc8c0b6e6de50efc7f7",
+      "retained_rows": 5275
+    },
+    {
+      "department": "09",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_09_latest-2025-2026.csv.gz",
+      "resource_id": "ed63f0d0-f2ee-4a5e-864f-10a7c28e75ab",
+      "compressed_bytes": 6829309,
+      "raw_sha256": "4d80aa3157d0ef600d2901940a1d9b19c111217cefdf207cb37cd8bbf4f792d0",
+      "retained_rows": 3796
+    },
+    {
+      "department": "10",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_10_latest-2025-2026.csv.gz",
+      "resource_id": "a4cbd868-d3e5-4c5d-b02b-b690585c07c4",
+      "compressed_bytes": 7999627,
+      "raw_sha256": "5dc79e62a6634e29dcc9b3c2eb80b260b478cd0d1eb031e8a4053f518c13202f",
+      "retained_rows": 5609
+    },
+    {
+      "department": "11",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_11_latest-2025-2026.csv.gz",
+      "resource_id": "e41fa3c5-4c9c-40cc-a27c-dc83ead0822e",
+      "compressed_bytes": 14253866,
+      "raw_sha256": "f6860366c1b6e5b5c0beeef002e05f1bba009b60dd8603f4bbf92de5f2059352",
+      "retained_rows": 7478
+    },
+    {
+      "department": "12",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_12_latest-2025-2026.csv.gz",
+      "resource_id": "719f25c7-7823-41c8-beb2-cf5c71983cf4",
+      "compressed_bytes": 11118252,
+      "raw_sha256": "72aa4dcd1a4b0a7cc0614859ac4cbbe51bf216c8814e9351d2e4d11928107782",
+      "retained_rows": 7119
+    },
+    {
+      "department": "13",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_13_latest-2025-2026.csv.gz",
+      "resource_id": "ab1273f1-81a5-41f6-980f-04981d7d7925",
+      "compressed_bytes": 14627596,
+      "raw_sha256": "950fdd64225b2c75ebbc40112ecb0093ae20a586d600a3691539a222bc11fe49",
+      "retained_rows": 5916
+    },
+    {
+      "department": "14",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_14_latest-2025-2026.csv.gz",
+      "resource_id": "2b692d2a-fb9e-4738-a9fb-d2594cced623",
+      "compressed_bytes": 9165270,
+      "raw_sha256": "c2db3c1fb6cbe355485fb450db86f12f8bff24ad732d1942f9c9cf35093c0809",
+      "retained_rows": 5613
+    },
+    {
+      "department": "15",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_15_latest-2025-2026.csv.gz",
+      "resource_id": "2505d564-d256-4afc-8ae0-f4027c8bf379",
+      "compressed_bytes": 10939910,
+      "raw_sha256": "5bcbaac8c25003251fadd1df02d99de76c32915aaa86222b8f01ca9a571e1f4f",
+      "retained_rows": 7457
+    },
+    {
+      "department": "16",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_16_latest-2025-2026.csv.gz",
+      "resource_id": "28ad5959-b95c-4b39-b083-3db83084cc49",
+      "compressed_bytes": 7251225,
+      "raw_sha256": "c250a6acedca6816e86dd71eb32b2ab25ed25c6a46a76f8a2167218be0ccfdc6",
+      "retained_rows": 3691
+    },
+    {
+      "department": "17",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_17_latest-2025-2026.csv.gz",
+      "resource_id": "83543052-f2c7-4864-b75d-55bc5f31459c",
+      "compressed_bytes": 9207883,
+      "raw_sha256": "bab0320c5ef65f35f3de7f93c171597151f6afa4cb01a374bc3b779fd109181e",
+      "retained_rows": 4972
+    },
+    {
+      "department": "18",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_18_latest-2025-2026.csv.gz",
+      "resource_id": "f8f1d669-9b9f-4712-a1e3-9193d6c147c8",
+      "compressed_bytes": 9663215,
+      "raw_sha256": "f971a13325c140328bb196d1e2f6fc6fc1a87471abb3f8661356e6a21071a27b",
+      "retained_rows": 6221
+    },
+    {
+      "department": "19",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_19_latest-2025-2026.csv.gz",
+      "resource_id": "3a62c99b-b725-4df0-ae86-e9ef9054e111",
+      "compressed_bytes": 9414701,
+      "raw_sha256": "1859c319667ae056f73d5c0a4cfc0199ba436d07fc1080569a39a9e4a681beff",
+      "retained_rows": 5928
+    },
+    {
+      "department": "20",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_20_latest-2025-2026.csv.gz",
+      "resource_id": "6da34803-83d6-489a-862c-1b4ab8d0c4d9",
+      "compressed_bytes": 32472771,
+      "raw_sha256": "20b92945551b4e7c545317f5b49b3d8f820e5beb80d2b1857fb29a400d565ee4",
+      "retained_rows": 16145
+    },
+    {
+      "department": "21",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_21_latest-2025-2026.csv.gz",
+      "resource_id": "28db155e-80b6-4648-9843-7bf09ce67ed2",
+      "compressed_bytes": 10294345,
+      "raw_sha256": "da75ead6725f76737c4be53231b1d112e058b05ad33c0fe6da5ce667c7ce3486",
+      "retained_rows": 7488
+    },
+    {
+      "department": "22",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_22_latest-2025-2026.csv.gz",
+      "resource_id": "2d97ca35-764d-4aeb-b19f-11c4ffe2c2a2",
+      "compressed_bytes": 11044960,
+      "raw_sha256": "70150db42e4d522199d1d5381554b66af02962dd8c58e8466715295a51082f96",
+      "retained_rows": 6156
+    },
+    {
+      "department": "23",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_23_latest-2025-2026.csv.gz",
+      "resource_id": "c170519a-2b4f-4f4f-a006-43b00a18e1da",
+      "compressed_bytes": 8461180,
+      "raw_sha256": "137179903dbdf78cc58725a1e3282e085e637d090ba3d5f761f3edb8c3ea600c",
+      "retained_rows": 5616
+    },
+    {
+      "department": "24",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_24_latest-2025-2026.csv.gz",
+      "resource_id": "3530d21c-d017-406e-8ab0-f7e0522e966b",
+      "compressed_bytes": 8001583,
+      "raw_sha256": "8d2a1ef6109ac908ef5582d386f694b170696291d8cb6ea7e9d05f08486aa592",
+      "retained_rows": 4368
+    },
+    {
+      "department": "25",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_25_latest-2025-2026.csv.gz",
+      "resource_id": "b08796e3-3508-4596-873c-2b8dd94888ba",
+      "compressed_bytes": 9622457,
+      "raw_sha256": "75aab8e27a106c946f2cacef2b081032ddc8c04c4eb5cd840d81d0b7a2f97b6d",
+      "retained_rows": 6533
+    },
+    {
+      "department": "26",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_26_latest-2025-2026.csv.gz",
+      "resource_id": "ea8befed-72a4-4b7c-b798-fcd137a7fff8",
+      "compressed_bytes": 13288479,
+      "raw_sha256": "da2d2fde80bd316d66a11471fc1d5786a5be7811cbbfa697e4364330f06354da",
+      "retained_rows": 9742
+    },
+    {
+      "department": "27",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_27_latest-2025-2026.csv.gz",
+      "resource_id": "46c652f4-b4ac-44f5-8fb8-c08a9c304a29",
+      "compressed_bytes": 4774928,
+      "raw_sha256": "b838a823e7a740b76ac4d40d67175ca23ef4e45035feb3f5005715babdb97e4c",
+      "retained_rows": 2496
+    },
+    {
+      "department": "28",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_28_latest-2025-2026.csv.gz",
+      "resource_id": "edf59f84-e717-414e-bcc5-4bb9bf6fe472",
+      "compressed_bytes": 7686572,
+      "raw_sha256": "9a4bfd0584d61ded0a820693233ef5aabe5349708e648c1c246235611536b54b",
+      "retained_rows": 5928
+    },
+    {
+      "department": "29",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_29_latest-2025-2026.csv.gz",
+      "resource_id": "167832b9-2789-458b-840c-d79bdb4af441",
+      "compressed_bytes": 16571930,
+      "raw_sha256": "3411b3153b4e2703d1bfd7379cca611b44fe6e3a5c5d1fdd4d312689a02a4127",
+      "retained_rows": 6497
+    },
+    {
+      "department": "30",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_30_latest-2025-2026.csv.gz",
+      "resource_id": "5cda101c-73cf-44eb-865a-d3d1014f2fff",
+      "compressed_bytes": 15434950,
+      "raw_sha256": "b60945d2b3abe848e7e3123284ce18d4a994ec0ce5d09c800b97ed97a3430493",
+      "retained_rows": 8050
+    },
+    {
+      "department": "31",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_31_latest-2025-2026.csv.gz",
+      "resource_id": "76af44eb-ac93-47ad-9ccc-216378e2a675",
+      "compressed_bytes": 9211859,
+      "raw_sha256": "b15e4cc4a8af19768588015f599331109bd8fb29acf0f17539d94c6e558d57a7",
+      "retained_rows": 5278
+    },
+    {
+      "department": "32",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_32_latest-2025-2026.csv.gz",
+      "resource_id": "617854c1-1bbf-4383-aaca-3309ec9dde78",
+      "compressed_bytes": 7547201,
+      "raw_sha256": "74feeedc306402900f5ab9f9b02a43e2fa3a6eb9cfcf8f43d5cff673c84e8c4b",
+      "retained_rows": 4368
+    },
+    {
+      "department": "33",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_33_latest-2025-2026.csv.gz",
+      "resource_id": "cf4130f3-ae37-4172-96fd-04ee2905721e",
+      "compressed_bytes": 12185217,
+      "raw_sha256": "0362f9b0ec3450e545cbeeea23c8123f2bd7a6cc31892db841c05790ac227983",
+      "retained_rows": 6527
+    },
+    {
+      "department": "34",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_34_latest-2025-2026.csv.gz",
+      "resource_id": "807cd9d2-4f3b-413b-ba71-946a06c6e6fa",
+      "compressed_bytes": 15668739,
+      "raw_sha256": "fbabac07f1eae6bd97377138f9957ea72cb716f82d8ccdccaf7c0ad19f7386b4",
+      "retained_rows": 8947
+    },
+    {
+      "department": "35",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_35_latest-2025-2026.csv.gz",
+      "resource_id": "9b4c7a7c-8f2c-4012-bf28-285a9e33eaa8",
+      "compressed_bytes": 9545666,
+      "raw_sha256": "3544cd1d3ff70980f928aa5a4a516d86a811e67e1bdd71b383174085f48ec3a5",
+      "retained_rows": 5550
+    },
+    {
+      "department": "36",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_36_latest-2025-2026.csv.gz",
+      "resource_id": "16d17d78-98d3-4fb8-8e36-246afdb40492",
+      "compressed_bytes": 8082162,
+      "raw_sha256": "a1b43a1358d8492a086a56bd0bd7df2cd1be96e5d3ef2a0bae76555abf6a2a8a",
+      "retained_rows": 6519
+    },
+    {
+      "department": "37",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_37_latest-2025-2026.csv.gz",
+      "resource_id": "bbbf70e0-5110-4c59-97e7-063331befd9d",
+      "compressed_bytes": 8738429,
+      "raw_sha256": "1b8c1f215716f414ac0aac2e89295fff320583a782e4d9c5fcb05c924e47fd6f",
+      "retained_rows": 4992
+    },
+    {
+      "department": "38",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_38_latest-2025-2026.csv.gz",
+      "resource_id": "98414f57-6983-40a8-9d6d-2eecdd2b7807",
+      "compressed_bytes": 18394553,
+      "raw_sha256": "b857fd32555c51214788c036d7603c7d136459dbf866a521dea8f061fc70430b",
+      "retained_rows": 11539
+    },
+    {
+      "department": "39",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_39_latest-2025-2026.csv.gz",
+      "resource_id": "ddfb7222-c6cf-4b69-81d1-bced58ca428f",
+      "compressed_bytes": 6924210,
+      "raw_sha256": "0c2c0fea52be3dd57e73005e9cbce194c6725a6371f60b7819e94808d30e97ad",
+      "retained_rows": 4342
+    },
+    {
+      "department": "40",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_40_latest-2025-2026.csv.gz",
+      "resource_id": "906e7fab-bfd7-45e0-bfb1-5a2ee7fd7596",
+      "compressed_bytes": 10689606,
+      "raw_sha256": "b75da56bf92556f360d60551bc67de4677eb9f239258c08c2cc5834bec91695b",
+      "retained_rows": 5230
+    },
+    {
+      "department": "41",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_41_latest-2025-2026.csv.gz",
+      "resource_id": "1b856160-f398-4485-bb13-e4362cd0c924",
+      "compressed_bytes": 6593063,
+      "raw_sha256": "ef7e0fff5bf346fe73d065c9c21376465c576a19ef095065dde224d08655c354",
+      "retained_rows": 3744
+    },
+    {
+      "department": "42",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_42_latest-2025-2026.csv.gz",
+      "resource_id": "07c89509-41e2-4ee0-808e-2405da4b01b9",
+      "compressed_bytes": 11226646,
+      "raw_sha256": "ea3ebbe9bd3d1851b5efffa668971137980508a9b360573eb84af47675360d70",
+      "retained_rows": 8208
+    },
+    {
+      "department": "43",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_43_latest-2025-2026.csv.gz",
+      "resource_id": "46053f4a-85cd-4800-9546-744f0ca79163",
+      "compressed_bytes": 11758707,
+      "raw_sha256": "272e552a7269bc51b001a78ef153ec7befa8dd73cda89740c7eeff22f36ea271",
+      "retained_rows": 8034
+    },
+    {
+      "department": "44",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_44_latest-2025-2026.csv.gz",
+      "resource_id": "c5ba5bdf-7edf-4190-953e-5ebf9f6b0353",
+      "compressed_bytes": 7356477,
+      "raw_sha256": "fa29327f17402369de1d47146ceb08ac0d097c171141a37619773c1e58110789",
+      "retained_rows": 4662
+    },
+    {
+      "department": "45",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_45_latest-2025-2026.csv.gz",
+      "resource_id": "2dd73135-f00f-4f1c-87b9-ecf9ea043d93",
+      "compressed_bytes": 4903740,
+      "raw_sha256": "77b797ae96ef8982e0a6e81f932dde146a363d8152974c50295b761c01d7e7ed",
+      "retained_rows": 3406
+    },
+    {
+      "department": "46",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_46_latest-2025-2026.csv.gz",
+      "resource_id": "609b7380-e85b-4ac6-80ef-5385a967d265",
+      "compressed_bytes": 7651453,
+      "raw_sha256": "87add1329d991ccb9c9e534320af616fd952fdde3d3dac7b26f470dcaac06629",
+      "retained_rows": 5278
+    },
+    {
+      "department": "47",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_47_latest-2025-2026.csv.gz",
+      "resource_id": "79fb408a-6a3d-40e7-b536-21c4c926b10a",
+      "compressed_bytes": 6997919,
+      "raw_sha256": "10e7c93d375a6ded851c2bd6edd9a5fb0196886eacedd54993785fe356591cb9",
+      "retained_rows": 4348
+    },
+    {
+      "department": "48",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_48_latest-2025-2026.csv.gz",
+      "resource_id": "3cb15693-5542-4152-b2d7-31842eae282e",
+      "compressed_bytes": 11654642,
+      "raw_sha256": "8c7a9663e320911c3626dd4b828408e98626a59ac45a88ca00617341eefe890a",
+      "retained_rows": 8401
+    },
+    {
+      "department": "49",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_49_latest-2025-2026.csv.gz",
+      "resource_id": "c90b3788-1a9b-4c38-b70f-a36796abe566",
+      "compressed_bytes": 8949005,
+      "raw_sha256": "f5bfac28eba31c1e70d85fe6afa427957a02b55f60bfd935bfff8aa598866667",
+      "retained_rows": 5895
+    },
+    {
+      "department": "50",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_50_latest-2025-2026.csv.gz",
+      "resource_id": "5c7041f4-b957-4209-9b2e-8b528dd21b7b",
+      "compressed_bytes": 10857758,
+      "raw_sha256": "da4f0ae41ebb70fb23a793ae7efc6910c64e3992cba62caa39a45c3c5cf9d40c",
+      "retained_rows": 5576
+    },
+    {
+      "department": "51",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_51_latest-2025-2026.csv.gz",
+      "resource_id": "eeb67679-68a6-44c6-a264-4474efb1c5d2",
+      "compressed_bytes": 8045611,
+      "raw_sha256": "6b1048d1c3001f24955fc89b2c1126ff2e3ed7e95994dbe935484b323a7b0814",
+      "retained_rows": 4056
+    },
+    {
+      "department": "52",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_52_latest-2025-2026.csv.gz",
+      "resource_id": "475d80c9-b57b-4c1b-918e-28c881299fc8",
+      "compressed_bytes": 9022753,
+      "raw_sha256": "76ebe25c00c05a8012857a558d68e08e73b7f545615bcd02a2074136059925cb",
+      "retained_rows": 6545
+    },
+    {
+      "department": "53",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_53_latest-2025-2026.csv.gz",
+      "resource_id": "3182ee7b-4428-4537-ac9c-478e3f3e6569",
+      "compressed_bytes": 5511251,
+      "raw_sha256": "36f9b1c6a67fe187d925da5589b0f1be63cb4e0c050d58884e46cd38e749bb79",
+      "retained_rows": 3425
+    },
+    {
+      "department": "54",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_54_latest-2025-2026.csv.gz",
+      "resource_id": "4082adc1-0e26-4fd5-abc7-a49d87ea6624",
+      "compressed_bytes": 6832705,
+      "raw_sha256": "7a8444e65735a94ebf296f77eb508f76cc1f7e84a20f17e70748148aa00321b8",
+      "retained_rows": 3723
+    },
+    {
+      "department": "55",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_55_latest-2025-2026.csv.gz",
+      "resource_id": "f7c12d09-dd3e-4221-bc55-9ce36f9a644f",
+      "compressed_bytes": 8639017,
+      "raw_sha256": "5a6a5f82b272faa14648ad64f6f03686804a2ba7960fdaba4f2d3b28ce3dae9b",
+      "retained_rows": 5304
+    },
+    {
+      "department": "56",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_56_latest-2025-2026.csv.gz",
+      "resource_id": "e7d8386e-8488-47ca-ba9f-b56093b274b5",
+      "compressed_bytes": 11619215,
+      "raw_sha256": "13253fec3a4e29486bc8a7712aa5f2566b336343e28df6f7cb9ac42ae015325c",
+      "retained_rows": 5581
+    },
+    {
+      "department": "57",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_57_latest-2025-2026.csv.gz",
+      "resource_id": "4c108abc-b10b-4348-9f56-486f132f91a8",
+      "compressed_bytes": 10364140,
+      "raw_sha256": "d5247a645608e8b9c288b0f8fb17dc616366cc4b68e78bf52933eb8118aa9308",
+      "retained_rows": 7124
+    },
+    {
+      "department": "58",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_58_latest-2025-2026.csv.gz",
+      "resource_id": "c3c13f1a-e675-433e-acce-95a71c830f67",
+      "compressed_bytes": 7783183,
+      "raw_sha256": "80176e286502aab2c935c69b1b8d2cb24e7afc99b07f4c8074b3525f695c336d",
+      "retained_rows": 5152
+    },
+    {
+      "department": "59",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_59_latest-2025-2026.csv.gz",
+      "resource_id": "27003104-fb07-47b1-a0b8-3e2db1b88f03",
+      "compressed_bytes": 6074852,
+      "raw_sha256": "22f3cef52e1bcaed5c2b2ad05b1d8faa6c85578e0e18af56d82e2d3e7f7e1db1",
+      "retained_rows": 3101
+    },
+    {
+      "department": "60",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_60_latest-2025-2026.csv.gz",
+      "resource_id": "c83a018e-a3b1-4a32-ba2a-8f0b9f513bf0",
+      "compressed_bytes": 8800932,
+      "raw_sha256": "117c0db74ff4b95980f6b67a2f8906877c70f67190052cd64e8b46c0c73fcc5d",
+      "retained_rows": 4678
+    },
+    {
+      "department": "61",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_61_latest-2025-2026.csv.gz",
+      "resource_id": "db0bb61f-9101-4283-9e8a-c85c70fe241e",
+      "compressed_bytes": 8125221,
+      "raw_sha256": "667bb65410386809700e7d852af230233cf51d925c42946f25f67fa4830bb801",
+      "retained_rows": 5746
+    },
+    {
+      "department": "62",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_62_latest-2025-2026.csv.gz",
+      "resource_id": "a9759aea-92ff-474d-bfab-fc28d4d145a0",
+      "compressed_bytes": 9429409,
+      "raw_sha256": "d7b2e6378e3c32ee9fec08ff958e3015247d9172380f0a30d6e6ada47fde1e72",
+      "retained_rows": 4330
+    },
+    {
+      "department": "63",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_63_latest-2025-2026.csv.gz",
+      "resource_id": "fe71a673-55e0-42b3-a551-1df15dace28f",
+      "compressed_bytes": 15418624,
+      "raw_sha256": "54ec2be40f086def4df0a62aa3d71138f9dee1de1a71b371545ca69d34ae7404",
+      "retained_rows": 10215
+    },
+    {
+      "department": "64",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_64_latest-2025-2026.csv.gz",
+      "resource_id": "50bdbb2e-a66e-4a17-889e-698d6c57da39",
+      "compressed_bytes": 14335184,
+      "raw_sha256": "94925c61af23350e92de2b385b3e042e811c9df4fae0cc62c5ea2cc2283b036b",
+      "retained_rows": 9360
+    },
+    {
+      "department": "65",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_65_latest-2025-2026.csv.gz",
+      "resource_id": "9fef505a-ee3e-403b-9df9-8ca52395f6c3",
+      "compressed_bytes": 9968432,
+      "raw_sha256": "06847eeeb84ffa76b3165f8ac4fe5fe407124afaa822b8b25670c876657a6a18",
+      "retained_rows": 5583
+    },
+    {
+      "department": "66",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_66_latest-2025-2026.csv.gz",
+      "resource_id": "5a0b9c64-5dc3-4e8d-939e-3506fb88ca9c",
+      "compressed_bytes": 13514395,
+      "raw_sha256": "1d1fb8a69ea8d828c60e4d38acf7463ea520f2d04790b6438458513178257ff6",
+      "retained_rows": 6552
+    },
+    {
+      "department": "67",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_67_latest-2025-2026.csv.gz",
+      "resource_id": "4cb21d9d-d5d6-4fed-9de1-b4e1a599c3cf",
+      "compressed_bytes": 8096084,
+      "raw_sha256": "abb5702a92830097c2040423c802a6fe6a62267c02daa295e80bd2e48d4208b4",
+      "retained_rows": 5282
+    },
+    {
+      "department": "68",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_68_latest-2025-2026.csv.gz",
+      "resource_id": "9043e45a-2c44-46d3-acea-0152eb2d9323",
+      "compressed_bytes": 8664960,
+      "raw_sha256": "154a77503fc5fc66b35a91393fdea7c4b9a106e84c0b39c17abfcbd75cd36f4e",
+      "retained_rows": 6240
+    },
+    {
+      "department": "69",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_69_latest-2025-2026.csv.gz",
+      "resource_id": "7fa40c33-31cd-40e6-9bd4-64d05ab308a3",
+      "compressed_bytes": 9328715,
+      "raw_sha256": "904eef00afbbf3a00b558fdff58d338f92a9b80923be2c61f46bb6a147ff83ee",
+      "retained_rows": 5594
+    },
+    {
+      "department": "70",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_70_latest-2025-2026.csv.gz",
+      "resource_id": "26c1ad5e-0c9c-4f7e-bfaa-73ffa3dd8de5",
+      "compressed_bytes": 8069568,
+      "raw_sha256": "0cb8f795d19e7c75b732cedf60ae8a88b0d999788502be9a1a67c95010272484",
+      "retained_rows": 4966
+    },
+    {
+      "department": "71",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_71_latest-2025-2026.csv.gz",
+      "resource_id": "db7b5a55-6b96-40d0-a4d9-fca8a1e4e9d3",
+      "compressed_bytes": 9707748,
+      "raw_sha256": "25aead9c00a568ed2c936ae8b00deaab9b9878c14a4a04ce49fc9d2d7d1bd39d",
+      "retained_rows": 6183
+    },
+    {
+      "department": "72",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_72_latest-2025-2026.csv.gz",
+      "resource_id": "972d49ea-27fb-44a9-b0b9-15fd8088e118",
+      "compressed_bytes": 7301990,
+      "raw_sha256": "dc916ed9fda39d02672dba3953d689546ae4642d6b1bee9fcdcd2edcaf59f7ae",
+      "retained_rows": 5588
+    },
+    {
+      "department": "73",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_73_latest-2025-2026.csv.gz",
+      "resource_id": "7c18ae09-a2bb-49f5-9f0d-990bc8df78ef",
+      "compressed_bytes": 19592149,
+      "raw_sha256": "4c1ea7a3ecf143036f7c39143dd05547025fc5b42d32e16ec41552fa61b648b3",
+      "retained_rows": 12129
+    },
+    {
+      "department": "74",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_74_latest-2025-2026.csv.gz",
+      "resource_id": "ecc5739f-2e98-4600-a1c4-79e05a7991c9",
+      "compressed_bytes": 17429545,
+      "raw_sha256": "7a91295b3906b9100299acc9fdc8b39a258940f6471d09cafe02f4cf6245f5c5",
+      "retained_rows": 10554
+    },
+    {
+      "department": "75",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_75_latest-2025-2026.csv.gz",
+      "resource_id": "e5d64034-f9b3-415c-a7f1-abafb23b89bc",
+      "compressed_bytes": 3431305,
+      "raw_sha256": "35c9ce1cef6103e0bfe9e07e6a526179ca47de665aeaa8afe7923b317476b491",
+      "retained_rows": 1248
+    },
+    {
+      "department": "76",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_76_latest-2025-2026.csv.gz",
+      "resource_id": "cbc133c4-599a-4406-939d-632c6654e7bf",
+      "compressed_bytes": 10517521,
+      "raw_sha256": "904c1451024de5a71113a731ce275e5e397fbee7a56f618c3c06d6eda9df2ea6",
+      "retained_rows": 5613
+    },
+    {
+      "department": "77",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_77_latest-2025-2026.csv.gz",
+      "resource_id": "8850daa3-1d9e-4bd3-8391-5f16c826190d",
+      "compressed_bytes": 8288780,
+      "raw_sha256": "795cf158220f2ace4e1a60b57ed47d8b9b6db6b09462857558a04f69bd7b0878",
+      "retained_rows": 4616
+    },
+    {
+      "department": "78",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_78_latest-2025-2026.csv.gz",
+      "resource_id": "1075ac76-12b8-4b57-9de3-54ff1a9b3ca3",
+      "compressed_bytes": 6858015,
+      "raw_sha256": "f95cdadb746905dd09285c3a122635be49ef287c218e4554824ec57edc538aae",
+      "retained_rows": 3426
+    },
+    {
+      "department": "79",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_79_latest-2025-2026.csv.gz",
+      "resource_id": "2e2fd930-be83-43b2-9ebd-44bf7f9123bf",
+      "compressed_bytes": 7413791,
+      "raw_sha256": "8acb99fb415f9e6b4a541fa9b2d7d968543ccaca2e1baa41d790f5cf9196e0a3",
+      "retained_rows": 5304
+    },
+    {
+      "department": "80",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_80_latest-2025-2026.csv.gz",
+      "resource_id": "445b0d4b-88d1-4205-8b20-928d079bab0c",
+      "compressed_bytes": 8203152,
+      "raw_sha256": "e709f9acb898fe212dbffee789c9a402832a572d3c9190ceea08ebbb2f29ef54",
+      "retained_rows": 4992
+    },
+    {
+      "department": "81",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_81_latest-2025-2026.csv.gz",
+      "resource_id": "62dda216-1f5e-4b58-88dc-6fb9d6bdefb3",
+      "compressed_bytes": 6490968,
+      "raw_sha256": "4605627d15e4e8de0bbd103bbcc142a157632adf01c618006234a9975b32f24b",
+      "retained_rows": 2990
+    },
+    {
+      "department": "82",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_82_latest-2025-2026.csv.gz",
+      "resource_id": "1304132f-0be5-467c-bef2-83d695902e0a",
+      "compressed_bytes": 4965869,
+      "raw_sha256": "94c0681d5dcb0bce1982aa1860907074e5e7a60c43a5bbf8d80b9d6a35c873c3",
+      "retained_rows": 2178
+    },
+    {
+      "department": "83",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_83_latest-2025-2026.csv.gz",
+      "resource_id": "9e6bec25-d7a7-4d25-9b5f-f06e4b935b96",
+      "compressed_bytes": 20316573,
+      "raw_sha256": "756c172950b8c4f546ca447f4631b3d1c1e62dfc86f6a1dc11cfb1669b445e3b",
+      "retained_rows": 10296
+    },
+    {
+      "department": "84",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_84_latest-2025-2026.csv.gz",
+      "resource_id": "48bba355-ddd9-4265-87a2-e471a9d8703c",
+      "compressed_bytes": 12070033,
+      "raw_sha256": "8122f1bfc3bc238be9eaa1251eb081c79e0428f77e9e97d0abba99c2a1af3b65",
+      "retained_rows": 5579
+    },
+    {
+      "department": "85",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_85_latest-2025-2026.csv.gz",
+      "resource_id": "d8935263-bad9-40b3-9700-0e708fa888c2",
+      "compressed_bytes": 10544155,
+      "raw_sha256": "ea03d98908dc02b8cb34b467187b22bf5a197229813c8c684b6afa4a9eefd454",
+      "retained_rows": 5753
+    },
+    {
+      "department": "86",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_86_latest-2025-2026.csv.gz",
+      "resource_id": "a3492c61-de92-4cbc-9c6b-41adcb5c4d9b",
+      "compressed_bytes": 7526867,
+      "raw_sha256": "7df1ccf175d7fe270f2c8cc889fa8050e084ac70a24005e5c19b45b0e361b80a",
+      "retained_rows": 4946
+    },
+    {
+      "department": "87",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_87_latest-2025-2026.csv.gz",
+      "resource_id": "e43e7443-e4eb-4e5f-85e7-984e869c4126",
+      "compressed_bytes": 7615952,
+      "raw_sha256": "5cfd3336be664c74fc191059b3925bca28fe0060c2a41290f20806789b6098c0",
+      "retained_rows": 5304
+    },
+    {
+      "department": "88",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_88_latest-2025-2026.csv.gz",
+      "resource_id": "e8e946a3-4440-4bf2-866b-1d0b6d320f8c",
+      "compressed_bytes": 10161363,
+      "raw_sha256": "ddcfdb8404e867b4baa7f28b0ff1408753672e417bd355d3f9fd3555d4ea7548",
+      "retained_rows": 6533
+    },
+    {
+      "department": "89",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_89_latest-2025-2026.csv.gz",
+      "resource_id": "2e531074-7d2a-45bf-99b3-cc4d97d58229",
+      "compressed_bytes": 9054055,
+      "raw_sha256": "232e525c1ba0dcd0276444ee0ed42a0c95044b009bf3cbf226a6469c26d5b992",
+      "retained_rows": 6130
+    },
+    {
+      "department": "90",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_90_latest-2025-2026.csv.gz",
+      "resource_id": "5d4edc1a-83f9-46bc-aa93-5b38176745eb",
+      "compressed_bytes": 2761996,
+      "raw_sha256": "a93d12d0f3cebd3caf029139ea123308196d1e830bb0bb92627e4b9281249cdb",
+      "retained_rows": 2184
+    },
+    {
+      "department": "91",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_91_latest-2025-2026.csv.gz",
+      "resource_id": "1955df20-27c7-49b8-8f72-c18d79095d99",
+      "compressed_bytes": 3632560,
+      "raw_sha256": "576c21f1da3e531aa3a8997c63529338c0bb8eb0c608d82bbbfbf8aabe7cf52a",
+      "retained_rows": 1872
+    },
+    {
+      "department": "92",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_92_latest-2025-2026.csv.gz",
+      "resource_id": "e46f2784-720a-48c2-b515-be6b47023b2e",
+      "compressed_bytes": 249907,
+      "raw_sha256": "81d63cbe3a3a57bafcc5cbfee550e9e2b3b09110f59660a2706446cab07d59bb",
+      "retained_rows": 312
+    },
+    {
+      "department": "93",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_93_latest-2025-2026.csv.gz",
+      "resource_id": "2918cb6d-9189-4ce0-8b58-3ea14e860c9c",
+      "compressed_bytes": 251392,
+      "raw_sha256": "f5afa64be1825f2e18be9ad4a80863675334c14c645d834dbd7b288b89f378ea",
+      "retained_rows": 312
+    },
+    {
+      "department": "94",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_94_latest-2025-2026.csv.gz",
+      "resource_id": "928cac06-31bd-4473-b364-0c8dface25fb",
+      "compressed_bytes": 249516,
+      "raw_sha256": "f57f0c23428928d87c9a28b13cad59d790f667384af2f64f808fd4ac9f6762c9",
+      "retained_rows": 312
+    },
+    {
+      "department": "95",
+      "url": "https://meteofrance.s3.sbg.io.cloud.ovh.net/data/synchro_ftp/BASE/HOR/H_95_latest-2025-2026.csv.gz",
+      "resource_id": "8309911c-1198-4410-aca1-2bf1a28e82dc",
+      "compressed_bytes": 5525892,
+      "raw_sha256": "89f72da681a20e733d883cce5c549a8ba60166160855288603b1049c79436dd8",
+      "retained_rows": 1853
+    }
+  ]
+}

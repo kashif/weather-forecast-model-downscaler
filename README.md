@@ -864,3 +864,85 @@ The [figure](examples/france_precipitation/gauge_comparison.png),
 [source record](examples/france_precipitation/gauge_sources.json) preserve the
 comparison. These dates are now an inspected test set; any gauge-based fitting
 or tuning needs separate dates and a fresh holdout.
+
+### Cheap categorical rainfall head
+
+`downscale/rain_categorical.py` adds a small rainfall-intensity classifier on top
+of the frozen annual downscaler. It uses the existing forecast/terrain features
+plus raw ensemble exceedance fractions at 5, 10 and 20 mm/hour. This is a small
+postprocessing experiment inspired by PARDIG's categorical output, rather than
+a reimplementation of PARDIG or a new storm generator.
+
+The ten categories separate zero rain and the right-closed intervals ending at
+0.1, 0.5, 1, 2, 5, 10, 20 and 40 mm, followed by an open upper category. The
+right-closed convention makes sums of upper categories exactly match our strict
+`rain > threshold` evaluation. A categorical mean uses within-category means
+estimated from fitting data only. Outputs are marginal distributions; they do
+not replace the original coherent ensemble trajectories.
+
+```sh
+.venv/bin/python scripts/train_rain_categorical.py
+.venv/bin/python scripts/fetch_rain_gauges.py \
+  --config config_rain_categorical_gauges.yaml \
+  --out data/precipitation/gauge_categorical \
+  --archive-cache data/precipitation/gauge_validation/source
+.venv/bin/python scripts/check_rain_gauges.py \
+  --config config_rain_categorical_gauges.yaml \
+  --cache data/precipitation/gauge_categorical \
+  --out runs/rain_categorical_gauges \
+  --categorical-run runs/rain_categorical
+```
+
+Fitting uses the existing twelve 2021 dates: all >5 mm examples and a fixed
+sample of 200,000 other points, with inverse sampling weights to preserve the
+population cross-entropy objective. Feature normalization and category means
+use fitting data only. A linear head and a 32-unit hidden-layer head are assessed
+at epochs 4, 8 and 12 on the four existing 2023 selection dates. Selection
+minimizes the mean of prevalence-normalized Brier scores at 5 and 10 mm/hour.
+The model and its separately selected 2023 alert cutoffs are frozen before
+loading the new gauge test set: the 10th of every month in 2025. Earlier gauge
+test dates are explicitly rejected for this experiment.
+
+The 32-unit model at epoch 4 was selected. Its normalized selection score is
+0.9952, versus 0.9984 for exponential calibration and 1.0024 for the raw ensemble.
+Fitting and selection took approximately nine seconds on the local CPU, including
+loading the cached predictions. The new gauge evaluation also compares it with
+the exponential baseline using paired date-bootstrap Brier and CSI differences.
+
+On the twelve fresh gauge dates, 1,767 stations provide 505,817 valid hourly
+measurements. The comparison below uses nearest-cell sampling and the original
+2023-selected probability cutoffs; all three models see the same cases.
+
+| Metric | Raw ensemble | Exponential | Categorical |
+| --- | ---: | ---: | ---: |
+| Hourly mean RMSE, mm | 0.3910 | 0.3900 | 0.3873 |
+| Daily-total mean RMSE, mm | 3.4954 | 3.4579 | 3.4005 |
+| Hourly mean MAE, mm | 0.0842 | 0.0876 | 0.0982 |
+| >5 mm/hour average precision | 0.00280 | 0.02087 | 0.01357 |
+| >5 mm/hour CSI | 0.01504 | 0.02587 | 0.01013 |
+| >10 mm/hour average precision | 0.00016 | 0.00471 | 0.00249 |
+| >10 mm/hour CSI | 0 | 0.00787 | 0 |
+
+The categorical mean reduces daily-total RMSE by 2.7% against the raw ensemble,
+but increases hourly MAE by 16.5%. Its daily RMSE difference against raw has an
+exploratory date-bootstrap 95% interval of −0.160 to −0.018 mm; against exponential
+calibration the interval crosses zero (−0.137 to +0.015 mm). It detects none of
+the 79 observed >10 mm/hour cases at its frozen cutoff, versus two for the
+exponential model. There are only eleven >20 mm/hour observations, and every
+model misses all eleven at its selected cutoff. Bilinear sampling preserves the
+main ranking; timing sensitivity is included separately, without choosing a
+preferred offset from the test results.
+
+The small validation improvement did not transfer into better heavy-rain
+forecasts. The categorical head stays experimental; the default forecast and
+existing exponential calibration are unchanged. This experiment improves some
+amount-error metrics, but does not solve storm detection or placement. These
+twelve dates are now inspected and cannot serve as a fresh test set for further
+tuning.
+
+The [comparison figure](examples/france_precipitation/categorical/gauge_comparison.png),
+[score summary](examples/france_precipitation/categorical/results.json),
+[full report, gzip](examples/france_precipitation/categorical/results.json.gz),
+[selection record](examples/france_precipitation/categorical/selection.json) and
+[trained head](examples/france_precipitation/categorical/selected.pt) preserve the
+result, alongside the frozen rules and source/input manifests.

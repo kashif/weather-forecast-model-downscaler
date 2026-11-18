@@ -91,9 +91,42 @@ def plot_results(report,out):
         names=list(result)
         axes[2,j].bar(names,[result[n][str(t)]['policies']['validation_max_csi']['csi'] or 0 for n in names])
         axes[2,j].set(ylabel='CSI, frozen 2023 cutoffs')
+        axes[2,j].tick_params(axis='x',labelrotation=25,labelsize=8)
+        axes[2,j].set_ylim(bottom=0)
         for i in range(3):axes[i,j].grid(alpha=.2)
-    fig.suptitle('Independent Meteo-France gauges: 24 fixed dates in 2025\nNearest 0.1-degree cell; ERA5 forcing proxy; models and alert cutoffs frozen')
+    fig.suptitle(f"Independent Meteo-France gauges: {len(report['configuration']['splits']['test'])} fixed dates in 2025\nNearest 0.1-degree cell; ERA5 forcing proxy; models and alert cutoffs frozen")
     fig.savefig(Path(out)/'gauge_comparison.png',dpi=150);plt.close(fig)
+
+
+
+def paired_amount_interval(reference,model,obs,hours,seed=17):
+    shape=(-1,24//hours,hours,obs.shape[-1])
+    a=reference.reshape(shape).sum(2);b=model.reshape(shape).sum(2);y=obs.reshape(shape).sum(2)
+    valid=np.isfinite(y)&np.isfinite(a)&np.isfinite(b)
+    count=valid.sum((1,2));ea=np.where(valid,a-y,0);eb=np.where(valid,b-y,0)
+    if not count.sum():return dict(windows=0,rmse_difference=None,mae_difference=None)
+    rng=np.random.default_rng(seed);index=rng.integers(0,len(count),size=(10000,len(count)))
+    denominator=count[index].sum(1);keep=denominator>0
+    def compare(fa,fb,root=False):
+        sa=fa.sum((1,2));sb=fb.sum((1,2))
+        left=sa[index].sum(1)[keep]/denominator[keep];right=sb[index].sum(1)[keep]/denominator[keep]
+        transform=np.sqrt if root else lambda x:x
+        delta=transform(right)-transform(left)
+        point=transform(sb.sum()/count.sum())-transform(sa.sum()/count.sum())
+        return dict(model_minus_reference=float(point),day_bootstrap_95_interval=np.quantile(delta,[.025,.975]).tolist())
+    return dict(windows=int(count.sum()),rmse_difference=compare(ea**2,eb**2,True),
+                mae_difference=compare(np.abs(ea),np.abs(eb)),warning='Exploratory date bootstrap; dates may share storms')
+
+
+def paired_brier_interval(raw,model,observed,day,days,seed=17):
+    delta=(model-observed)**2-(raw-observed)**2
+    totals=np.bincount(day,weights=delta,minlength=days)
+    counts=np.bincount(day,minlength=days)
+    rng=np.random.default_rng(seed);index=rng.integers(0,days,size=(10000,days))
+    denominator=counts[index].sum(1)
+    draws=totals[index].sum(1)/denominator
+    return dict(model_minus_reference=float(delta.mean()),day_bootstrap_95_interval=np.quantile(draws,[.025,.975]).tolist(),
+                warning='Exploratory date bootstrap; spatial dependence retained, dates may share storms')
 
 
 def main():
@@ -101,6 +134,7 @@ def main():
     parser.add_argument('--config',default='config_rain_gauges.yaml')
     parser.add_argument('--cache',default='data/precipitation/gauge_validation')
     parser.add_argument('--out',default='runs/rain_gauges')
+    parser.add_argument('--categorical-run',help='Optional frozen categorical head and its 2023 alert rules')
     args=parser.parse_args();cfg=yaml.safe_load(Path(args.config).read_text())
     cache=Path(args.cache);out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
     lock=(out/'.lock').open('a')
@@ -121,6 +155,16 @@ def main():
     files={'gpd':'runs/rain_tail/selected.pt','exponential':'runs/rain_tail/conditional_exponential.pt'}
     for name,path in files.items():
         if sha(path)!=frozen['signature']['calibrators'][name]:raise ValueError('calibrator changed')
+    categorical_rules=None
+    if args.categorical_run:
+        from downscale.rain_categorical import CategoricalRain
+        directory=Path(args.categorical_run);files['categorical']=str(directory/'selected.pt')
+        model=CategoricalRain.load(files['categorical'])
+        categorical_rules=directory/'frozen_rules.json'
+        extra=json.loads(categorical_rules.read_text())
+        if extra['model_sha256']!=sha(files['categorical']) or extra['downscaler_sha256']!=sha(cfg['checkpoint']):raise ValueError('categorical identity mismatch')
+        if set(dates)&set(model.metadata['fit_dates']+extra['selection_dates']+yaml.safe_load(Path('config_rain_gauges.yaml').read_text())['splits']['test']):raise ValueError('categorical test dates were already used')
+        models['categorical']=model;frozen['rules']['categorical']=extra['rules']
     prior=yaml.safe_load(Path('config_rain_tail.yaml').read_text())['splits']
     if set(dates)&set(sum(prior.values(),[])+frozen['signature']['configuration']['splits']['test']):raise ValueError('previously inspected date')
     for split in ['training','validation']:
@@ -128,6 +172,7 @@ def main():
         if ((times.values>=a)&(times.values<=b)).any():raise ValueError('training overlap')
     signature=dict(config=cfg,downscaler=sha(cfg['checkpoint']),calibrators={n:sha(p) for n,p in files.items()},
                    rules=sha(frozen_path),observations=sha(cache/'observations.parquet'),stations=stations.index.tolist())
+    if categorical_rules is not None:signature['categorical_rules']=sha(categorical_rules)
     path=out/'manifest.json'
     if path.exists() and json.loads(path.read_text())!=signature:raise ValueError('experiment inputs changed')
     atomic_json(path,signature);atomic_json(out/'quality_control.json',qc)
@@ -148,7 +193,11 @@ def main():
             for name,model in models.items():
                 prob=probabilities(data,model,thresholds)
                 mean=r.mean(1).astype('float64')
-                if model is not None:
+                if model is not None and hasattr(model,'rainfall_mean'):
+                    for start in range(0,len(r),32768):
+                        stop=start+32768
+                        mean[start:stop]=model.rainfall_mean(features[start:stop],r[start:stop])
+                elif model is not None:
                     for start in range(0,len(r),32768):
                         stop=start+32768;p,s,xi=model.parameters(features[start:stop],r[start:stop])
                         mean[start:stop]=spliced_moments(r[start:stop],model.threshold,p,s,xi)[0]
@@ -186,14 +235,28 @@ def main():
                 means=np.concatenate(all_mean[method][name])
                 result[name]['amounts']={str(h):amount_scores(means,obs,h) for h in [1,6,24]}
             comparison={}
-            for name in ['gpd','exponential']:
+            for name in [n for n in models if n!='raw']:
                 comparison[name]={}
                 for t in thresholds:
                     a=result['raw'][str(t)]['policies']['validation_max_csi']['per_day'];b=result[name][str(t)]['policies']['validation_max_csi']['per_day']
                     interval=paired_day_csi_interval(a,b)
-                    interval['warning']='Exploratory date bootstrap; spatially dependent gauges and 24 selected dates'
+                    interval['warning']=f'Exploratory date bootstrap; spatially dependent gauges and {len(dates)} selected dates'
                     comparison[name][str(t)]=interval
+            if 'categorical' in models:
+                comparison['categorical_vs_exponential']={}
+                comparison['categorical_brier_vs_exponential']={}
+                a_prob=np.concatenate(all_prob[method]['exponential'])[valid]
+                b_prob=np.concatenate(all_prob[method]['categorical'])[valid]
+                for j,t in enumerate(thresholds):
+                    a=result['exponential'][str(t)]['policies']['validation_max_csi']['per_day']
+                    b=result['categorical'][str(t)]['policies']['validation_max_csi']['per_day']
+                    interval=paired_day_csi_interval(a,b)
+                    interval['warning']=f'Exploratory date bootstrap; {len(dates)} selected dates, spatial dependence retained'
+                    comparison['categorical_vs_exponential'][str(t)]=interval
+                    comparison['categorical_brier_vs_exponential'][str(t)]=paired_brier_interval(a_prob[:,j],b_prob[:,j],data.truth>t,day,len(dates))
             report['evaluations'][f'{method}_gauge_offset_{offset:+d}h']=dict(station_hours=int(valid.sum()),models=result,paired_csi=comparison)
+            if 'categorical' in models:
+                report['evaluations'][f'{method}_gauge_offset_{offset:+d}h']['paired_amounts']={reference:{str(h):paired_amount_interval(np.concatenate(all_mean[method][reference]),np.concatenate(all_mean[method]['categorical']),obs,h) for h in [1,6,24]} for reference in ['raw','exponential']}
     atomic_json(out/'results.json',report)
     plot_results(report,out)
     atomic_json(out/'progress.json',dict(stage='complete',days=len(dates)))

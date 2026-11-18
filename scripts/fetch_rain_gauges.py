@@ -44,8 +44,11 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config',default='config_rain_gauges.yaml')
     parser.add_argument('--out',default='data/precipitation/gauge_validation')
+    parser.add_argument('--archive-cache',help='Reuse an existing source directory of bulk archives')
     args=parser.parse_args();cfg=yaml.safe_load(Path(args.config).read_text())
-    out=Path(args.out);source=out/'source';source.mkdir(parents=True,exist_ok=True)
+    out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
+    source=Path(args.archive_cache) if args.archive_cache else out/'source'
+    source.mkdir(parents=True,exist_ok=True)
     lock=(out/'.lock').open('a')
     try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     except BlockingIOError:raise RuntimeError('gauge collection is already running') from None

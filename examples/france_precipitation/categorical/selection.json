@@ -1,0 +1,873 @@
+{
+  "protocol": {
+    "widths": [
+      0,
+      32
+    ],
+    "epochs": 12,
+    "assess_epochs": [
+      4,
+      8,
+      12
+    ],
+    "learning_rate": 0.001,
+    "batch": 8192,
+    "seed": 17,
+    "max_nonheavy": 200000,
+    "weight_decay": 0.001,
+    "selection": "mean prevalence-normalized Brier at 5/10mm",
+    "fit_dates": [
+      "2021-01-15",
+      "2021-02-15",
+      "2021-03-15",
+      "2021-04-15",
+      "2021-05-15",
+      "2021-06-15",
+      "2021-07-15",
+      "2021-08-15",
+      "2021-09-15",
+      "2021-10-15",
+      "2021-11-15",
+      "2021-12-15"
+    ],
+    "selection_dates": [
+      "2023-01-15",
+      "2023-04-15",
+      "2023-07-15",
+      "2023-10-15"
+    ],
+    "downscaler_sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc"
+  },
+  "records": [
+    {
+      "width": 0,
+      "epoch": 4,
+      "training_loss": 0.28939467324660373,
+      "selection_score": 0.9999621977384254
+    },
+    {
+      "width": 0,
+      "epoch": 8,
+      "training_loss": 0.2775140989285249,
+      "selection_score": 1.0006149149009196
+    },
+    {
+      "width": 0,
+      "epoch": 12,
+      "training_loss": 0.2735012276814534,
+      "selection_score": 0.999390665626046
+    },
+    {
+      "width": 32,
+      "epoch": 4,
+      "training_loss": 0.2720963622515018,
+      "selection_score": 0.995203565890237
+    },
+    {
+      "width": 32,
+      "epoch": 8,
+      "training_loss": 0.25974576805646604,
+      "selection_score": 0.9964210536573587
+    },
+    {
+      "width": 32,
+      "epoch": 12,
+      "training_loss": 0.255811319901393,
+      "selection_score": 0.996853551425704
+    }
+  ],
+  "baselines": {
+    "raw": 1.0024333736142954,
+    "exponential": 0.9983643203711192
+  },
+  "selected": {
+    "widths": [
+      0,
+      32
+    ],
+    "epochs": 12,
+    "assess_epochs": [
+      4,
+      8,
+      12
+    ],
+    "learning_rate": 0.001,
+    "batch": 8192,
+    "seed": 17,
+    "max_nonheavy": 200000,
+    "weight_decay": 0.001,
+    "selection": "mean prevalence-normalized Brier at 5/10mm",
+    "fit_dates": [
+      "2021-01-15",
+      "2021-02-15",
+      "2021-03-15",
+      "2021-04-15",
+      "2021-05-15",
+      "2021-06-15",
+      "2021-07-15",
+      "2021-08-15",
+      "2021-09-15",
+      "2021-10-15",
+      "2021-11-15",
+      "2021-12-15"
+    ],
+    "selection_dates": [
+      "2023-01-15",
+      "2023-04-15",
+      "2023-07-15",
+      "2023-10-15"
+    ],
+    "downscaler_sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+    "selected_epoch": 4,
+    "selection_score": 0.995203565890237,
+    "feature_names": [
+      "log_mean",
+      "log_std",
+      "log_max",
+      "log_neighbour_max_mean",
+      "log_coarse_rain",
+      "dewpoint_depression_10K",
+      "wind_speed_10ms",
+      "pressure_anomaly_100hPa",
+      "elevation_km",
+      "relief_500m",
+      "land_fraction",
+      "sin_year",
+      "cos_year",
+      "sin_hour",
+      "cos_hour",
+      "latitude_scaled",
+      "longitude_scaled"
+    ]
+  },
+  "validation": {
+    "5.0": {
+      "discrimination": {
+        "average_precision": 0.018722709783664228,
+        "prevalence": 0.001137970031099802,
+        "positive_points": 2576,
+        "points": 2263680,
+        "recall_at_fpr_curve_diagnostic": {
+          "recall": 0.038431677018633544,
+          "precision": 0.04203821656050955,
+          "actual_fpr": 0.0009977426956035635,
+          "cutoff": 0.043150003999471664
+        },
+        "diagnostic_note": "curve summary using labels; do not use its cutoff as a test-selected alert rule"
+      },
+      "brier": 0.0011279999606592884,
+      "policies": {
+        "fixed_50_percent": {
+          "cutoff": 0.5,
+          "hits": 0,
+          "false_alarms": 0,
+          "misses": 2576,
+          "correct_negatives": 2261104,
+          "csi": 0.0,
+          "precision": null,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "false_alarm_ratio": null,
+          "alert_fraction": 0.0,
+          "observed_events": 2576,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 443,
+              "correct_negatives": 565477,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 443
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 442,
+              "correct_negatives": 565478,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 442
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 1503,
+              "correct_negatives": 564417,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 1503
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 188,
+              "correct_negatives": 565732,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 188
+            }
+          ]
+        },
+        "validation_max_csi": {
+          "cutoff": 0.05,
+          "hits": 82,
+          "false_alarms": 1115,
+          "misses": 2494,
+          "correct_negatives": 2259989,
+          "csi": 0.022216201571389867,
+          "precision": 0.06850459482038429,
+          "recall": 0.03183229813664596,
+          "false_positive_rate": 0.0004931219439707329,
+          "false_alarm_ratio": 0.9314954051796157,
+          "alert_fraction": 0.0005287849872773536,
+          "observed_events": 2576,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 169,
+              "misses": 443,
+              "correct_negatives": 565308,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 0.00029886273004914435,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 0.00029862878145320895,
+              "observed_events": 443
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 442,
+              "correct_negatives": 565478,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 442
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 7,
+              "misses": 1503,
+              "correct_negatives": 564410,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 1.2402177822425619e-05,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 1.236923946847611e-05,
+              "observed_events": 1503
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 82,
+              "false_alarms": 939,
+              "misses": 106,
+              "correct_negatives": 564793,
+              "csi": 0.07275953859804792,
+              "precision": 0.08031341821743389,
+              "recall": 0.43617021276595747,
+              "false_positive_rate": 0.0016597965114223696,
+              "false_alarm_ratio": 0.9196865817825661,
+              "alert_fraction": 0.0018041419281877298,
+              "observed_events": 188
+            }
+          ]
+        },
+        "validation_fpr_budget": {
+          "cutoff": 0.05,
+          "hits": 82,
+          "false_alarms": 1115,
+          "misses": 2494,
+          "correct_negatives": 2259989,
+          "csi": 0.022216201571389867,
+          "precision": 0.06850459482038429,
+          "recall": 0.03183229813664596,
+          "false_positive_rate": 0.0004931219439707329,
+          "false_alarm_ratio": 0.9314954051796157,
+          "alert_fraction": 0.0005287849872773536,
+          "observed_events": 2576,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 169,
+              "misses": 443,
+              "correct_negatives": 565308,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 0.00029886273004914435,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 0.00029862878145320895,
+              "observed_events": 443
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 442,
+              "correct_negatives": 565478,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 442
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 7,
+              "misses": 1503,
+              "correct_negatives": 564410,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 1.2402177822425619e-05,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 1.236923946847611e-05,
+              "observed_events": 1503
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 82,
+              "false_alarms": 939,
+              "misses": 106,
+              "correct_negatives": 564793,
+              "csi": 0.07275953859804792,
+              "precision": 0.08031341821743389,
+              "recall": 0.43617021276595747,
+              "false_positive_rate": 0.0016597965114223696,
+              "false_alarm_ratio": 0.9196865817825661,
+              "alert_fraction": 0.0018041419281877298,
+              "observed_events": 188
+            }
+          ]
+        }
+      }
+    },
+    "10.0": {
+      "discrimination": {
+        "average_precision": 0.0049277123690585015,
+        "prevalence": 0.00018730562623692394,
+        "positive_points": 424,
+        "points": 2263680,
+        "recall_at_fpr_curve_diagnostic": {
+          "recall": 0.054245283018867926,
+          "precision": 0.012506797172376292,
+          "actual_fpr": 0.0008023838222454729,
+          "cutoff": 0.007846260443329811
+        },
+        "diagnostic_note": "curve summary using labels; do not use its cutoff as a test-selected alert rule"
+      },
+      "brier": 0.00018714986448662387,
+      "policies": {
+        "fixed_50_percent": {
+          "cutoff": 0.5,
+          "hits": 0,
+          "false_alarms": 0,
+          "misses": 424,
+          "correct_negatives": 2263256,
+          "csi": 0.0,
+          "precision": null,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "false_alarm_ratio": null,
+          "alert_fraction": 0.0,
+          "observed_events": 424,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 32,
+              "correct_negatives": 565888,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 32
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 102,
+              "correct_negatives": 565818,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 102
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 237,
+              "correct_negatives": 565683,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 237
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 53,
+              "correct_negatives": 565867,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 53
+            }
+          ]
+        },
+        "validation_max_csi": {
+          "cutoff": 0.01,
+          "hits": 7,
+          "false_alarms": 194,
+          "misses": 417,
+          "correct_negatives": 2263062,
+          "csi": 0.011326860841423949,
+          "precision": 0.03482587064676617,
+          "recall": 0.01650943396226415,
+          "false_positive_rate": 8.571721449098113e-05,
+          "false_alarm_ratio": 0.9651741293532339,
+          "alert_fraction": 8.879346904156064e-05,
+          "observed_events": 424,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 44,
+              "misses": 32,
+              "correct_negatives": 565844,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 7.775390183216466e-05,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 7.774950523042126e-05,
+              "observed_events": 32
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 102,
+              "correct_negatives": 565818,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 102
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 22,
+              "misses": 237,
+              "correct_negatives": 565661,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 3.88910396812349e-05,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 3.887475261521063e-05,
+              "observed_events": 237
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 7,
+              "false_alarms": 128,
+              "misses": 46,
+              "correct_negatives": 565739,
+              "csi": 0.03867403314917127,
+              "precision": 0.05185185185185185,
+              "recall": 0.1320754716981132,
+              "false_positive_rate": 0.00022620156326486613,
+              "false_alarm_ratio": 0.9481481481481482,
+              "alert_fraction": 0.00023854961832061068,
+              "observed_events": 53
+            }
+          ]
+        },
+        "validation_fpr_budget": {
+          "cutoff": 0.01,
+          "hits": 7,
+          "false_alarms": 194,
+          "misses": 417,
+          "correct_negatives": 2263062,
+          "csi": 0.011326860841423949,
+          "precision": 0.03482587064676617,
+          "recall": 0.01650943396226415,
+          "false_positive_rate": 8.571721449098113e-05,
+          "false_alarm_ratio": 0.9651741293532339,
+          "alert_fraction": 8.879346904156064e-05,
+          "observed_events": 424,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 44,
+              "misses": 32,
+              "correct_negatives": 565844,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 7.775390183216466e-05,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 7.774950523042126e-05,
+              "observed_events": 32
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 102,
+              "correct_negatives": 565818,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 102
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 22,
+              "misses": 237,
+              "correct_negatives": 565661,
+              "csi": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "false_positive_rate": 3.88910396812349e-05,
+              "false_alarm_ratio": 1.0,
+              "alert_fraction": 3.887475261521063e-05,
+              "observed_events": 237
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 7,
+              "false_alarms": 128,
+              "misses": 46,
+              "correct_negatives": 565739,
+              "csi": 0.03867403314917127,
+              "precision": 0.05185185185185185,
+              "recall": 0.1320754716981132,
+              "false_positive_rate": 0.00022620156326486613,
+              "false_alarm_ratio": 0.9481481481481482,
+              "alert_fraction": 0.00023854961832061068,
+              "observed_events": 53
+            }
+          ]
+        }
+      }
+    },
+    "20.0": {
+      "discrimination": {
+        "average_precision": 0.000125717449259767,
+        "prevalence": 7.951653944020356e-06,
+        "positive_points": 18,
+        "points": 2263680,
+        "recall_at_fpr_curve_diagnostic": {
+          "recall": 0.05555555555555555,
+          "precision": 0.000574052812858783,
+          "actual_fpr": 0.000769107755486464,
+          "cutoff": 0.0004648241738323122
+        },
+        "diagnostic_note": "curve summary using labels; do not use its cutoff as a test-selected alert rule"
+      },
+      "brier": 7.954495825662041e-06,
+      "policies": {
+        "fixed_50_percent": {
+          "cutoff": 0.5,
+          "hits": 0,
+          "false_alarms": 0,
+          "misses": 18,
+          "correct_negatives": 2263662,
+          "csi": 0.0,
+          "precision": null,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "false_alarm_ratio": null,
+          "alert_fraction": 0.0,
+          "observed_events": 18,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 0,
+              "correct_negatives": 565920,
+              "csi": null,
+              "precision": null,
+              "recall": null,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 0
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 4,
+              "correct_negatives": 565916,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 4
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 11,
+              "correct_negatives": 565909,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 11
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 3,
+              "correct_negatives": 565917,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 3
+            }
+          ]
+        },
+        "validation_max_csi": {
+          "cutoff": 1.0,
+          "hits": 0,
+          "false_alarms": 0,
+          "misses": 18,
+          "correct_negatives": 2263662,
+          "csi": 0.0,
+          "precision": null,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "false_alarm_ratio": null,
+          "alert_fraction": 0.0,
+          "observed_events": 18,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 0,
+              "correct_negatives": 565920,
+              "csi": null,
+              "precision": null,
+              "recall": null,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 0
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 4,
+              "correct_negatives": 565916,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 4
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 11,
+              "correct_negatives": 565909,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 11
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 3,
+              "correct_negatives": 565917,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 3
+            }
+          ]
+        },
+        "validation_fpr_budget": {
+          "cutoff": 1.0,
+          "hits": 0,
+          "false_alarms": 0,
+          "misses": 18,
+          "correct_negatives": 2263662,
+          "csi": 0.0,
+          "precision": null,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "false_alarm_ratio": null,
+          "alert_fraction": 0.0,
+          "observed_events": 18,
+          "per_day": [
+            {
+              "date": "2023-01-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 0,
+              "correct_negatives": 565920,
+              "csi": null,
+              "precision": null,
+              "recall": null,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 0
+            },
+            {
+              "date": "2023-04-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 4,
+              "correct_negatives": 565916,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 4
+            },
+            {
+              "date": "2023-07-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 11,
+              "correct_negatives": 565909,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 11
+            },
+            {
+              "date": "2023-10-15",
+              "hits": 0,
+              "false_alarms": 0,
+              "misses": 3,
+              "correct_negatives": 565917,
+              "csi": 0.0,
+              "precision": null,
+              "recall": 0.0,
+              "false_positive_rate": 0.0,
+              "false_alarm_ratio": null,
+              "alert_fraction": 0.0,
+              "observed_events": 3
+            }
+          ]
+        }
+      }
+    }
+  },
+  "fit_rows": 6791040,
+  "sampled_rows": 209522,
+  "class_counts": [
+    6294888,
+    48797,
+    199079,
+    125030,
+    76687,
+    37037,
+    7204,
+    2070,
+    240,
+    8
+  ],
+  "class_means_mm": [
+    0.0,
+    0.06814289838075638,
+    0.2674333453178406,
+    0.7212085127830505,
+    1.3884739875793457,
+    2.9531502723693848,
+    6.722702980041504,
+    13.2217435836792,
+    24.853605270385742,
+    44.44818878173828
+  ]
+}
