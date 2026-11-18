@@ -1,0 +1,1359 @@
+{
+  "fit_dates": [
+    "2025-01-05",
+    "2025-02-05",
+    "2025-03-05",
+    "2025-04-05",
+    "2025-05-05",
+    "2025-06-05",
+    "2025-07-05",
+    "2025-08-05",
+    "2025-09-05",
+    "2025-10-05",
+    "2025-11-05",
+    "2025-12-05"
+  ],
+  "selection_dates": [
+    "2025-01-20",
+    "2025-02-20",
+    "2025-03-20",
+    "2025-04-20",
+    "2025-05-20",
+    "2025-06-20",
+    "2025-07-20",
+    "2025-08-20",
+    "2025-09-20",
+    "2025-10-20",
+    "2025-11-20",
+    "2025-12-20"
+  ],
+  "threshold_mm": [
+    5.0,
+    10.0
+  ],
+  "false_positive_budget": 0.001,
+  "downscaler": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+  "calibrators": {
+    "gpd": "3aa28b40c99197c4669b10aab0a9555846b1b07328485fc60241306b4d5cf8d2",
+    "exponential": "65d8c825d098b18f7dc13d6055bc948f583fff1ed45923c36de6ba2b6c4570e0"
+  },
+  "fit_manifest_sha256": "28c7aaff87f632fec154f0da47cfae40eff3eca73e2610ff5112aada15f0d48f",
+  "models": {
+    "5.0": {
+      "gauge_scale": {
+        "mean": [
+          -7.6598429679870605
+        ],
+        "scale": [
+          0.7343510389328003
+        ],
+        "coefficients": [
+          -8.771837698474608,
+          0.9713169110993785
+        ]
+      },
+      "gauge_blend": {
+        "mean": [
+          -7.659656524658203,
+          5.524928928934969e-05,
+          0.028668219223618507
+        ],
+        "scale": [
+          0.7342092990875244,
+          0.0018626528326421976,
+          0.0939570814371109
+        ],
+        "coefficients": [
+          -9.110423676044528,
+          1.3740334417433624,
+          -0.07356140546826821,
+          -0.19741427742545745
+        ]
+      },
+      "cutoffs": {
+        "exponential": 0.1402912735939026,
+        "gauge_scale": 0.2615121918724472,
+        "gauge_blend": 0.17919220787749868
+      },
+      "validation": {
+        "station_hours": 503534,
+        "events": 3203,
+        "prevalence": 0.006361040168091926,
+        "models": {
+          "exponential": {
+            "average_precision": 0.07172074304518056,
+            "test_curve_recall_at_fpr": {
+              "recall": 0.031845145176397124,
+              "precision": 0.1705685618729097,
+              "actual_fpr": 0.0009913437304504419,
+              "cutoff": 0.1406395584344864
+            },
+            "brier": 0.006115866359323263,
+            "mean_probability": 0.0034915057476609945,
+            "frozen_alert": {
+              "hits": 102,
+              "false_alarms": 500,
+              "misses": 3101,
+              "correct_negatives": 499831,
+              "csi": 0.027545233594382934,
+              "precision": 0.16943521594684385,
+              "recall": 0.031845145176397124,
+              "false_positive_rate": 0.0009993384379540745,
+              "false_alarm_ratio": 0.8305647840531561,
+              "alert_fraction": 0.0011955498536345113,
+              "observed_events": 3203
+            },
+            "per_day": [
+              {
+                "date": "2025-01-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 34,
+                "correct_negatives": 42142,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 34
+              },
+              {
+                "date": "2025-02-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42283,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-03-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42304,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-04-20",
+                "hits": 0,
+                "false_alarms": 1,
+                "misses": 167,
+                "correct_negatives": 41842,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 2.389886002437684e-05,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 2.3803856224708402e-05,
+                "observed_events": 167
+              },
+              {
+                "date": "2025-05-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 297,
+                "correct_negatives": 41841,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 297
+              },
+              {
+                "date": "2025-06-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 27,
+                "correct_negatives": 42182,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 27
+              },
+              {
+                "date": "2025-07-20",
+                "hits": 4,
+                "false_alarms": 14,
+                "misses": 916,
+                "correct_negatives": 40887,
+                "csi": 0.004282655246252677,
+                "precision": 0.2222222222222222,
+                "recall": 0.004347826086956522,
+                "false_positive_rate": 0.0003422899195618689,
+                "false_alarm_ratio": 0.7777777777777778,
+                "alert_fraction": 0.00043040577700198464,
+                "observed_events": 920
+              },
+              {
+                "date": "2025-08-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 607,
+                "correct_negatives": 41364,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 607
+              },
+              {
+                "date": "2025-09-20",
+                "hits": 3,
+                "false_alarms": 12,
+                "misses": 233,
+                "correct_negatives": 41940,
+                "csi": 0.012096774193548387,
+                "precision": 0.2,
+                "recall": 0.012711864406779662,
+                "false_positive_rate": 0.0002860411899313501,
+                "false_alarm_ratio": 0.8,
+                "alert_fraction": 0.000355551341613729,
+                "observed_events": 236
+              },
+              {
+                "date": "2025-10-20",
+                "hits": 95,
+                "false_alarms": 473,
+                "misses": 642,
+                "correct_negatives": 40591,
+                "csi": 0.07851239669421488,
+                "precision": 0.16725352112676056,
+                "recall": 0.12890094979647218,
+                "false_positive_rate": 0.011518605104227548,
+                "false_alarm_ratio": 0.8327464788732394,
+                "alert_fraction": 0.01358819167005574,
+                "observed_events": 737
+              },
+              {
+                "date": "2025-11-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 40501,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              {
+                "date": "2025-12-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 175,
+                "correct_negatives": 41954,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 175
+              }
+            ]
+          },
+          "gauge_scale": {
+            "average_precision": 0.0717207296767476,
+            "test_curve_recall_at_fpr": {
+              "recall": 0.031845145176397124,
+              "precision": 0.1705685618729097,
+              "actual_fpr": 0.0009913437304504419,
+              "cutoff": 0.2622497476635698
+            },
+            "brier": 0.006194498124189762,
+            "mean_probability": 0.004175988467574619,
+            "frozen_alert": {
+              "hits": 102,
+              "false_alarms": 500,
+              "misses": 3101,
+              "correct_negatives": 499831,
+              "csi": 0.027545233594382934,
+              "precision": 0.16943521594684385,
+              "recall": 0.031845145176397124,
+              "false_positive_rate": 0.0009993384379540745,
+              "false_alarm_ratio": 0.8305647840531561,
+              "alert_fraction": 0.0011955498536345113,
+              "observed_events": 3203
+            },
+            "per_day": [
+              {
+                "date": "2025-01-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 34,
+                "correct_negatives": 42142,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 34
+              },
+              {
+                "date": "2025-02-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42283,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-03-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42304,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-04-20",
+                "hits": 0,
+                "false_alarms": 1,
+                "misses": 167,
+                "correct_negatives": 41842,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 2.389886002437684e-05,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 2.3803856224708402e-05,
+                "observed_events": 167
+              },
+              {
+                "date": "2025-05-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 297,
+                "correct_negatives": 41841,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 297
+              },
+              {
+                "date": "2025-06-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 27,
+                "correct_negatives": 42182,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 27
+              },
+              {
+                "date": "2025-07-20",
+                "hits": 4,
+                "false_alarms": 14,
+                "misses": 916,
+                "correct_negatives": 40887,
+                "csi": 0.004282655246252677,
+                "precision": 0.2222222222222222,
+                "recall": 0.004347826086956522,
+                "false_positive_rate": 0.0003422899195618689,
+                "false_alarm_ratio": 0.7777777777777778,
+                "alert_fraction": 0.00043040577700198464,
+                "observed_events": 920
+              },
+              {
+                "date": "2025-08-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 607,
+                "correct_negatives": 41364,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 607
+              },
+              {
+                "date": "2025-09-20",
+                "hits": 3,
+                "false_alarms": 12,
+                "misses": 233,
+                "correct_negatives": 41940,
+                "csi": 0.012096774193548387,
+                "precision": 0.2,
+                "recall": 0.012711864406779662,
+                "false_positive_rate": 0.0002860411899313501,
+                "false_alarm_ratio": 0.8,
+                "alert_fraction": 0.000355551341613729,
+                "observed_events": 236
+              },
+              {
+                "date": "2025-10-20",
+                "hits": 95,
+                "false_alarms": 473,
+                "misses": 642,
+                "correct_negatives": 40591,
+                "csi": 0.07851239669421488,
+                "precision": 0.16725352112676056,
+                "recall": 0.12890094979647218,
+                "false_positive_rate": 0.011518605104227548,
+                "false_alarm_ratio": 0.8327464788732394,
+                "alert_fraction": 0.01358819167005574,
+                "observed_events": 737
+              },
+              {
+                "date": "2025-11-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 40501,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              {
+                "date": "2025-12-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 175,
+                "correct_negatives": 41954,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 175
+              }
+            ],
+            "brier_vs_exponential": {
+              "model_minus_reference": 7.863182914769999e-05,
+              "day_bootstrap_95_interval": [
+                -3.411036931479238e-05,
+                0.00025676492695382266
+              ],
+              "warning": "Exploratory date bootstrap; spatial dependence retained, dates may share storms"
+            },
+            "csi_vs_exponential": {
+              "day_bootstrap_95_interval": [
+                0.0,
+                0.0
+              ],
+              "days": 12,
+              "warning": "Exploratory bootstrap by date"
+            }
+          },
+          "gauge_blend": {
+            "average_precision": 0.049566753999806534,
+            "test_curve_recall_at_fpr": {
+              "recall": 0.012800499531689042,
+              "precision": 0.07663551401869159,
+              "actual_fpr": 0.0009873463766986255,
+              "cutoff": 0.18005963411226292
+            },
+            "brier": 0.006220280889592447,
+            "mean_probability": 0.003481068128673831,
+            "frozen_alert": {
+              "hits": 41,
+              "false_alarms": 500,
+              "misses": 3162,
+              "correct_negatives": 499831,
+              "csi": 0.011072103699702943,
+              "precision": 0.07578558225508318,
+              "recall": 0.012800499531689042,
+              "false_positive_rate": 0.0009993384379540745,
+              "false_alarm_ratio": 0.9242144177449169,
+              "alert_fraction": 0.001074406097701446,
+              "observed_events": 3203
+            },
+            "per_day": [
+              {
+                "date": "2025-01-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 34,
+                "correct_negatives": 42142,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 34
+              },
+              {
+                "date": "2025-02-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42283,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-03-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42304,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-04-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 167,
+                "correct_negatives": 41843,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 167
+              },
+              {
+                "date": "2025-05-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 297,
+                "correct_negatives": 41841,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 297
+              },
+              {
+                "date": "2025-06-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 27,
+                "correct_negatives": 42182,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 27
+              },
+              {
+                "date": "2025-07-20",
+                "hits": 7,
+                "false_alarms": 9,
+                "misses": 913,
+                "correct_negatives": 40892,
+                "csi": 0.007534983853606028,
+                "precision": 0.4375,
+                "recall": 0.007608695652173913,
+                "false_positive_rate": 0.0002200435197183443,
+                "false_alarm_ratio": 0.5625,
+                "alert_fraction": 0.000382582912890653,
+                "observed_events": 920
+              },
+              {
+                "date": "2025-08-20",
+                "hits": 10,
+                "false_alarms": 142,
+                "misses": 597,
+                "correct_negatives": 41222,
+                "csi": 0.01335113484646195,
+                "precision": 0.06578947368421052,
+                "recall": 0.016474464579901153,
+                "false_positive_rate": 0.0034329368533023885,
+                "false_alarm_ratio": 0.9342105263157895,
+                "alert_fraction": 0.0036215482118605704,
+                "observed_events": 607
+              },
+              {
+                "date": "2025-09-20",
+                "hits": 1,
+                "false_alarms": 12,
+                "misses": 235,
+                "correct_negatives": 41940,
+                "csi": 0.004032258064516129,
+                "precision": 0.07692307692307693,
+                "recall": 0.00423728813559322,
+                "false_positive_rate": 0.0002860411899313501,
+                "false_alarm_ratio": 0.9230769230769231,
+                "alert_fraction": 0.0003081444960652318,
+                "observed_events": 236
+              },
+              {
+                "date": "2025-10-20",
+                "hits": 23,
+                "false_alarms": 337,
+                "misses": 714,
+                "correct_negatives": 40727,
+                "csi": 0.021415270018621976,
+                "precision": 0.06388888888888888,
+                "recall": 0.031207598371777476,
+                "false_positive_rate": 0.008206701733878823,
+                "false_alarm_ratio": 0.9361111111111111,
+                "alert_fraction": 0.008612234157077582,
+                "observed_events": 737
+              },
+              {
+                "date": "2025-11-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 40501,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              {
+                "date": "2025-12-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 175,
+                "correct_negatives": 41954,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 175
+              }
+            ],
+            "brier_vs_exponential": {
+              "model_minus_reference": 0.00010441459455038521,
+              "day_bootstrap_95_interval": [
+                -3.832758311990221e-06,
+                0.00029268135628665907
+              ],
+              "warning": "Exploratory date bootstrap; spatial dependence retained, dates may share storms"
+            },
+            "csi_vs_exponential": {
+              "day_bootstrap_95_interval": [
+                -0.04282623914186743,
+                0.0081148443990483
+              ],
+              "days": 12,
+              "warning": "Exploratory bootstrap by date"
+            }
+          }
+        }
+      }
+    },
+    "10.0": {
+      "gauge_scale": {
+        "mean": [
+          -11.310809135437012
+        ],
+        "scale": [
+          3.2049272060394287
+        ],
+        "coefficients": [
+          -10.482500361126851,
+          2.173224745624516
+        ]
+      },
+      "gauge_blend": {
+        "mean": [
+          -11.310149192810059,
+          0.0,
+          0.028668219223618507
+        ],
+        "scale": [
+          3.203806161880493,
+          9.99999993922529e-09,
+          0.0939570814371109
+        ],
+        "coefficients": [
+          -10.179709123798787,
+          0.6371190691403256,
+          0.0,
+          0.44938732935958037
+        ]
+      },
+      "cutoffs": {
+        "exponential": 0.035037651658058167,
+        "gauge_scale": 0.006298755295944205,
+        "gauge_blend": 0.18377551504735826
+      },
+      "validation": {
+        "station_hours": 503534,
+        "events": 848,
+        "prevalence": 0.0016840968037908066,
+        "models": {
+          "exponential": {
+            "average_precision": 0.021079473374893742,
+            "test_curve_recall_at_fpr": {
+              "recall": 0.01768867924528302,
+              "precision": 0.029585798816568046,
+              "actual_fpr": 0.0009787421969181557,
+              "cutoff": 0.03533487766981125
+            },
+            "brier": 0.0016686210874468088,
+            "mean_probability": 0.0006160060875117779,
+            "frozen_alert": {
+              "hits": 15,
+              "false_alarms": 501,
+              "misses": 833,
+              "correct_negatives": 502185,
+              "csi": 0.01111934766493699,
+              "precision": 0.029069767441860465,
+              "recall": 0.01768867924528302,
+              "false_positive_rate": 0.0009966460175934878,
+              "false_alarm_ratio": 0.9709302325581395,
+              "alert_fraction": 0.0010247570174010097,
+              "observed_events": 848
+            },
+            "per_day": [
+              {
+                "date": "2025-01-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 42169,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              {
+                "date": "2025-02-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42283,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-03-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42304,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-04-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 41999,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              {
+                "date": "2025-05-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 95,
+                "correct_negatives": 42043,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 95
+              },
+              {
+                "date": "2025-06-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 14,
+                "correct_negatives": 42195,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 14
+              },
+              {
+                "date": "2025-07-20",
+                "hits": 1,
+                "false_alarms": 11,
+                "misses": 299,
+                "correct_negatives": 41510,
+                "csi": 0.003215434083601286,
+                "precision": 0.08333333333333333,
+                "recall": 0.0033333333333333335,
+                "false_positive_rate": 0.0002649261819320344,
+                "false_alarm_ratio": 0.9166666666666666,
+                "alert_fraction": 0.00028693718466798974,
+                "observed_events": 300
+              },
+              {
+                "date": "2025-08-20",
+                "hits": 0,
+                "false_alarms": 17,
+                "misses": 202,
+                "correct_negatives": 41752,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.000407000407000407,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0004050415763265112,
+                "observed_events": 202
+              },
+              {
+                "date": "2025-09-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 36,
+                "correct_negatives": 42152,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 36
+              },
+              {
+                "date": "2025-10-20",
+                "hits": 14,
+                "false_alarms": 473,
+                "misses": 141,
+                "correct_negatives": 41173,
+                "csi": 0.022292993630573247,
+                "precision": 0.028747433264887063,
+                "recall": 0.09032258064516129,
+                "false_positive_rate": 0.011357633386159536,
+                "false_alarm_ratio": 0.971252566735113,
+                "alert_fraction": 0.011650438984713284,
+                "observed_events": 155
+              },
+              {
+                "date": "2025-11-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 40504,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-12-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 28,
+                "correct_negatives": 42101,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 28
+              }
+            ]
+          },
+          "gauge_scale": {
+            "average_precision": 0.021079469021321667,
+            "test_curve_recall_at_fpr": {
+              "recall": 0.01768867924528302,
+              "precision": 0.029585798816568046,
+              "actual_fpr": 0.0009787421969181557,
+              "cutoff": 0.006336024389963541
+            },
+            "brier": 0.001678598870677589,
+            "mean_probability": 0.00024674932838331456,
+            "frozen_alert": {
+              "hits": 15,
+              "false_alarms": 501,
+              "misses": 833,
+              "correct_negatives": 502185,
+              "csi": 0.01111934766493699,
+              "precision": 0.029069767441860465,
+              "recall": 0.01768867924528302,
+              "false_positive_rate": 0.0009966460175934878,
+              "false_alarm_ratio": 0.9709302325581395,
+              "alert_fraction": 0.0010247570174010097,
+              "observed_events": 848
+            },
+            "per_day": [
+              {
+                "date": "2025-01-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 42169,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              {
+                "date": "2025-02-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42283,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-03-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42304,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-04-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 41999,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              {
+                "date": "2025-05-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 95,
+                "correct_negatives": 42043,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 95
+              },
+              {
+                "date": "2025-06-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 14,
+                "correct_negatives": 42195,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 14
+              },
+              {
+                "date": "2025-07-20",
+                "hits": 1,
+                "false_alarms": 11,
+                "misses": 299,
+                "correct_negatives": 41510,
+                "csi": 0.003215434083601286,
+                "precision": 0.08333333333333333,
+                "recall": 0.0033333333333333335,
+                "false_positive_rate": 0.0002649261819320344,
+                "false_alarm_ratio": 0.9166666666666666,
+                "alert_fraction": 0.00028693718466798974,
+                "observed_events": 300
+              },
+              {
+                "date": "2025-08-20",
+                "hits": 0,
+                "false_alarms": 17,
+                "misses": 202,
+                "correct_negatives": 41752,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.000407000407000407,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0004050415763265112,
+                "observed_events": 202
+              },
+              {
+                "date": "2025-09-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 36,
+                "correct_negatives": 42152,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 36
+              },
+              {
+                "date": "2025-10-20",
+                "hits": 14,
+                "false_alarms": 473,
+                "misses": 141,
+                "correct_negatives": 41173,
+                "csi": 0.022292993630573247,
+                "precision": 0.028747433264887063,
+                "recall": 0.09032258064516129,
+                "false_positive_rate": 0.011357633386159536,
+                "false_alarm_ratio": 0.971252566735113,
+                "alert_fraction": 0.011650438984713284,
+                "observed_events": 155
+              },
+              {
+                "date": "2025-11-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 40504,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-12-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 28,
+                "correct_negatives": 42101,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 28
+              }
+            ],
+            "brier_vs_exponential": {
+              "model_minus_reference": 9.977714613532086e-06,
+              "day_bootstrap_95_interval": [
+                2.08369312632646e-06,
+                2.039300676418193e-05
+              ],
+              "warning": "Exploratory date bootstrap; spatial dependence retained, dates may share storms"
+            },
+            "csi_vs_exponential": {
+              "day_bootstrap_95_interval": [
+                0.0,
+                0.0
+              ],
+              "days": 12,
+              "warning": "Exploratory bootstrap by date"
+            }
+          },
+          "gauge_blend": {
+            "average_precision": 0.019247300463901867,
+            "test_curve_recall_at_fpr": {
+              "recall": 0.02830188679245283,
+              "precision": 0.05010438413361169,
+              "actual_fpr": 0.000905137600808457,
+              "cutoff": 0.19682117316323655
+            },
+            "brier": 0.0017766515505029336,
+            "mean_probability": 0.0010555391836247275,
+            "frozen_alert": {
+              "hits": 24,
+              "false_alarms": 502,
+              "misses": 824,
+              "correct_negatives": 502184,
+              "csi": 0.017777777777777778,
+              "precision": 0.045627376425855515,
+              "recall": 0.02830188679245283,
+              "false_positive_rate": 0.000998635331001858,
+              "false_alarm_ratio": 0.9543726235741445,
+              "alert_fraction": 0.0010446166495211842,
+              "observed_events": 848
+            },
+            "per_day": [
+              {
+                "date": "2025-01-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 42169,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              {
+                "date": "2025-02-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42283,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-03-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 42304,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-04-20",
+                "hits": 0,
+                "false_alarms": 7,
+                "misses": 11,
+                "correct_negatives": 41992,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0001666706350151194,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0001666269935729588,
+                "observed_events": 11
+              },
+              {
+                "date": "2025-05-20",
+                "hits": 0,
+                "false_alarms": 8,
+                "misses": 95,
+                "correct_negatives": 42035,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.00019028137858858788,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0001898523897669562,
+                "observed_events": 95
+              },
+              {
+                "date": "2025-06-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 14,
+                "correct_negatives": 42195,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 14
+              },
+              {
+                "date": "2025-07-20",
+                "hits": 2,
+                "false_alarms": 33,
+                "misses": 298,
+                "correct_negatives": 41488,
+                "csi": 0.006006006006006006,
+                "precision": 0.05714285714285714,
+                "recall": 0.006666666666666667,
+                "false_positive_rate": 0.0007947785457961032,
+                "false_alarm_ratio": 0.9428571428571428,
+                "alert_fraction": 0.0008369001219483035,
+                "observed_events": 300
+              },
+              {
+                "date": "2025-08-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 202,
+                "correct_negatives": 41769,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 202
+              },
+              {
+                "date": "2025-09-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 36,
+                "correct_negatives": 42152,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 36
+              },
+              {
+                "date": "2025-10-20",
+                "hits": 22,
+                "false_alarms": 454,
+                "misses": 133,
+                "correct_negatives": 41192,
+                "csi": 0.0361247947454844,
+                "precision": 0.046218487394957986,
+                "recall": 0.14193548387096774,
+                "false_positive_rate": 0.01090140709792057,
+                "false_alarm_ratio": 0.9537815126050421,
+                "alert_fraction": 0.011387287385469248,
+                "observed_events": 155
+              },
+              {
+                "date": "2025-11-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 40504,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              {
+                "date": "2025-12-20",
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 28,
+                "correct_negatives": 42101,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 28
+              }
+            ],
+            "brier_vs_exponential": {
+              "model_minus_reference": 0.00010803039443887656,
+              "day_bootstrap_95_interval": [
+                1.076706186699074e-06,
+                0.00030929033768511537
+              ],
+              "warning": "Exploratory date bootstrap; spatial dependence retained, dates may share storms"
+            },
+            "csi_vs_exponential": {
+              "day_bootstrap_95_interval": [
+                0.0,
+                0.011857307282736611
+              ],
+              "days": 12,
+              "warning": "Exploratory bootstrap by date"
+            }
+          }
+        }
+      }
+    }
+  }
+}

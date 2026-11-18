@@ -946,3 +946,58 @@ The [comparison figure](examples/france_precipitation/categorical/gauge_comparis
 [selection record](examples/france_precipitation/categorical/selection.json) and
 [trained head](examples/france_precipitation/categorical/selected.pt) preserve the
 result, alongside the frozen rules and source/input manifests.
+
+### Gauge-calibrated heavy-rain alerts
+
+This experiment uses 32-member forecasts from the frozen downscaler to predict
+separate gauge events above 5 and 10 mm/hour. A logistic calibration uses only
+the existing exponential probability. A second model also uses the raw
+ensemble exceedance probability and mean rainfall. Both fit to Météo-France
+gauges from the 5th of every month in 2025. The 20th of each month sets each
+method's alert cutoff at the same validation false-positive budget of 0.1%.
+The 25th of each month is the fresh holdout. The earlier study had already
+reported scores for the development dates, which are reused here for fitting
+and cutoff selection.
+
+Compare Brier score for probability accuracy, average precision for ranking,
+and hit and false-alert counts at the frozen operating point. The budget
+applies to validation and realized test rates can differ. Gauge predictions
+represent point-event probabilities conditioned on ERA5-driven forecasts.
+The two thresholds are fitted separately and scores are reported separately.
+
+```sh
+.venv/bin/python scripts/calibrate_gauge_alerts.py --fit-only
+.venv/bin/python scripts/fetch_rain_gauges.py \
+  --config config_rain_gauge_calibration_test.yaml \
+  --out data/precipitation/gauge_calibration_test \
+  --archive-cache data/precipitation/gauge_validation/source
+.venv/bin/python scripts/check_rain_gauges.py \
+  --config config_rain_gauge_calibration_test.yaml \
+  --cache data/precipitation/gauge_calibration_test \
+  --out runs/rain_gauge_calibration_test
+.venv/bin/python scripts/calibrate_gauge_alerts.py
+```
+
+The holdout contains 503,776 valid station-hours, including 1,330 events above
+5 mm/hour and 247 above 10 mm/hour. With nearest-cell sampling:
+
+| Metric | Exponential | Gauge rescaling | Gauge blend |
+| --- | ---: | ---: | ---: |
+| >5 mm/hour average precision | 0.05383 | 0.05383 | 0.05627 |
+| >10 mm/hour average precision | 0.01642 | 0.01642 | 0.02098 |
+| >5 mm/hour hits / false alerts, frozen cutoff | 0 / 6 | 0 / 6 | 0 / 27 |
+| >10 mm/hour hits / false alerts, frozen cutoff | 0 / 43 | 0 / 43 | 0 / 6 |
+
+At 10 mm/hour, the blend improves average precision by 28% relative to the
+exponential baseline. At a 0.1% false-positive rate read from the test
+precision-recall curve, recall increases from 8.1% to 10.1%. That curve
+diagnostic uses test labels and does not establish a usable alert cutoff.
+Brier score changes are small and paired date-bootstrap intervals span zero
+at both thresholds. Bilinear sampling also shows an average precision gain,
+with zero 10 mm/hour hits at the frozen cutoffs. The experiment therefore
+supports a ranking gain on this holdout, with weak alert performance under
+the validation-selected operating point.
+
+The [frozen coefficients and cutoffs](examples/france_precipitation/gauge_calibration/frozen.json)
+and [holdout scores](examples/france_precipitation/gauge_calibration/results.json)
+include per-date counts and bootstrap intervals.
