@@ -794,3 +794,73 @@ storm replication nor operational AIFS/radar/gauge validation. The
 [alert comparison](examples/france_precipitation/alert_comparison.png) and
 [full record](examples/france_precipitation/alert_results.json) retain all
 operating points, per-day counts and descriptive day-bootstrap intervals.
+
+### Independent hourly rain-gauge check
+
+`config_rain_gauges.yaml` fixes the 5th and 20th of every month in 2025: 24
+fresh dates, with no overlap with the tail fitting, selection or earlier test
+cases. The annual terrain-conditioned downscaler, its 32 conditional samples,
+both tail calibrators and the 2023 alert cutoffs stay frozen. No gauge labels
+are used for fitting or choosing thresholds.
+
+```sh
+.venv/bin/python scripts/fetch_rain_gauges.py
+.venv/bin/python scripts/check_rain_gauges.py
+```
+
+The reference is [Météo-France's hourly climatological archive](https://www.data.gouv.fr/datasets/donnees-climatologiques-de-base-horaires/),
+provided under Open Licence 2.0. The downloader caches the metropolitan
+2025–2026 department archives once, retaining eight columns and only the
+requested hours plus the endpoints needed for timing checks. RR1 is already in
+decimal millimetres; it is not divided by ten. Only quality codes 0 and 1 are
+retained. Conflicting duplicates and stations with changing coordinates are
+excluded, and each station needs 80% coverage of the 576 primary test hours.
+Missing records remain missing. Raw archive hashes and resource URLs are saved
+in the local source manifest.
+
+The primary comparison uses the nearest 0.1-degree cell and interprets each UTC
+timestamp as the end of the preceding accumulation hour. Separate bilinear and
+±1-hour checks expose sensitivity to spatial support and timing. Probabilities
+are interpolated after evaluating each grid-cell CDF, using the same sampling
+for all models. The report includes average precision, Brier scores, reliability,
+frozen-cutoff contingency counts, per-date results and date-bootstrap CSI
+comparisons. Mean rainfall errors are also measured over complete 1-, 6- and
+24-hour windows; marginal tail calibration does not supply joint probabilities
+for accumulated rain.
+
+This tests transfer from PARDIG to point measurements. Gauges and grid cells
+measure different spatial supports, stations are spatially dependent, and the
+forcing is an ERA5 proxy. These results do not establish operational forecast
+skill. The evaluation downloads no additional PARDIG targets.
+
+The completed check retains 1,765 stations and 1,008,631 valid station-hours.
+There are 3,474 hourly measurements above 5 mm, 892 above 10 mm and 136 above
+20 mm. With the original 2023-selected cutoffs:
+
+| Hourly event | Raw CSI | GPD CSI | Exponential CSI | Raw AP | Exponential AP |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| >5 mm | 0.0623 | 0.0633 | 0.0634 | 0.0300 | 0.0672 |
+| >10 mm | 0.0133 | 0.0139 | 0.0173 | 0.0021 | 0.0201 |
+| >20 mm | 0.0000 | 0.0042 | 0.0056 | 0.00013 | 0.00309 |
+
+Risk ranking improves, but useful detection remains difficult. At 10 mm/hour,
+the exponential model catches 30 of 892 wet station-hours, with 844 false
+alerts; the raw model catches 17, with 384 false alerts. At 20 mm/hour, the
+exponential model catches only two of 136, with 219 false alerts. Its 10 mm CSI
+gain has a date-bootstrap 95% interval of −0.0050 to +0.0124. This is not a clear
+improvement in detection, despite the better average precision.
+
+The exponential model's hourly RMSE changes from 0.6705 to 0.6699 mm, while MAE
+gets worse, from 0.1384 to 0.1450 mm. Daily-total RMSE falls from 5.009 to
+4.968 mm, but daily MAE also worsens. Bilinear and ±1-hour comparisons preserve
+the ranking gain and weak extreme-event detection; the small 5 mm CSI gain
+changes sign under the timing offsets. There is still no clear reason to prefer
+the more complex GPD over the exponential baseline.
+
+The [figure](examples/france_precipitation/gauge_comparison.png),
+[score summary](examples/france_precipitation/gauge_results.json),
+[full results, gzip](examples/france_precipitation/gauge_results.json.gz),
+[frozen input manifest](examples/france_precipitation/gauge_manifest.json) and
+[source record](examples/france_precipitation/gauge_sources.json) preserve the
+comparison. These dates are now an inspected test set; any gauge-based fitting
+or tuning needs separate dates and a fresh holdout.

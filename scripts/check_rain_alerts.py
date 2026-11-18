@@ -16,8 +16,8 @@ from scripts.calibrate_rain_tail import load_split
 
 
 def probabilities(data,model,thresholds):
-    output=np.empty((len(data.truth),len(thresholds)),dtype='float64')
-    for start in range(0,len(data.truth),32768):
+    output=np.empty((len(data.rain),len(thresholds)),dtype='float64')
+    for start in range(0,len(data.rain),32768):
         stop=start+32768;r=data.rain[start:stop]
         if model is not None:p,s,xi=model.parameters(data.x[start:stop],r)
         for j,t in enumerate(thresholds):

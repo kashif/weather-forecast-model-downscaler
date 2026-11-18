@@ -130,6 +130,7 @@ def targets(times, grid, cache, workers=4):
 
 
 def day_pack(source, times, truth, grid, cfg):
+    """Build interval forcing; truth=None supports independent reference evaluation."""
     arrays = []
     hours = cfg['forecast_interval_hours']
     for v in cfg['predictors']:
@@ -141,16 +142,22 @@ def day_pack(source, times, truth, grid, cfg):
         if v == 'tp':
             field = (field * 1000).clip(min=0)
         arrays.append(field.expand_dims(variable=[v]))
-    ds = xr.Dataset({'predictors': xr.concat(arrays, dim='variable').transpose('time', 'variable', 'lat', 'lon'),
-                     'target': (('time', 'lat', 'lon'), truth)},
+    variables = {'predictors': xr.concat(arrays, dim='variable').transpose('time', 'variable', 'lat', 'lon')}
+    if truth is not None:
+        variables['target'] = (('time', 'lat', 'lon'), truth)
+    ds = xr.Dataset(variables,
                     coords={'time': times, 'lat': grid.lat, 'lon': grid.lon},
                     attrs={'precipitation_units': 'mm', 'interval': '(time-1h,time]',
                            'target_source': PARDIG_TIMESERIES, 'coarse_source': ERA5_ARCO,
                            'target_resolution_degrees': .1, 'task': 'hourly precipitation downscaling',
                            'satellite_conditioning': 'none'})
-    ds.target.attrs = {'units': 'mm', 'interval': '(time-1h,time]'}
+    if truth is not None:
+        ds.target.attrs = {'units': 'mm', 'interval': '(time-1h,time]'}
+    else:
+        ds.attrs.pop('target_source')
+        ds.attrs.pop('target_resolution_degrees')
     ds = condition_on_intervals(ds, hours)
-    check_pack(ds)
+    check_pack(ds, target=truth is not None)
     return ds
 
 

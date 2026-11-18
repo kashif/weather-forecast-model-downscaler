@@ -44,6 +44,9 @@ def test_daily_preparation_matches_existing_pair_semantics(monkeypatch):
     actual = day_pack(source,times,truth.values * 1000,source,cfg)
     xr.testing.assert_allclose(actual.predictors,expected.predictors)
     xr.testing.assert_allclose(actual.target,expected.target)
+    forcing = day_pack(source,times,None,source,cfg)
+    assert 'target' not in forcing and 'target_source' not in forcing.attrs
+    xr.testing.assert_allclose(forcing.predictors,actual.predictors)
 
 
 def test_mid_epoch_resume_reproduces_uninterrupted_training(tmp_path, monkeypatch):
