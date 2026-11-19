@@ -1001,3 +1001,56 @@ the validation-selected operating point.
 The [frozen coefficients and cutoffs](examples/france_precipitation/gauge_calibration/frozen.json)
 and [holdout scores](examples/france_precipitation/gauge_calibration/results.json)
 include per-date counts and bootstrap intervals.
+
+### Rainfall detail-band CRPS ablation
+
+This experiment fine-tunes the annual terrain-conditioned model for 144 steps
+from the same checkpoint in each arm. Both arms use the same training windows
+from four dates per month in 2019, with four seasonal 2020 dates for validation.
+The control uses the current loss. The second arm adds a weight of 0.5 on the
+mean fair CRPS of three spatial detail bands. Each band subtracts the expanded
+average of the next coarser 2×2 level. This is a fixed-filter adaptation of
+[Astra's multiscale objective](https://arxiv.org/html/2610.35545v1).
+
+```sh
+.venv/bin/python scripts/train_rain_detail.py
+.venv/bin/python scripts/fetch_rain_gauges.py \
+  --config config_rain_detail_gauges.yaml \
+  --out data/precipitation/gauge_detail \
+  --archive-cache data/precipitation/gauge_validation/source
+.venv/bin/python scripts/evaluate_rain_detail.py --prepare
+.venv/bin/python scripts/evaluate_rain_detail.py
+```
+
+The comparison uses 32 members with identical seeds. It reports detail CRPS
+and fractions skill scores against four previously inspected 2024 PARDIG
+cases. It also checks twelve fresh 2025 gauge dates, the 28th of each month,
+using ERA5 as a proxy for forecast forcing. The gauge diagnostic gives
+ensemble event probabilities at the nearest cell, within a 5×5 square, and
+within the square and ±1 hour. Gauge timestamps are treated as preceding-hour
+accumulations. All three use the same gauge events and exclude
+the first and last hour of each day. A larger window increases opportunities
+for chance matches, so report false alarms and precision along with hits.
+Recall at the 0.1% false-positive rate is read from the test precision-recall
+curve and serves as a ranking diagnostic. The fixed alert rule requires at
+least one ensemble member to exceed the rainfall threshold.
+
+On the four PARDIG cases, the standard fine-tune lowers hourly CRPS from
+0.10728 to 0.10484 mm. Adding the detail loss moves it to 0.10474 mm. Detail
+CRPS improves on all four dates, but the mean change versus the control
+is only 0.04550 to 0.04546 mm. The 5×5 fractions skill score above 10 mm/hour
+moves from 0.1460 to 0.1474.
+
+The gauge comparison covers 464,162 station-hours and 241 observations above
+10 mm/hour. At the point and hour of observation, each fine-tune detects 15
+events with the one-member alert rule. False alerts increase from 828 for
+the control to 855 with the detail loss, and average precision changes from
+0.00144 to 0.00141. Both have 2.1% recall at their test-curve thresholds under
+the 0.1% false-positive budget. The unmodified annual checkpoint detects
+7 events with 308 false alerts. Widening its forecast window to two grid
+cells and ±1 hour increases hits to 30 and false alerts to 1,222.
+
+The improvement from adding the detail loss is small on the gridded proxy and
+does not carry over to point gauges for heavy rain on these dates. The
+[paired results](examples/france_precipitation/detail_crps/results.json)
+include individual dates, thresholds, and neighbourhood sizes.

@@ -1,0 +1,5368 @@
+{
+  "members": 32,
+  "gauge_dates": [
+    "2025-01-28",
+    "2025-02-28",
+    "2025-03-28",
+    "2025-04-28",
+    "2025-05-28",
+    "2025-06-28",
+    "2025-07-28",
+    "2025-08-28",
+    "2025-09-28",
+    "2025-10-28",
+    "2025-11-28",
+    "2025-12-28"
+  ],
+  "gauge_quality": {
+    "input_rows": 550699,
+    "conflicting_rows": 0,
+    "moving_stations": 0,
+    "retained_stations": 1765,
+    "minimum_completeness": 0.8
+  },
+  "station_hours": 464162,
+  "observations_sha256": "78cdeb3864ec58d133623df3b3fe5e0e36ae74a8f63f459e6bddf841ccf72b49",
+  "models": {
+    "annual": {
+      "sha256": "210c04841d58b0f5c530501f52e46a76889cbf0134dc5f42f571b5374cc2acbc",
+      "pardig": {
+        "20240115": {
+          "rmse_mm": 0.3167896270751953,
+          "bias_mm": -0.023559903725981712,
+          "crps_mm": 0.05704058926326864,
+          "ensemble_crps_mm": 0.05797444613082577,
+          "brier_0.1mm": 0.07220556826991889,
+          "csi_0.1mm": 0.1980497646267653,
+          "observed_events_0.1mm": 52438,
+          "reliability_0.1mm": [
+            {
+              "n": 481694,
+              "mean_probability": 0.028085776447288113,
+              "observed_frequency": 0.04910586388869282
+            },
+            {
+              "n": 43227,
+              "mean_probability": 0.28271248293890394,
+              "observed_frequency": 0.2575704999190321
+            },
+            {
+              "n": 21896,
+              "mean_probability": 0.48693397195834853,
+              "observed_frequency": 0.3707526488856412
+            },
+            {
+              "n": 11697,
+              "mean_probability": 0.6958755450115415,
+              "observed_frequency": 0.4519962383517141
+            },
+            {
+              "n": 7406,
+              "mean_probability": 0.8961610518498515,
+              "observed_frequency": 0.5731839049419389
+            }
+          ],
+          "fss_0.1mm_1px": 0.3306202292442322,
+          "fss_0.1mm_3px": 0.40889912843704224,
+          "fss_0.1mm_9px": 0.514385461807251,
+          "brier_1mm": 0.016260115925727136,
+          "csi_1mm": 0.034357058233846716,
+          "observed_events_1mm": 10616,
+          "reliability_1mm": [
+            {
+              "n": 560119,
+              "mean_probability": 0.005594625874144601,
+              "observed_frequency": 0.015303890780352032
+            },
+            {
+              "n": 4204,
+              "mean_probability": 0.27730286631779255,
+              "observed_frequency": 0.30685061845861084
+            },
+            {
+              "n": 1463,
+              "mean_probability": 0.47671736158578265,
+              "observed_frequency": 0.47231715652768286
+            },
+            {
+              "n": 116,
+              "mean_probability": 0.6627155172413793,
+              "observed_frequency": 0.5086206896551724
+            },
+            {
+              "n": 18,
+              "mean_probability": 0.8871527777777778,
+              "observed_frequency": 0.2222222222222222
+            }
+          ],
+          "fss_1mm_1px": 0.06643164157867432,
+          "fss_1mm_3px": 0.08786964416503906,
+          "fss_1mm_9px": 0.11902225017547607,
+          "brier_5mm": 0.0008212533076671615,
+          "csi_5mm": 0.0,
+          "observed_events_5mm": 465,
+          "reliability_5mm": [
+            {
+              "n": 565920,
+              "mean_probability": 7.730774667797569e-07,
+              "observed_frequency": 0.0008216709075487701
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0,
+          "fss_5mm_3px": 0.0,
+          "fss_5mm_9px": 0.0,
+          "brier_10mm": 2.473847893695222e-05,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 14,
+          "reliability_10mm": [
+            {
+              "n": 565920,
+              "mean_probability": 0.0,
+              "observed_frequency": 2.473847893695222e-05
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.028119553811848164,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 464.763671875,
+              "denominator": 465.013671875
+            },
+            "5": {
+              "squared_error": 182.307475,
+              "denominator": 182.50467500000002
+            },
+            "9": {
+              "squared_error": 100.54801662999162,
+              "denominator": 100.68842015079638
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 14.0,
+              "denominator": 14.0
+            },
+            "5": {
+              "squared_error": 2.7040000000000006,
+              "denominator": 2.7040000000000006
+            },
+            "9": {
+              "squared_error": 1.1501295534217344,
+              "denominator": 1.1501295534217344
+            }
+          }
+        },
+        "20240415": {
+          "rmse_mm": 0.2426229864358902,
+          "bias_mm": -0.0011466614669188857,
+          "crps_mm": 0.047924387630679785,
+          "ensemble_crps_mm": 0.04919290894898946,
+          "brier_0.1mm": 0.060870275047157724,
+          "csi_0.1mm": 0.369522686463163,
+          "observed_events_0.1mm": 52302,
+          "reliability_0.1mm": [
+            {
+              "n": 448575,
+              "mean_probability": 0.029673061918296828,
+              "observed_frequency": 0.02541158111798473
+            },
+            {
+              "n": 51692,
+              "mean_probability": 0.2859478981273698,
+              "observed_frequency": 0.178809100054167
+            },
+            {
+              "n": 33146,
+              "mean_probability": 0.49317696705484826,
+              "observed_frequency": 0.3352742412357449
+            },
+            {
+              "n": 18765,
+              "mean_probability": 0.6959365840660805,
+              "observed_frequency": 0.5357314148681055
+            },
+            {
+              "n": 13742,
+              "mean_probability": 0.8949843545335467,
+              "observed_frequency": 0.7636443021394266
+            }
+          ],
+          "fss_0.1mm_1px": 0.5396372079849243,
+          "fss_0.1mm_3px": 0.6297231912612915,
+          "fss_0.1mm_9px": 0.7302825450897217,
+          "brier_1mm": 0.01701306921969978,
+          "csi_1mm": 0.02449907391816804,
+          "observed_events_1mm": 11572,
+          "reliability_1mm": [
+            {
+              "n": 556233,
+              "mean_probability": 0.008915721918692346,
+              "observed_frequency": 0.014736630153191198
+            },
+            {
+              "n": 8002,
+              "mean_probability": 0.2727833666583354,
+              "observed_frequency": 0.3256685828542864
+            },
+            {
+              "n": 1621,
+              "mean_probability": 0.46418106107341145,
+              "observed_frequency": 0.4497223935842073
+            },
+            {
+              "n": 64,
+              "mean_probability": 0.6484375,
+              "observed_frequency": 0.625
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_1mm_1px": 0.047826409339904785,
+          "fss_1mm_3px": 0.06667697429656982,
+          "fss_1mm_9px": 0.09931355714797974,
+          "brier_5mm": 0.00012694863838970172,
+          "csi_5mm": 0.0,
+          "observed_events_5mm": 72,
+          "reliability_5mm": [
+            {
+              "n": 565920,
+              "mean_probability": 1.7118143907266045e-06,
+              "observed_frequency": 0.0001272264631043257
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0,
+          "fss_5mm_3px": 0.0,
+          "fss_5mm_9px": 0.0,
+          "brier_10mm": 5.301102629346904e-06,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 3,
+          "reliability_10mm": [
+            {
+              "n": 565920,
+              "mean_probability": 0.0,
+              "observed_frequency": 5.301102629346904e-06
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.02217068678388993,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 71.8427734375,
+              "denominator": 72.0302734375
+            },
+            "5": {
+              "squared_error": 7.383154687500001,
+              "denominator": 7.531354687500001
+            },
+            "9": {
+              "squared_error": 3.176124036684575,
+              "denominator": 3.2712981717249656
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 3.0,
+              "denominator": 3.0
+            },
+            "5": {
+              "squared_error": 0.168,
+              "denominator": 0.168
+            },
+            "9": {
+              "squared_error": 0.06172839506172838,
+              "denominator": 0.06172839506172838
+            }
+          }
+        },
+        "20240715": {
+          "rmse_mm": 1.0226895809173584,
+          "bias_mm": -0.057094551622867584,
+          "crps_mm": 0.21547950225654774,
+          "ensemble_crps_mm": 0.2190478029490416,
+          "brier_0.1mm": 0.07884175325134295,
+          "csi_0.1mm": 0.45744160022380753,
+          "observed_events_0.1mm": 82733,
+          "reliability_0.1mm": [
+            {
+              "n": 410462,
+              "mean_probability": 0.035460803923383896,
+              "observed_frequency": 0.02730338009365057
+            },
+            {
+              "n": 52647,
+              "mean_probability": 0.2885782903109389,
+              "observed_frequency": 0.22301365699849943
+            },
+            {
+              "n": 38642,
+              "mean_probability": 0.4916549673929921,
+              "observed_frequency": 0.43377671963148906
+            },
+            {
+              "n": 26821,
+              "mean_probability": 0.7030393628127214,
+              "observed_frequency": 0.585548637261847
+            },
+            {
+              "n": 37348,
+              "mean_probability": 0.9235358988433116,
+              "observed_frequency": 0.7314447895469637
+            }
+          ],
+          "fss_0.1mm_1px": 0.6277322769165039,
+          "fss_0.1mm_3px": 0.6925169229507446,
+          "fss_0.1mm_9px": 0.7722206115722656,
+          "brier_1mm": 0.05183812972681651,
+          "csi_1mm": 0.26235816300962883,
+          "observed_events_1mm": 43078,
+          "reliability_1mm": [
+            {
+              "n": 500439,
+              "mean_probability": 0.012980852811231739,
+              "observed_frequency": 0.029020519983454528
+            },
+            {
+              "n": 27778,
+              "mean_probability": 0.29029267765857875,
+              "observed_frequency": 0.3507091943264454
+            },
+            {
+              "n": 19887,
+              "mean_probability": 0.4878265324081058,
+              "observed_frequency": 0.4183134711117816
+            },
+            {
+              "n": 9223,
+              "mean_probability": 0.6937378022335465,
+              "observed_frequency": 0.5124146156348259
+            },
+            {
+              "n": 8593,
+              "mean_probability": 0.923302397300128,
+              "observed_frequency": 0.6712440358431281
+            }
+          ],
+          "fss_1mm_1px": 0.41566359996795654,
+          "fss_1mm_3px": 0.4784000515937805,
+          "fss_1mm_9px": 0.5799379348754883,
+          "brier_5mm": 0.013595809699250777,
+          "csi_5mm": 0.0849522209387798,
+          "observed_events_5mm": 7899,
+          "reliability_5mm": [
+            {
+              "n": 560924,
+              "mean_probability": 0.0015905118162175267,
+              "observed_frequency": 0.011482839029886402
+            },
+            {
+              "n": 1888,
+              "mean_probability": 0.2867452330508475,
+              "observed_frequency": 0.2399364406779661
+            },
+            {
+              "n": 1474,
+              "mean_probability": 0.49425457937584805,
+              "observed_frequency": 0.27204884667571233
+            },
+            {
+              "n": 994,
+              "mean_probability": 0.7026848591549296,
+              "observed_frequency": 0.3873239436619718
+            },
+            {
+              "n": 640,
+              "mean_probability": 0.875341796875,
+              "observed_frequency": 0.3421875
+            }
+          ],
+          "fss_5mm_1px": 0.15660083293914795,
+          "fss_5mm_3px": 0.19720524549484253,
+          "fss_5mm_9px": 0.281385600566864,
+          "brier_10mm": 0.0027394448696370513,
+          "csi_10mm": 0.01818181818181818,
+          "observed_events_10mm": 1414,
+          "reliability_10mm": [
+            {
+              "n": 564542,
+              "mean_probability": 0.0002620487049679209,
+              "observed_frequency": 0.00220709885181262
+            },
+            {
+              "n": 675,
+              "mean_probability": 0.2912037037037037,
+              "observed_frequency": 0.1348148148148148
+            },
+            {
+              "n": 500,
+              "mean_probability": 0.48825,
+              "observed_frequency": 0.122
+            },
+            {
+              "n": 184,
+              "mean_probability": 0.6779891304347826,
+              "observed_frequency": 0.08695652173913043
+            },
+            {
+              "n": 19,
+              "mean_probability": 0.8322368421052632,
+              "observed_frequency": 0.0
+            }
+          ],
+          "fss_10mm_1px": 0.03571426868438721,
+          "fss_10mm_3px": 0.05377006530761719,
+          "fss_10mm_9px": 0.08053755760192871,
+          "detail_crps_mm": 0.0841732391466697,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 7694.140625,
+              "denominator": 9497.953125
+            },
+            "5": {
+              "squared_error": 4681.05779375,
+              "denominator": 6453.48889375
+            },
+            "9": {
+              "squared_error": 3285.597818489464,
+              "denominator": 4987.753549323179
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 1550.306640625,
+              "denominator": 1708.681640625
+            },
+            "5": {
+              "squared_error": 798.4110343750001,
+              "denominator": 951.055634375
+            },
+            "9": {
+              "squared_error": 527.388770409427,
+              "denominator": 669.3320526834706
+            }
+          }
+        },
+        "20241015": {
+          "rmse_mm": 0.5384352803230286,
+          "bias_mm": 0.019014917314052582,
+          "crps_mm": 0.1086717097067984,
+          "ensemble_crps_mm": 0.11163829388478372,
+          "brier_0.1mm": 0.0868196003714085,
+          "csi_0.1mm": 0.29649081172549707,
+          "observed_events_0.1mm": 73163,
+          "reliability_0.1mm": [
+            {
+              "n": 417023,
+              "mean_probability": 0.03706757481002247,
+              "observed_frequency": 0.04503108941233457
+            },
+            {
+              "n": 70298,
+              "mean_probability": 0.2913254111070016,
+              "observed_frequency": 0.2357535065008962
+            },
+            {
+              "n": 45757,
+              "mean_probability": 0.48047225014751843,
+              "observed_frequency": 0.3811001595384313
+            },
+            {
+              "n": 15598,
+              "mean_probability": 0.6939691787408642,
+              "observed_frequency": 0.48698551096294396
+            },
+            {
+              "n": 17244,
+              "mean_probability": 0.9336200272558571,
+              "observed_frequency": 0.7409533750869868
+            }
+          ],
+          "fss_0.1mm_1px": 0.45737433433532715,
+          "fss_0.1mm_3px": 0.5264502167701721,
+          "fss_0.1mm_9px": 0.6282148361206055,
+          "brier_1mm": 0.03544123258366907,
+          "csi_1mm": 0.24715643385125963,
+          "observed_events_1mm": 26541,
+          "reliability_1mm": [
+            {
+              "n": 522990,
+              "mean_probability": 0.017684611560450487,
+              "observed_frequency": 0.023507141627947
+            },
+            {
+              "n": 22755,
+              "mean_probability": 0.2786928696989673,
+              "observed_frequency": 0.1992529114480334
+            },
+            {
+              "n": 10329,
+              "mean_probability": 0.4875441717494433,
+              "observed_frequency": 0.33294607416013167
+            },
+            {
+              "n": 4745,
+              "mean_probability": 0.6979715489989463,
+              "observed_frequency": 0.5194942044257113
+            },
+            {
+              "n": 5101,
+              "mean_probability": 0.907603901195844,
+              "observed_frequency": 0.7467163301313468
+            }
+          ],
+          "fss_1mm_1px": 0.3963519334793091,
+          "fss_1mm_3px": 0.47508448362350464,
+          "fss_1mm_9px": 0.6046037673950195,
+          "brier_5mm": 0.0022811134689973847,
+          "csi_5mm": 0.0022692889561270802,
+          "observed_events_5mm": 971,
+          "reliability_5mm": [
+            {
+              "n": 563400,
+              "mean_probability": 0.0012307530173943913,
+              "observed_frequency": 0.0015335463258785943
+            },
+            {
+              "n": 1803,
+              "mean_probability": 0.2844217970049917,
+              "observed_frequency": 0.04769828064337216
+            },
+            {
+              "n": 590,
+              "mean_probability": 0.4729343220338983,
+              "observed_frequency": 0.03559322033898305
+            },
+            {
+              "n": 123,
+              "mean_probability": 0.6910569105691057,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 4,
+              "mean_probability": 0.8125,
+              "observed_frequency": 0.0
+            }
+          ],
+          "fss_5mm_1px": 0.0045282840728759766,
+          "fss_5mm_3px": 0.006714284420013428,
+          "fss_5mm_9px": 0.015777289867401123,
+          "brier_10mm": 0.0002944389776823579,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 150,
+          "reliability_10mm": [
+            {
+              "n": 565814,
+              "mean_probability": 0.00016640848406013285,
+              "observed_frequency": 0.00026510478708550864
+            },
+            {
+              "n": 106,
+              "mean_probability": 0.24911556603773585,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.049205321508149304,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 1290.927734375,
+              "denominator": 1389.865234375
+            },
+            "5": {
+              "squared_error": 662.2565781249999,
+              "denominator": 758.8058781250002
+            },
+            "9": {
+              "squared_error": 471.0124147424174,
+              "denominator": 562.7622909045878
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 166.62890625,
+              "denominator": 166.62890625
+            },
+            "5": {
+              "squared_error": 47.992053125,
+              "denominator": 47.992053125
+            },
+            "9": {
+              "squared_error": 26.868683675316262,
+              "denominator": 26.868683675316262
+            }
+          }
+        }
+      },
+      "gauges": {
+        "5.0": {
+          "exact": {
+            "average_precision": 0.02633573735995011,
+            "brier": 0.0027085228357464075,
+            "at_one_member": {
+              "hits": 316,
+              "false_alarms": 2750,
+              "misses": 940,
+              "correct_negatives": 460156,
+              "csi": 0.07888167748377434,
+              "precision": 0.10306588388780169,
+              "recall": 0.2515923566878981,
+              "false_positive_rate": 0.005940730947535785,
+              "false_alarm_ratio": 0.8969341161121983,
+              "alert_fraction": 0.006605452406702832,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.03662420382165605,
+              "precision": 0.09126984126984126,
+              "actual_fpr": 0.000989401735989596,
+              "cutoff": 0.21875
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 52,
+                "false_alarms": 100,
+                "misses": 196,
+                "correct_negatives": 38147,
+                "csi": 0.14942528735632185,
+                "precision": 0.34210526315789475,
+                "recall": 0.20967741935483872,
+                "false_positive_rate": 0.0026145841503908804,
+                "false_alarm_ratio": 0.6578947368421053,
+                "alert_fraction": 0.003948564748668658,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38730,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 4,
+                "misses": 61,
+                "correct_negatives": 38716,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.00010330578512396694,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.00010314329181815838,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 11,
+                "misses": 47,
+                "correct_negatives": 38665,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0002844141069397042,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.00028406889962038064,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 2,
+                "misses": 66,
+                "correct_negatives": 38630,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 5.1770552909505074e-05,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 5.168225748100677e-05,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 264,
+                "false_alarms": 2633,
+                "misses": 551,
+                "correct_negatives": 35021,
+                "csi": 0.0765661252900232,
+                "precision": 0.09112875388332758,
+                "recall": 0.3239263803680982,
+                "false_positive_rate": 0.06992616986243161,
+                "false_alarm_ratio": 0.9088712461166725,
+                "alert_fraction": 0.07530739036626895,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells": {
+            "average_precision": 0.04050434698170211,
+            "brier": 0.0028124882373958826,
+            "at_one_member": {
+              "hits": 497,
+              "false_alarms": 4256,
+              "misses": 759,
+              "correct_negatives": 458650,
+              "csi": 0.09016690856313497,
+              "precision": 0.10456553755522828,
+              "recall": 0.39570063694267515,
+              "false_positive_rate": 0.009194091240986291,
+              "false_alarm_ratio": 0.8954344624447718,
+              "alert_fraction": 0.010239959324546171,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.03105095541401274,
+              "precision": 0.08590308370044053,
+              "actual_fpr": 0.0008965103066281275,
+              "cutoff": 0.375
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 87,
+                "false_alarms": 267,
+                "misses": 161,
+                "correct_negatives": 37980,
+                "csi": 0.16893203883495145,
+                "precision": 0.2457627118644068,
+                "recall": 0.35080645161290325,
+                "false_positive_rate": 0.006980939681543651,
+                "false_alarm_ratio": 0.7542372881355932,
+                "alert_fraction": 0.009195999480452006,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38730,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 3,
+                "false_alarms": 52,
+                "misses": 58,
+                "correct_negatives": 38668,
+                "csi": 0.02654867256637168,
+                "precision": 0.05454545454545454,
+                "recall": 0.04918032786885246,
+                "false_positive_rate": 0.0013429752066115702,
+                "false_alarm_ratio": 0.9454545454545454,
+                "alert_fraction": 0.0014182202624996776,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 2,
+                "false_alarms": 45,
+                "misses": 45,
+                "correct_negatives": 38631,
+                "csi": 0.021739130434782608,
+                "precision": 0.0425531914893617,
+                "recall": 0.0425531914893617,
+                "false_positive_rate": 0.0011635122556624264,
+                "false_alarm_ratio": 0.9574468085106383,
+                "alert_fraction": 0.0012137489347416265,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 1,
+                "false_alarms": 14,
+                "misses": 65,
+                "correct_negatives": 38618,
+                "csi": 0.0125,
+                "precision": 0.06666666666666667,
+                "recall": 0.015151515151515152,
+                "false_positive_rate": 0.0003623938703665355,
+                "false_alarm_ratio": 0.9333333333333333,
+                "alert_fraction": 0.0003876169311075508,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 404,
+                "false_alarms": 3878,
+                "misses": 411,
+                "correct_negatives": 33776,
+                "csi": 0.0860856594928617,
+                "precision": 0.09434843531060252,
+                "recall": 0.49570552147239266,
+                "false_positive_rate": 0.10299038614755404,
+                "false_alarm_ratio": 0.9056515646893974,
+                "alert_fraction": 0.11131040578127843,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells_and_1_hour": {
+            "average_precision": 0.044703031230997885,
+            "brier": 0.0030524199828505516,
+            "at_one_member": {
+              "hits": 590,
+              "false_alarms": 5861,
+              "misses": 666,
+              "correct_negatives": 457045,
+              "csi": 0.08290009835604889,
+              "precision": 0.09145868857541467,
+              "recall": 0.4697452229299363,
+              "false_positive_rate": 0.012661317848548086,
+              "false_alarm_ratio": 0.9085413114245854,
+              "alert_fraction": 0.01389816486485322,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.025477707006369428,
+              "precision": 0.08488063660477453,
+              "actual_fpr": 0.000745291700690853,
+              "cutoff": 0.5
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 109,
+                "false_alarms": 480,
+                "misses": 139,
+                "correct_negatives": 37767,
+                "csi": 0.14972527472527472,
+                "precision": 0.18505942275042445,
+                "recall": 0.43951612903225806,
+                "false_positive_rate": 0.012550003921876225,
+                "false_alarm_ratio": 0.8149405772495756,
+                "alert_fraction": 0.01530068840109105,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38730,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 6,
+                "false_alarms": 131,
+                "misses": 55,
+                "correct_negatives": 38589,
+                "csi": 0.03125,
+                "precision": 0.043795620437956206,
+                "recall": 0.09836065573770492,
+                "false_positive_rate": 0.0033832644628099175,
+                "false_alarm_ratio": 0.9562043795620438,
+                "alert_fraction": 0.0035326577447719245,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 2,
+                "false_alarms": 102,
+                "misses": 45,
+                "correct_negatives": 38574,
+                "csi": 0.013422818791946308,
+                "precision": 0.019230769230769232,
+                "recall": 0.0425531914893617,
+                "false_positive_rate": 0.0026372944461681663,
+                "false_alarm_ratio": 0.9807692307692307,
+                "alert_fraction": 0.002685742323683599,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 4,
+                "false_alarms": 44,
+                "misses": 62,
+                "correct_negatives": 38588,
+                "csi": 0.03636363636363636,
+                "precision": 0.08333333333333333,
+                "recall": 0.06060606060606061,
+                "false_positive_rate": 0.0011389521640091116,
+                "false_alarm_ratio": 0.9166666666666666,
+                "alert_fraction": 0.0012403741795441626,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 469,
+                "false_alarms": 5104,
+                "misses": 346,
+                "correct_negatives": 32550,
+                "csi": 0.07923635749281974,
+                "precision": 0.08415575094204199,
+                "recall": 0.5754601226993865,
+                "false_positive_rate": 0.13555000796728103,
+                "false_alarm_ratio": 0.915844249057958,
+                "alert_fraction": 0.14486989524032337,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          }
+        },
+        "10.0": {
+          "exact": {
+            "average_precision": 0.001083646561693556,
+            "brier": 0.0005227730143815279,
+            "at_one_member": {
+              "hits": 7,
+              "false_alarms": 308,
+              "misses": 234,
+              "correct_negatives": 463613,
+              "csi": 0.012750455373406194,
+              "precision": 0.022222222222222223,
+              "recall": 0.029045643153526972,
+              "false_positive_rate": 0.0006639061391918021,
+              "false_alarm_ratio": 0.9777777777777777,
+              "alert_fraction": 0.0006786423705516609,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.029045643153526972,
+              "precision": 0.022222222222222223,
+              "actual_fpr": 0.0006639061391918021,
+              "cutoff": 0.03125
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 7,
+                "false_alarms": 308,
+                "misses": 195,
+                "correct_negatives": 37959,
+                "csi": 0.013725490196078431,
+                "precision": 0.022222222222222223,
+                "recall": 0.034653465346534656,
+                "false_positive_rate": 0.008048710377087308,
+                "false_alarm_ratio": 0.9777777777777777,
+                "alert_fraction": 0.008188411448179053,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells": {
+            "average_precision": 0.0018265257533806034,
+            "brier": 0.0005310309352353215,
+            "at_one_member": {
+              "hits": 17,
+              "false_alarms": 737,
+              "misses": 224,
+              "correct_negatives": 463184,
+              "csi": 0.017382413087934562,
+              "precision": 0.022546419098143235,
+              "recall": 0.07053941908713693,
+              "false_positive_rate": 0.001588632547351812,
+              "false_alarm_ratio": 0.9774535809018567,
+              "alert_fraction": 0.001624432848876039,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.02074688796680498,
+              "precision": 0.011655011655011656,
+              "actual_fpr": 0.000913948711095208,
+              "cutoff": 0.0625
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 17,
+                "false_alarms": 737,
+                "misses": 185,
+                "correct_negatives": 37530,
+                "csi": 0.01810436634717785,
+                "precision": 0.022546419098143235,
+                "recall": 0.08415841584158416,
+                "false_positive_rate": 0.019259414116601772,
+                "false_alarm_ratio": 0.9774535809018567,
+                "alert_fraction": 0.019600197561673034,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells_and_1_hour": {
+            "average_precision": 0.0030177621987547655,
+            "brier": 0.0005416010390035808,
+            "at_one_member": {
+              "hits": 30,
+              "false_alarms": 1222,
+              "misses": 211,
+              "correct_negatives": 462699,
+              "csi": 0.02050580997949419,
+              "precision": 0.023961661341853034,
+              "recall": 0.12448132780082988,
+              "false_positive_rate": 0.002634069162637604,
+              "false_alarm_ratio": 0.9760383386581469,
+              "alert_fraction": 0.002697334120414855,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.012448132780082987,
+              "precision": 0.006772009029345372,
+              "actual_fpr": 0.0009484373417025743,
+              "cutoff": 0.09375
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 30,
+                "false_alarms": 1222,
+                "misses": 172,
+                "correct_negatives": 37045,
+                "csi": 0.021067415730337078,
+                "precision": 0.023961661341853034,
+                "recall": 0.1485148514851485,
+                "false_positive_rate": 0.031933519742859386,
+                "false_alarm_ratio": 0.9760383386581469,
+                "alert_fraction": 0.03254568613688944,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          }
+        }
+      },
+      "pardig_summary": {
+        "crps_mm": 0.10727904721432364,
+        "detail_crps_mm": 0.045917200312639274,
+        "rmse_mm": 0.5301343686878681,
+        "fss_5": {
+          "1": 0.16658297047651438,
+          "5": 0.25253205376952603,
+          "9": 0.3172957714776502
+        },
+        "fss_10": {
+          "1": 0.08369397943775336,
+          "5": 0.15235213151752725,
+          "9": 0.20352841837482694
+        }
+      }
+    },
+    "control": {
+      "sha256": "34eeeaa83c4c2596871ad04155bba9b1a68e566a6a33cb6dee3745ae02346304",
+      "pardig": {
+        "20240115": {
+          "rmse_mm": 0.31412938237190247,
+          "bias_mm": -0.01981046237051487,
+          "crps_mm": 0.055533160591633886,
+          "ensemble_crps_mm": 0.056600882192448555,
+          "brier_0.1mm": 0.07018605869369787,
+          "csi_0.1mm": 0.204055373147573,
+          "observed_events_0.1mm": 52438,
+          "reliability_0.1mm": [
+            {
+              "n": 474037,
+              "mean_probability": 0.032723249978377215,
+              "observed_frequency": 0.04568630718699173
+            },
+            {
+              "n": 50702,
+              "mean_probability": 0.2822361543923317,
+              "observed_frequency": 0.2509565697605617
+            },
+            {
+              "n": 23832,
+              "mean_probability": 0.4886051317556227,
+              "observed_frequency": 0.3675310506881504
+            },
+            {
+              "n": 11659,
+              "mean_probability": 0.6928821082425594,
+              "observed_frequency": 0.48271721416931124
+            },
+            {
+              "n": 5690,
+              "mean_probability": 0.8845232864674868,
+              "observed_frequency": 0.6449912126537786
+            }
+          ],
+          "fss_0.1mm_1px": 0.3389468193054199,
+          "fss_0.1mm_3px": 0.4194676876068115,
+          "fss_0.1mm_9px": 0.5296874046325684,
+          "brier_1mm": 0.01586835201695911,
+          "csi_1mm": 0.018978509628802678,
+          "observed_events_1mm": 10616,
+          "reliability_1mm": [
+            {
+              "n": 560011,
+              "mean_probability": 0.006840434830744396,
+              "observed_frequency": 0.014728282123029726
+            },
+            {
+              "n": 4801,
+              "mean_probability": 0.27543089981253904,
+              "observed_frequency": 0.36221620495730056
+            },
+            {
+              "n": 1050,
+              "mean_probability": 0.4555654761904762,
+              "observed_frequency": 0.5828571428571429
+            },
+            {
+              "n": 53,
+              "mean_probability": 0.6698113207547169,
+              "observed_frequency": 0.32075471698113206
+            },
+            {
+              "n": 5,
+              "mean_probability": 0.875,
+              "observed_frequency": 0.0
+            }
+          ],
+          "fss_1mm_1px": 0.03725004196166992,
+          "fss_1mm_3px": 0.04869198799133301,
+          "fss_1mm_9px": 0.06409049034118652,
+          "brier_5mm": 0.0008211411424097045,
+          "csi_5mm": 0.0,
+          "observed_events_5mm": 465,
+          "reliability_5mm": [
+            {
+              "n": 565920,
+              "mean_probability": 7.178576477240599e-07,
+              "observed_frequency": 0.0008216709075487701
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0,
+          "fss_5mm_3px": 0.0,
+          "fss_5mm_9px": 0.0,
+          "brier_10mm": 2.473847893695222e-05,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 14,
+          "reliability_10mm": [
+            {
+              "n": 565920,
+              "mean_probability": 0.0,
+              "observed_frequency": 2.473847893695222e-05
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.02785621800770362,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 464.7001953125,
+              "denominator": 465.0126953125
+            },
+            "5": {
+              "squared_error": 182.31574843750002,
+              "denominator": 182.5041484375
+            },
+            "9": {
+              "squared_error": 100.55690363154436,
+              "denominator": 100.6881145749981
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 14.0,
+              "denominator": 14.0
+            },
+            "5": {
+              "squared_error": 2.7040000000000006,
+              "denominator": 2.7040000000000006
+            },
+            "9": {
+              "squared_error": 1.1501295534217344,
+              "denominator": 1.1501295534217344
+            }
+          }
+        },
+        "20240415": {
+          "rmse_mm": 0.2437160611152649,
+          "bias_mm": 0.010297397151589394,
+          "crps_mm": 0.04816986342082986,
+          "ensemble_crps_mm": 0.04971222263268121,
+          "brier_0.1mm": 0.062351772749461055,
+          "csi_0.1mm": 0.3678227767791054,
+          "observed_events_0.1mm": 52302,
+          "reliability_0.1mm": [
+            {
+              "n": 439778,
+              "mean_probability": 0.037152551969402745,
+              "observed_frequency": 0.023862039483557612
+            },
+            {
+              "n": 57809,
+              "mean_probability": 0.28569999913508276,
+              "observed_frequency": 0.16601221263125118
+            },
+            {
+              "n": 35511,
+              "mean_probability": 0.49204119850187267,
+              "observed_frequency": 0.3281800005632058
+            },
+            {
+              "n": 19510,
+              "mean_probability": 0.6963976806765761,
+              "observed_frequency": 0.5383905689390056
+            },
+            {
+              "n": 13312,
+              "mean_probability": 0.8909489558293269,
+              "observed_frequency": 0.7551832932692307
+            }
+          ],
+          "fss_0.1mm_1px": 0.5378222465515137,
+          "fss_0.1mm_3px": 0.6266143321990967,
+          "fss_0.1mm_9px": 0.7268907427787781,
+          "brier_1mm": 0.016935185116160413,
+          "csi_1mm": 0.039180327868852456,
+          "observed_events_1mm": 11572,
+          "reliability_1mm": [
+            {
+              "n": 550959,
+              "mean_probability": 0.010787780941957568,
+              "observed_frequency": 0.01255991825163034
+            },
+            {
+              "n": 11924,
+              "mean_probability": 0.2780631499496813,
+              "observed_frequency": 0.2796880241529688
+            },
+            {
+              "n": 2854,
+              "mean_probability": 0.464260686755431,
+              "observed_frequency": 0.43587946741415556
+            },
+            {
+              "n": 183,
+              "mean_probability": 0.6675204918032787,
+              "observed_frequency": 0.3989071038251366
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_1mm_1px": 0.07540625333786011,
+          "fss_1mm_3px": 0.10405963659286499,
+          "fss_1mm_9px": 0.1516968011856079,
+          "brier_5mm": 0.00012690722352540996,
+          "csi_5mm": 0.0,
+          "observed_events_5mm": 72,
+          "reliability_5mm": [
+            {
+              "n": 565920,
+              "mean_probability": 7.454675572519084e-06,
+              "observed_frequency": 0.0001272264631043257
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0,
+          "fss_5mm_3px": 0.0,
+          "fss_5mm_9px": 0.0,
+          "brier_10mm": 5.301102629346904e-06,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 3,
+          "reliability_10mm": [
+            {
+              "n": 565920,
+              "mean_probability": 0.0,
+              "observed_frequency": 5.301102629346904e-06
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.02217223433156808,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 71.8193359375,
+              "denominator": 72.1318359375
+            },
+            "5": {
+              "squared_error": 7.320651562500001,
+              "denominator": 7.579551562500002
+            },
+            "9": {
+              "squared_error": 3.1252906914437584,
+              "denominator": 3.2946151084533604
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 3.0,
+              "denominator": 3.0
+            },
+            "5": {
+              "squared_error": 0.168,
+              "denominator": 0.168
+            },
+            "9": {
+              "squared_error": 0.06172839506172838,
+              "denominator": 0.06172839506172838
+            }
+          }
+        },
+        "20240715": {
+          "rmse_mm": 0.9997528791427612,
+          "bias_mm": -0.041522037237882614,
+          "crps_mm": 0.20771175295820013,
+          "ensemble_crps_mm": 0.2117587640856751,
+          "brier_0.1mm": 0.07794526984268978,
+          "csi_0.1mm": 0.46263028153786273,
+          "observed_events_0.1mm": 82733,
+          "reliability_0.1mm": [
+            {
+              "n": 401774,
+              "mean_probability": 0.04096729442422855,
+              "observed_frequency": 0.02419270535176492
+            },
+            {
+              "n": 56888,
+              "mean_probability": 0.2879748365208831,
+              "observed_frequency": 0.2053508648572634
+            },
+            {
+              "n": 42592,
+              "mean_probability": 0.4913701516716754,
+              "observed_frequency": 0.41345792637114953
+            },
+            {
+              "n": 28850,
+              "mean_probability": 0.703467287694974,
+              "observed_frequency": 0.5735528596187175
+            },
+            {
+              "n": 35816,
+              "mean_probability": 0.914306804221577,
+              "observed_frequency": 0.7587111905293723
+            }
+          ],
+          "fss_0.1mm_1px": 0.6326004266738892,
+          "fss_0.1mm_3px": 0.6982899308204651,
+          "fss_0.1mm_9px": 0.7799849510192871,
+          "brier_1mm": 0.04986223690517211,
+          "csi_1mm": 0.28873605215553527,
+          "observed_events_1mm": 43078,
+          "reliability_1mm": [
+            {
+              "n": 496247,
+              "mean_probability": 0.01438818521824817,
+              "observed_frequency": 0.025590079133979652
+            },
+            {
+              "n": 30055,
+              "mean_probability": 0.28831309266345034,
+              "observed_frequency": 0.32883047745799365
+            },
+            {
+              "n": 21713,
+              "mean_probability": 0.4904190461935246,
+              "observed_frequency": 0.4437433795422097
+            },
+            {
+              "n": 10462,
+              "mean_probability": 0.6945015293442937,
+              "observed_frequency": 0.5501816096348691
+            },
+            {
+              "n": 7443,
+              "mean_probability": 0.9166498723632943,
+              "observed_frequency": 0.6858793497245734
+            }
+          ],
+          "fss_1mm_1px": 0.44809186458587646,
+          "fss_1mm_3px": 0.5135325193405151,
+          "fss_1mm_9px": 0.6158205270767212,
+          "brier_5mm": 0.013228692811594394,
+          "csi_5mm": 0.08011521228931086,
+          "observed_events_5mm": 7899,
+          "reliability_5mm": [
+            {
+              "n": 560599,
+              "mean_probability": 0.0024903050130307045,
+              "observed_frequency": 0.011129167194376016
+            },
+            {
+              "n": 2371,
+              "mean_probability": 0.28310839308308733,
+              "observed_frequency": 0.28047237452551665
+            },
+            {
+              "n": 1552,
+              "mean_probability": 0.49440238402061853,
+              "observed_frequency": 0.3537371134020619
+            },
+            {
+              "n": 944,
+              "mean_probability": 0.698490466101695,
+              "observed_frequency": 0.3665254237288136
+            },
+            {
+              "n": 454,
+              "mean_probability": 0.8710765418502202,
+              "observed_frequency": 0.22026431718061673
+            }
+          ],
+          "fss_5mm_1px": 0.14834564924240112,
+          "fss_5mm_3px": 0.18825030326843262,
+          "fss_5mm_9px": 0.2696925401687622,
+          "brier_10mm": 0.0026737039494318985,
+          "csi_10mm": 0.006968641114982578,
+          "observed_events_10mm": 1414,
+          "reliability_10mm": [
+            {
+              "n": 564684,
+              "mean_probability": 0.0004103511875668515,
+              "observed_frequency": 0.0022685254053594578
+            },
+            {
+              "n": 695,
+              "mean_probability": 0.28821942446043164,
+              "observed_frequency": 0.14532374100719425
+            },
+            {
+              "n": 428,
+              "mean_probability": 0.48977803738317754,
+              "observed_frequency": 0.07476635514018691
+            },
+            {
+              "n": 105,
+              "mean_probability": 0.6791666666666667,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 8,
+              "mean_probability": 0.8203125,
+              "observed_frequency": 0.0
+            }
+          ],
+          "fss_10mm_1px": 0.013840794563293457,
+          "fss_10mm_3px": 0.02334195375442505,
+          "fss_10mm_9px": 0.03548341989517212,
+          "detail_crps_mm": 0.08303131287296613,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 7486.3818359375,
+              "denominator": 9426.3193359375
+            },
+            "5": {
+              "squared_error": 4475.4694984375,
+              "denominator": 6384.8383984375
+            },
+            "9": {
+              "squared_error": 3088.959128604395,
+              "denominator": 4928.125204659875
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 1513.1025390625,
+              "denominator": 1657.0400390625
+            },
+            "5": {
+              "squared_error": 763.9550890625001,
+              "denominator": 902.6544890625
+            },
+            "9": {
+              "squared_error": 497.3685180124505,
+              "denominator": 627.1394370796658
+            }
+          }
+        },
+        "20241015": {
+          "rmse_mm": 0.5291942954063416,
+          "bias_mm": 0.030089518055319786,
+          "crps_mm": 0.10792960279413498,
+          "ensemble_crps_mm": 0.11134511237035243,
+          "brier_0.1mm": 0.0885663326695911,
+          "csi_0.1mm": 0.295346524808591,
+          "observed_events_0.1mm": 73163,
+          "reliability_0.1mm": [
+            {
+              "n": 405415,
+              "mean_probability": 0.0423284628097135,
+              "observed_frequency": 0.04240592972632981
+            },
+            {
+              "n": 74961,
+              "mean_probability": 0.2909108569789624,
+              "observed_frequency": 0.22474353330398475
+            },
+            {
+              "n": 52326,
+              "mean_probability": 0.4838918510874135,
+              "observed_frequency": 0.3667010663914689
+            },
+            {
+              "n": 18319,
+              "mean_probability": 0.6936838118892953,
+              "observed_frequency": 0.49522353840275124
+            },
+            {
+              "n": 14899,
+              "mean_probability": 0.9141993590173837,
+              "observed_frequency": 0.7291764547956239
+            }
+          ],
+          "fss_0.1mm_1px": 0.4560115933418274,
+          "fss_0.1mm_3px": 0.5249472260475159,
+          "fss_0.1mm_9px": 0.6285076141357422,
+          "brier_1mm": 0.03604419504413168,
+          "csi_1mm": 0.22964144865580877,
+          "observed_events_1mm": 26541,
+          "reliability_1mm": [
+            {
+              "n": 516504,
+              "mean_probability": 0.02056433735266329,
+              "observed_frequency": 0.02272973684618125
+            },
+            {
+              "n": 28761,
+              "mean_probability": 0.2782663589583116,
+              "observed_frequency": 0.18469455164980356
+            },
+            {
+              "n": 12632,
+              "mean_probability": 0.4890506253958201,
+              "observed_frequency": 0.34293856871437617
+            },
+            {
+              "n": 4889,
+              "mean_probability": 0.6932399263653098,
+              "observed_frequency": 0.5367150746573941
+            },
+            {
+              "n": 3134,
+              "mean_probability": 0.8938556955966815,
+              "observed_frequency": 0.8082322910019145
+            }
+          ],
+          "fss_1mm_1px": 0.37350958585739136,
+          "fss_1mm_3px": 0.4509595036506653,
+          "fss_1mm_9px": 0.5810791254043579,
+          "brier_5mm": 0.00208778888248339,
+          "csi_5mm": 0.0009242144177449168,
+          "observed_events_5mm": 971,
+          "reliability_5mm": [
+            {
+              "n": 563833,
+              "mean_probability": 0.001627864544998253,
+              "observed_frequency": 0.001562519398474371
+            },
+            {
+              "n": 1773,
+              "mean_probability": 0.278923434856176,
+              "observed_frequency": 0.04342921601804851
+            },
+            {
+              "n": 294,
+              "mean_probability": 0.46003401360544216,
+              "observed_frequency": 0.04421768707482993
+            },
+            {
+              "n": 20,
+              "mean_probability": 0.63125,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0018466711044311523,
+          "fss_5mm_3px": 0.00243532657623291,
+          "fss_5mm_9px": 0.006591737270355225,
+          "brier_10mm": 0.000287508890390868,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 150,
+          "reliability_10mm": [
+            {
+              "n": 565895,
+              "mean_probability": 0.00021785180996474612,
+              "observed_frequency": 0.0002650668410217443
+            },
+            {
+              "n": 25,
+              "mean_probability": 0.22125,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.04894668391595284,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 1181.521484375,
+              "denominator": 1275.771484375
+            },
+            "5": {
+              "squared_error": 560.510215625,
+              "denominator": 652.2908156249998
+            },
+            "9": {
+              "squared_error": 379.39514002009986,
+              "denominator": 466.7503831232853
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 162.70703125,
+              "denominator": 162.70703125
+            },
+            "5": {
+              "squared_error": 44.753703125,
+              "denominator": 44.755203125
+            },
+            "9": {
+              "squared_error": 24.556218504705836,
+              "denominator": 24.557580720831425
+            }
+          }
+        }
+      },
+      "gauges": {
+        "5.0": {
+          "exact": {
+            "average_precision": 0.03309283651509614,
+            "brier": 0.0027667279355227947,
+            "at_one_member": {
+              "hits": 402,
+              "false_alarms": 3300,
+              "misses": 854,
+              "correct_negatives": 459606,
+              "csi": 0.08823529411764706,
+              "precision": 0.1085899513776337,
+              "recall": 0.3200636942675159,
+              "false_positive_rate": 0.007128877137042942,
+              "false_alarm_ratio": 0.8914100486223663,
+              "alert_fraction": 0.007975663669149995,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.024681528662420384,
+              "precision": 0.06553911205073996,
+              "actual_fpr": 0.0009548374832039334,
+              "cutoff": 0.3125
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 57,
+                "false_alarms": 142,
+                "misses": 191,
+                "correct_negatives": 38105,
+                "csi": 0.14615384615384616,
+                "precision": 0.2864321608040201,
+                "recall": 0.22983870967741934,
+                "false_positive_rate": 0.00371270949355505,
+                "false_alarm_ratio": 0.7135678391959799,
+                "alert_fraction": 0.005169502532796467,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 1,
+                "misses": 15,
+                "correct_negatives": 38729,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 2.5819777949909632e-05,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 2.5809781907342882e-05,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 9,
+                "misses": 61,
+                "correct_negatives": 38711,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.00023243801652892562,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.00023207240659085636,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 70,
+                "misses": 47,
+                "correct_negatives": 38606,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0018099079532526631,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0018077111794024224,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 1,
+                "false_alarms": 2,
+                "misses": 65,
+                "correct_negatives": 38630,
+                "csi": 0.014705882352941176,
+                "precision": 0.3333333333333333,
+                "recall": 0.015151515151515152,
+                "false_positive_rate": 5.1770552909505074e-05,
+                "false_alarm_ratio": 0.6666666666666666,
+                "alert_fraction": 7.752338622151016e-05,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 344,
+                "false_alarms": 3076,
+                "misses": 471,
+                "correct_negatives": 34578,
+                "csi": 0.08840914931894114,
+                "precision": 0.10058479532163743,
+                "recall": 0.42208588957055215,
+                "false_positive_rate": 0.081691188187178,
+                "false_alarm_ratio": 0.8994152046783626,
+                "alert_fraction": 0.08890275286594401,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells": {
+            "average_precision": 0.0445985340343554,
+            "brier": 0.002950920257717371,
+            "at_one_member": {
+              "hits": 552,
+              "false_alarms": 5106,
+              "misses": 704,
+              "correct_negatives": 457800,
+              "csi": 0.086765168186105,
+              "precision": 0.0975609756097561,
+              "recall": 0.4394904458598726,
+              "false_positive_rate": 0.011030317170224624,
+              "false_alarm_ratio": 0.9024390243902439,
+              "alert_fraction": 0.012189709627242213,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.020700636942675158,
+              "precision": 0.06326034063260341,
+              "actual_fpr": 0.0008317023326550099,
+              "cutoff": 0.46875
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 94,
+                "false_alarms": 340,
+                "misses": 154,
+                "correct_negatives": 37907,
+                "csi": 0.1598639455782313,
+                "precision": 0.21658986175115208,
+                "recall": 0.3790322580645161,
+                "false_positive_rate": 0.008889586111328993,
+                "false_alarm_ratio": 0.783410138248848,
+                "alert_fraction": 0.01127419145343551,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 31,
+                "misses": 15,
+                "correct_negatives": 38699,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0008004131164471986,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0008001032391276294,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 3,
+                "false_alarms": 103,
+                "misses": 58,
+                "correct_negatives": 38617,
+                "csi": 0.018292682926829267,
+                "precision": 0.02830188679245283,
+                "recall": 0.04918032786885246,
+                "false_positive_rate": 0.0026601239669421487,
+                "false_alarm_ratio": 0.9716981132075472,
+                "alert_fraction": 0.002733297233181197,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 2,
+                "false_alarms": 201,
+                "misses": 45,
+                "correct_negatives": 38475,
+                "csi": 0.008064516129032258,
+                "precision": 0.009852216748768473,
+                "recall": 0.0425531914893617,
+                "false_positive_rate": 0.0051970214086255045,
+                "false_alarm_ratio": 0.9901477832512315,
+                "alert_fraction": 0.005242362420267025,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 3,
+                "false_alarms": 20,
+                "misses": 63,
+                "correct_negatives": 38612,
+                "csi": 0.03488372093023256,
+                "precision": 0.13043478260869565,
+                "recall": 0.045454545454545456,
+                "false_positive_rate": 0.0005177055290950507,
+                "false_alarm_ratio": 0.8695652173913043,
+                "alert_fraction": 0.0005943459610315778,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 450,
+                "false_alarms": 4408,
+                "misses": 365,
+                "correct_negatives": 33246,
+                "csi": 0.0861573808156232,
+                "precision": 0.09263071222725401,
+                "recall": 0.5521472392638037,
+                "false_positive_rate": 0.1170659159717427,
+                "false_alarm_ratio": 0.907369287772746,
+                "alert_fraction": 0.12628350100080585,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 3,
+                "misses": 0,
+                "correct_negatives": 38783,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": null,
+                "false_positive_rate": 7.734749651936266e-05,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 7.734749651936266e-05,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells_and_1_hour": {
+            "average_precision": 0.04839310239039553,
+            "brier": 0.0033140473533421755,
+            "at_one_member": {
+              "hits": 646,
+              "false_alarms": 7241,
+              "misses": 610,
+              "correct_negatives": 455665,
+              "csi": 0.0760268329998823,
+              "precision": 0.08190693546342082,
+              "recall": 0.5143312101910829,
+              "false_positive_rate": 0.015642484651311496,
+              "false_alarm_ratio": 0.9180930645365791,
+              "alert_fraction": 0.016991912306479205,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.02786624203821656,
+              "precision": 0.07641921397379912,
+              "actual_fpr": 0.0009137924330209589,
+              "cutoff": 0.5625
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 116,
+                "false_alarms": 608,
+                "misses": 132,
+                "correct_negatives": 37639,
+                "csi": 0.13551401869158877,
+                "precision": 0.16022099447513813,
+                "recall": 0.46774193548387094,
+                "false_positive_rate": 0.015896671634376552,
+                "false_alarm_ratio": 0.8397790055248618,
+                "alert_fraction": 0.018807637355500714,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 103,
+                "misses": 15,
+                "correct_negatives": 38627,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0026594371288406918,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.002658407536456317,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 7,
+                "false_alarms": 229,
+                "misses": 54,
+                "correct_negatives": 38491,
+                "csi": 0.02413793103448276,
+                "precision": 0.029661016949152543,
+                "recall": 0.11475409836065574,
+                "false_positive_rate": 0.0059142561983471075,
+                "false_alarm_ratio": 0.9703389830508474,
+                "alert_fraction": 0.006085454217271344,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 2,
+                "false_alarms": 392,
+                "misses": 45,
+                "correct_negatives": 38284,
+                "csi": 0.004555808656036446,
+                "precision": 0.005076142131979695,
+                "recall": 0.0425531914893617,
+                "false_positive_rate": 0.010135484538214914,
+                "false_alarm_ratio": 0.9949238578680203,
+                "alert_fraction": 0.010174831495493634,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 8,
+                "false_alarms": 52,
+                "misses": 58,
+                "correct_negatives": 38580,
+                "csi": 0.06779661016949153,
+                "precision": 0.13333333333333333,
+                "recall": 0.12121212121212122,
+                "false_positive_rate": 0.001346034375647132,
+                "false_alarm_ratio": 0.8666666666666667,
+                "alert_fraction": 0.0015504677244302031,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 513,
+                "false_alarms": 5847,
+                "misses": 302,
+                "correct_negatives": 31807,
+                "csi": 0.07700390273191234,
+                "precision": 0.08066037735849056,
+                "recall": 0.6294478527607362,
+                "false_positive_rate": 0.15528230732458703,
+                "false_alarm_ratio": 0.9193396226415095,
+                "alert_fraction": 0.16532792638228183,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 10,
+                "misses": 0,
+                "correct_negatives": 38776,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": null,
+                "false_positive_rate": 0.0002578249883978755,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0002578249883978755,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          }
+        },
+        "10.0": {
+          "exact": {
+            "average_precision": 0.0014370785807929541,
+            "brier": 0.0005318156909197569,
+            "at_one_member": {
+              "hits": 15,
+              "false_alarms": 828,
+              "misses": 226,
+              "correct_negatives": 463093,
+              "csi": 0.01403180542563143,
+              "precision": 0.017793594306049824,
+              "recall": 0.06224066390041494,
+              "false_positive_rate": 0.001784786633931208,
+              "false_alarm_ratio": 0.9822064056939501,
+              "alert_fraction": 0.0018161762488096828,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.02074688796680498,
+              "precision": 0.012468827930174564,
+              "actual_fpr": 0.0008535936075323169,
+              "cutoff": 0.0625
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 15,
+                "false_alarms": 828,
+                "misses": 187,
+                "correct_negatives": 37439,
+                "csi": 0.014563106796116505,
+                "precision": 0.017793594306049824,
+                "recall": 0.07425742574257425,
+                "false_positive_rate": 0.021637442182559384,
+                "false_alarm_ratio": 0.9822064056939501,
+                "alert_fraction": 0.021913748732745847,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells": {
+            "average_precision": 0.0030663125589397524,
+            "brier": 0.0005567577318288386,
+            "at_one_member": {
+              "hits": 34,
+              "false_alarms": 1612,
+              "misses": 207,
+              "correct_negatives": 462309,
+              "csi": 0.01834862385321101,
+              "precision": 0.020656136087484813,
+              "recall": 0.14107883817427386,
+              "false_positive_rate": 0.003474729533692159,
+              "false_alarm_ratio": 0.9793438639125152,
+              "alert_fraction": 0.0035461756886604246,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.012448132780082987,
+              "precision": 0.02654867256637168,
+              "actual_fpr": 0.00023710933542564358,
+              "cutoff": 0.25
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 34,
+                "false_alarms": 1612,
+                "misses": 168,
+                "correct_negatives": 36655,
+                "csi": 0.018743109151047408,
+                "precision": 0.020656136087484813,
+                "recall": 0.16831683168316833,
+                "false_positive_rate": 0.04212506859696344,
+                "false_alarm_ratio": 0.9793438639125152,
+                "alert_fraction": 0.042787699186357844,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells_and_1_hour": {
+            "average_precision": 0.0058475735509220745,
+            "brier": 0.0005995305255055428,
+            "at_one_member": {
+              "hits": 62,
+              "false_alarms": 2400,
+              "misses": 179,
+              "correct_negatives": 461521,
+              "csi": 0.023475956077243468,
+              "precision": 0.025182778229082048,
+              "recall": 0.2572614107883817,
+              "false_positive_rate": 0.005173294591104951,
+              "false_alarm_ratio": 0.974817221770918,
+              "alert_fraction": 0.005304182591422822,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.012448132780082987,
+              "precision": 0.025423728813559324,
+              "actual_fpr": 0.0002478870324904456,
+              "cutoff": 0.3125
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 62,
+                "false_alarms": 2400,
+                "misses": 140,
+                "correct_negatives": 35867,
+                "csi": 0.02382782475019216,
+                "precision": 0.025182778229082048,
+                "recall": 0.3069306930693069,
+                "false_positive_rate": 0.06271722371756344,
+                "false_alarm_ratio": 0.974817221770918,
+                "alert_fraction": 0.06399958408068834,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          }
+        }
+      },
+      "pardig_summary": {
+        "crps_mm": 0.10483609494119972,
+        "detail_crps_mm": 0.04550161228204767,
+        "rmse_mm": 0.5216981545090675,
+        "fss_5": {
+          "1": 0.18104545695069163,
+          "5": 0.27695279270178286,
+          "9": 0.35040398265922923
+        },
+        "fss_10": {
+          "1": 0.07836544417381908,
+          "5": 0.14595766827909484,
+          "9": 0.1987601732852433
+        }
+      }
+    },
+    "detail": {
+      "sha256": "4a0d8becc3e25fba7fdea4f8316e060d6c47d8337c0effa53a75603362b6eacb",
+      "pardig": {
+        "20240115": {
+          "rmse_mm": 0.3141974210739136,
+          "bias_mm": -0.019639132544398308,
+          "crps_mm": 0.055477640312736776,
+          "ensemble_crps_mm": 0.0565565049100851,
+          "brier_0.1mm": 0.07008136191676827,
+          "csi_0.1mm": 0.2019306452810574,
+          "observed_events_0.1mm": 52438,
+          "reliability_0.1mm": [
+            {
+              "n": 474230,
+              "mean_probability": 0.032889302131876935,
+              "observed_frequency": 0.04575838728043354
+            },
+            {
+              "n": 50948,
+              "mean_probability": 0.28215410811023006,
+              "observed_frequency": 0.2519235298735966
+            },
+            {
+              "n": 23873,
+              "mean_probability": 0.48844274913081726,
+              "observed_frequency": 0.37046035269970257
+            },
+            {
+              "n": 11452,
+              "mean_probability": 0.6921280125742229,
+              "observed_frequency": 0.48594132029339854
+            },
+            {
+              "n": 5417,
+              "mean_probability": 0.8828168266568212,
+              "observed_frequency": 0.6450064611408529
+            }
+          ],
+          "fss_0.1mm_1px": 0.33601051568984985,
+          "fss_0.1mm_3px": 0.41626161336898804,
+          "fss_0.1mm_9px": 0.5264309048652649,
+          "brier_1mm": 0.01586581535652124,
+          "csi_1mm": 0.017775709632387157,
+          "observed_events_1mm": 10616,
+          "reliability_1mm": [
+            {
+              "n": 559992,
+              "mean_probability": 0.0070256025978942555,
+              "observed_frequency": 0.01473056757953685
+            },
+            {
+              "n": 4845,
+              "mean_probability": 0.27488390092879256,
+              "observed_frequency": 0.3607843137254902
+            },
+            {
+              "n": 1034,
+              "mean_probability": 0.45533123791102514,
+              "observed_frequency": 0.5870406189555126
+            },
+            {
+              "n": 44,
+              "mean_probability": 0.6725852272727273,
+              "observed_frequency": 0.2727272727272727
+            },
+            {
+              "n": 5,
+              "mean_probability": 0.86875,
+              "observed_frequency": 0.0
+            }
+          ],
+          "fss_1mm_1px": 0.034930527210235596,
+          "fss_1mm_3px": 0.045905113220214844,
+          "fss_1mm_9px": 0.06051063537597656,
+          "brier_5mm": 0.0008211532217451229,
+          "csi_5mm": 0.0,
+          "observed_events_5mm": 465,
+          "reliability_5mm": [
+            {
+              "n": 565920,
+              "mean_probability": 1.1043963811139383e-06,
+              "observed_frequency": 0.0008216709075487701
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0,
+          "fss_5mm_3px": 0.0,
+          "fss_5mm_9px": 0.0,
+          "brier_10mm": 2.473847893695222e-05,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 14,
+          "reliability_10mm": [
+            {
+              "n": 565920,
+              "mean_probability": 0.0,
+              "observed_frequency": 2.473847893695222e-05
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.027829817185799282,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 464.70703125,
+              "denominator": 465.01953125
+            },
+            "5": {
+              "squared_error": 182.2365375,
+              "denominator": 182.5063375
+            },
+            "9": {
+              "squared_error": 100.50839239445207,
+              "denominator": 100.6891003657979
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 14.0,
+              "denominator": 14.0
+            },
+            "5": {
+              "squared_error": 2.7040000000000006,
+              "denominator": 2.7040000000000006
+            },
+            "9": {
+              "squared_error": 1.1501295534217344,
+              "denominator": 1.1501295534217344
+            }
+          }
+        },
+        "20240415": {
+          "rmse_mm": 0.2437877207994461,
+          "bias_mm": 0.010555950924754143,
+          "crps_mm": 0.048097125774772785,
+          "ensemble_crps_mm": 0.04965618282776035,
+          "brier_0.1mm": 0.06217267762006998,
+          "csi_0.1mm": 0.3667295781387065,
+          "observed_events_0.1mm": 52302,
+          "reliability_0.1mm": [
+            {
+              "n": 439680,
+              "mean_probability": 0.0371467601437409,
+              "observed_frequency": 0.023849163027656477
+            },
+            {
+              "n": 58354,
+              "mean_probability": 0.2856139896151078,
+              "observed_frequency": 0.16624395928299687
+            },
+            {
+              "n": 35787,
+              "mean_probability": 0.49187816106407356,
+              "observed_frequency": 0.3327465280688518
+            },
+            {
+              "n": 19360,
+              "mean_probability": 0.696418194731405,
+              "observed_frequency": 0.5429752066115703
+            },
+            {
+              "n": 12739,
+              "mean_probability": 0.8895836604129053,
+              "observed_frequency": 0.7610487479393987
+            }
+          ],
+          "fss_0.1mm_1px": 0.5366527438163757,
+          "fss_0.1mm_3px": 0.6257554292678833,
+          "fss_0.1mm_9px": 0.7265884280204773,
+          "brier_1mm": 0.016935550947461655,
+          "csi_1mm": 0.03810775295663601,
+          "observed_events_1mm": 11572,
+          "reliability_1mm": [
+            {
+              "n": 550808,
+              "mean_probability": 0.011050981013347665,
+              "observed_frequency": 0.012523420139141045
+            },
+            {
+              "n": 12123,
+              "mean_probability": 0.27753289202342657,
+              "observed_frequency": 0.2789738513569249
+            },
+            {
+              "n": 2813,
+              "mean_probability": 0.46322875933167434,
+              "observed_frequency": 0.43441166014930677
+            },
+            {
+              "n": 176,
+              "mean_probability": 0.6653053977272727,
+              "observed_frequency": 0.3977272727272727
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_1mm_1px": 0.0734177827835083,
+          "fss_1mm_3px": 0.10138767957687378,
+          "fss_1mm_9px": 0.14762794971466064,
+          "brier_5mm": 0.00012681058884206247,
+          "csi_5mm": 0.0,
+          "observed_events_5mm": 72,
+          "reliability_5mm": [
+            {
+              "n": 565920,
+              "mean_probability": 7.896434124964659e-06,
+              "observed_frequency": 0.0001272264631043257
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0,
+          "fss_5mm_3px": 0.0,
+          "fss_5mm_9px": 0.0,
+          "brier_10mm": 5.301102629346904e-06,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 3,
+          "reliability_10mm": [
+            {
+              "n": 565920,
+              "mean_probability": 0.0,
+              "observed_frequency": 5.301102629346904e-06
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.022147672716528177,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 71.7646484375,
+              "denominator": 72.1396484375
+            },
+            "5": {
+              "squared_error": 7.303623437500001,
+              "denominator": 7.583423437500002
+            },
+            "9": {
+              "squared_error": 3.115405693920515,
+              "denominator": 3.296408970860006
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 3.0,
+              "denominator": 3.0
+            },
+            "5": {
+              "squared_error": 0.168,
+              "denominator": 0.168
+            },
+            "9": {
+              "squared_error": 0.06172839506172838,
+              "denominator": 0.06172839506172838
+            }
+          }
+        },
+        "20240715": {
+          "rmse_mm": 1.000877857208252,
+          "bias_mm": -0.04120494797825813,
+          "crps_mm": 0.20750678610872567,
+          "ensemble_crps_mm": 0.21159559363940467,
+          "brier_0.1mm": 0.07786065237246431,
+          "csi_0.1mm": 0.46163647395336743,
+          "observed_events_0.1mm": 82733,
+          "reliability_0.1mm": [
+            {
+              "n": 401894,
+              "mean_probability": 0.04109004799773074,
+              "observed_frequency": 0.024252663637675607
+            },
+            {
+              "n": 57174,
+              "mean_probability": 0.2880182644208906,
+              "observed_frequency": 0.2067897995592402
+            },
+            {
+              "n": 42708,
+              "mean_probability": 0.49135846913927134,
+              "observed_frequency": 0.41526177765289873
+            },
+            {
+              "n": 29064,
+              "mean_probability": 0.7034303605835398,
+              "observed_frequency": 0.5760046793283787
+            },
+            {
+              "n": 35080,
+              "mean_probability": 0.9134282354618016,
+              "observed_frequency": 0.7607468643101483
+            }
+          ],
+          "fss_0.1mm_1px": 0.6316707134246826,
+          "fss_0.1mm_3px": 0.6974592208862305,
+          "fss_0.1mm_9px": 0.7793373465538025,
+          "brier_1mm": 0.049816371668588315,
+          "csi_1mm": 0.2861787157611136,
+          "observed_events_1mm": 43078,
+          "reliability_1mm": [
+            {
+              "n": 496164,
+              "mean_probability": 0.01449961605436912,
+              "observed_frequency": 0.025556066139421643
+            },
+            {
+              "n": 30414,
+              "mean_probability": 0.2884023393831788,
+              "observed_frequency": 0.3299138554613007
+            },
+            {
+              "n": 21815,
+              "mean_probability": 0.49011574604629843,
+              "observed_frequency": 0.4454274581709833
+            },
+            {
+              "n": 10323,
+              "mean_probability": 0.6942264845490652,
+              "observed_frequency": 0.5503245180664535
+            },
+            {
+              "n": 7204,
+              "mean_probability": 0.9155937673514714,
+              "observed_frequency": 0.6893392559689062
+            }
+          ],
+          "fss_1mm_1px": 0.4450061321258545,
+          "fss_1mm_3px": 0.510456383228302,
+          "fss_1mm_9px": 0.6128643751144409,
+          "brier_5mm": 0.01321627698040359,
+          "csi_5mm": 0.0788434866104769,
+          "observed_events_5mm": 7899,
+          "reliability_5mm": [
+            {
+              "n": 560549,
+              "mean_probability": 0.0025694676112168607,
+              "observed_frequency": 0.011131943862177971
+            },
+            {
+              "n": 2435,
+              "mean_probability": 0.28282854209445585,
+              "observed_frequency": 0.2751540041067762
+            },
+            {
+              "n": 1557,
+              "mean_probability": 0.4955844572896596,
+              "observed_frequency": 0.35131663455362877
+            },
+            {
+              "n": 947,
+              "mean_probability": 0.69759767687434,
+              "observed_frequency": 0.36747624076029567
+            },
+            {
+              "n": 432,
+              "mean_probability": 0.8687789351851852,
+              "observed_frequency": 0.2175925925925926
+            }
+          ],
+          "fss_5mm_1px": 0.1461629867553711,
+          "fss_5mm_3px": 0.18581777811050415,
+          "fss_5mm_9px": 0.266690731048584,
+          "brier_10mm": 0.0026753570927648784,
+          "csi_10mm": 0.0052173913043478265,
+          "observed_events_10mm": 1414,
+          "reliability_10mm": [
+            {
+              "n": 564646,
+              "mean_probability": 0.00042432559515165254,
+              "observed_frequency": 0.0022633650109980413
+            },
+            {
+              "n": 729,
+              "mean_probability": 0.28768004115226337,
+              "observed_frequency": 0.14266117969821673
+            },
+            {
+              "n": 444,
+              "mean_probability": 0.49148367117117114,
+              "observed_frequency": 0.07207207207207207
+            },
+            {
+              "n": 95,
+              "mean_probability": 0.6822368421052631,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 6,
+              "mean_probability": 0.8229166666666666,
+              "observed_frequency": 0.0
+            }
+          ],
+          "fss_10mm_1px": 0.010380566120147705,
+          "fss_10mm_3px": 0.017600178718566895,
+          "fss_10mm_9px": 0.028902292251586914,
+          "detail_crps_mm": 0.08294784091413021,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 7479.35546875,
+              "denominator": 9420.79296875
+            },
+            "5": {
+              "squared_error": 4468.135225,
+              "denominator": 6379.566825
+            },
+            "9": {
+              "squared_error": 3081.9957502190973,
+              "denominator": 4923.773947140298
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 1514.0380859375,
+              "denominator": 1659.6630859375
+            },
+            "5": {
+              "squared_error": 764.5134359374999,
+              "denominator": 905.0568359375
+            },
+            "9": {
+              "squared_error": 497.58741030687963,
+              "denominator": 629.3867072890471
+            }
+          }
+        },
+        "20241015": {
+          "rmse_mm": 0.529578447341919,
+          "bias_mm": 0.030541623011231422,
+          "crps_mm": 0.10786473573772752,
+          "ensemble_crps_mm": 0.11130724815260246,
+          "brier_0.1mm": 0.08841900274111182,
+          "csi_0.1mm": 0.29375106113114086,
+          "observed_events_0.1mm": 73163,
+          "reliability_0.1mm": [
+            {
+              "n": 405727,
+              "mean_probability": 0.04240050883968777,
+              "observed_frequency": 0.042442331912837944
+            },
+            {
+              "n": 75263,
+              "mean_probability": 0.2909534731541395,
+              "observed_frequency": 0.22618019478362542
+            },
+            {
+              "n": 52217,
+              "mean_probability": 0.4835296694563073,
+              "observed_frequency": 0.36829002049141085
+            },
+            {
+              "n": 18167,
+              "mean_probability": 0.6934620465679529,
+              "observed_frequency": 0.49711014476798593
+            },
+            {
+              "n": 14546,
+              "mean_probability": 0.9136983534992438,
+              "observed_frequency": 0.7327100233741235
+            }
+          ],
+          "fss_0.1mm_1px": 0.45410752296447754,
+          "fss_0.1mm_3px": 0.5229004621505737,
+          "fss_0.1mm_9px": 0.6267251968383789,
+          "brier_1mm": 0.036025580788251875,
+          "csi_1mm": 0.2281974547323237,
+          "observed_events_1mm": 26541,
+          "reliability_1mm": [
+            {
+              "n": 516396,
+              "mean_probability": 0.020679079136941416,
+              "observed_frequency": 0.02268801462443551
+            },
+            {
+              "n": 29000,
+              "mean_probability": 0.27820905172413796,
+              "observed_frequency": 0.1853103448275862
+            },
+            {
+              "n": 12644,
+              "mean_probability": 0.48841100521986713,
+              "observed_frequency": 0.3449066751028156
+            },
+            {
+              "n": 4854,
+              "mean_probability": 0.6935903378656778,
+              "observed_frequency": 0.5428512566955088
+            },
+            {
+              "n": 3026,
+              "mean_probability": 0.8928143588896232,
+              "observed_frequency": 0.8113020489094515
+            }
+          ],
+          "fss_1mm_1px": 0.3715973496437073,
+          "fss_1mm_3px": 0.4492570757865906,
+          "fss_1mm_9px": 0.5794100761413574,
+          "brier_5mm": 0.0020966499378224836,
+          "csi_5mm": 0.000925925925925926,
+          "observed_events_5mm": 971,
+          "reliability_5mm": [
+            {
+              "n": 563787,
+              "mean_probability": 0.0016917958377898035,
+              "observed_frequency": 0.0015590994471316295
+            },
+            {
+              "n": 1813,
+              "mean_probability": 0.2789058190843905,
+              "observed_frequency": 0.043574186431329286
+            },
+            {
+              "n": 302,
+              "mean_probability": 0.4596440397350993,
+              "observed_frequency": 0.04304635761589404
+            },
+            {
+              "n": 18,
+              "mean_probability": 0.6319444444444444,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_5mm_1px": 0.0018501877784729004,
+          "fss_5mm_3px": 0.002442002296447754,
+          "fss_5mm_9px": 0.006575584411621094,
+          "brier_10mm": 0.0002890705758985369,
+          "csi_10mm": 0.0,
+          "observed_events_10mm": 150,
+          "reliability_10mm": [
+            {
+              "n": 565891,
+              "mean_probability": 0.0002286769890314566,
+              "observed_frequency": 0.0002650687146464602
+            },
+            {
+              "n": 29,
+              "mean_probability": 0.22413793103448276,
+              "observed_frequency": 0.0
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            },
+            {
+              "n": 0,
+              "mean_probability": null,
+              "observed_frequency": null
+            }
+          ],
+          "fss_10mm_1px": 0.0,
+          "fss_10mm_3px": 0.0,
+          "fss_10mm_9px": 0.0,
+          "detail_crps_mm": 0.048914904706180096,
+          "fss_components_5": {
+            "1": {
+              "squared_error": 1186.5361328125,
+              "denominator": 1283.5361328125
+            },
+            "5": {
+              "squared_error": 565.3667546875,
+              "denominator": 659.4513546875
+            },
+            "9": {
+              "squared_error": 384.0913228083086,
+              "denominator": 473.5645738371152
+            }
+          },
+          "fss_components_10": {
+            "1": {
+              "squared_error": 163.5908203125,
+              "denominator": 163.5908203125
+            },
+            "5": {
+              "squared_error": 45.5432578125,
+              "denominator": 45.5489578125
+            },
+            "9": {
+              "squared_error": 25.226041398748286,
+              "denominator": 25.23201419252972
+            }
+          }
+        }
+      },
+      "gauges": {
+        "5.0": {
+          "exact": {
+            "average_precision": 0.03375224779400409,
+            "brier": 0.002765436191111803,
+            "at_one_member": {
+              "hits": 412,
+              "false_alarms": 3366,
+              "misses": 844,
+              "correct_negatives": 459540,
+              "csi": 0.08913890090869753,
+              "precision": 0.10905240868184224,
+              "recall": 0.32802547770700635,
+              "false_positive_rate": 0.0072714546797838005,
+              "false_alarm_ratio": 0.8909475913181577,
+              "alert_fraction": 0.008139399606171983,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.024681528662420384,
+              "precision": 0.06567796610169492,
+              "actual_fpr": 0.0009526772174048295,
+              "cutoff": 0.3125
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 60,
+                "false_alarms": 147,
+                "misses": 188,
+                "correct_negatives": 38100,
+                "csi": 0.1518987341772152,
+                "precision": 0.2898550724637681,
+                "recall": 0.24193548387096775,
+                "false_positive_rate": 0.003843438701074594,
+                "false_alarm_ratio": 0.7101449275362319,
+                "alert_fraction": 0.005377321730094817,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 3,
+                "misses": 15,
+                "correct_negatives": 38727,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 7.745933384972889e-05,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 7.742934572202865e-05,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 19,
+                "misses": 61,
+                "correct_negatives": 38701,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.000490702479338843,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0004899306361362523,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 84,
+                "misses": 47,
+                "correct_negatives": 38592,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0021718895439031957,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.002169253415282907,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 1,
+                "false_alarms": 3,
+                "misses": 65,
+                "correct_negatives": 38629,
+                "csi": 0.014492753623188406,
+                "precision": 0.25,
+                "recall": 0.015151515151515152,
+                "false_positive_rate": 7.765582936425761e-05,
+                "false_alarm_ratio": 0.75,
+                "alert_fraction": 0.00010336451496201354,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 351,
+                "false_alarms": 3110,
+                "misses": 464,
+                "correct_negatives": 34544,
+                "csi": 0.08942675159235669,
+                "precision": 0.1014157757873447,
+                "recall": 0.4306748466257669,
+                "false_positive_rate": 0.08259414670420141,
+                "false_alarm_ratio": 0.8985842242126553,
+                "alert_fraction": 0.08996854610205621,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells": {
+            "average_precision": 0.045247395837522034,
+            "brier": 0.002951019210740924,
+            "at_one_member": {
+              "hits": 562,
+              "false_alarms": 5278,
+              "misses": 694,
+              "correct_negatives": 457628,
+              "csi": 0.08601163146617692,
+              "precision": 0.09623287671232876,
+              "recall": 0.44745222929936307,
+              "false_positive_rate": 0.011401882887670498,
+              "false_alarm_ratio": 0.9037671232876713,
+              "alert_fraction": 0.012581814108005395,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.01910828025477707,
+              "precision": 0.058394160583941604,
+              "actual_fpr": 0.0008360228642532177,
+              "cutoff": 0.46875
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 94,
+                "false_alarms": 348,
+                "misses": 154,
+                "correct_negatives": 37899,
+                "csi": 0.15771812080536912,
+                "precision": 0.21266968325791855,
+                "recall": 0.3790322580645161,
+                "false_positive_rate": 0.009098752843360263,
+                "false_alarm_ratio": 0.7873303167420814,
+                "alert_fraction": 0.011482010650733862,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 36,
+                "misses": 15,
+                "correct_negatives": 38694,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0009295120061967467,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0009291521486643438,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 5,
+                "false_alarms": 177,
+                "misses": 56,
+                "correct_negatives": 38543,
+                "csi": 0.02100840336134454,
+                "precision": 0.027472527472527472,
+                "recall": 0.08196721311475409,
+                "false_positive_rate": 0.004571280991735537,
+                "false_alarm_ratio": 0.9725274725274725,
+                "alert_fraction": 0.004693019777726206,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 2,
+                "false_alarms": 234,
+                "misses": 45,
+                "correct_negatives": 38442,
+                "csi": 0.0071174377224199285,
+                "precision": 0.00847457627118644,
+                "recall": 0.0425531914893617,
+                "false_positive_rate": 0.006050263729444617,
+                "false_alarm_ratio": 0.9915254237288136,
+                "alert_fraction": 0.006094569119128167,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 3,
+                "false_alarms": 25,
+                "misses": 63,
+                "correct_negatives": 38607,
+                "csi": 0.03296703296703297,
+                "precision": 0.10714285714285714,
+                "recall": 0.045454545454545456,
+                "false_positive_rate": 0.0006471319113688134,
+                "false_alarm_ratio": 0.8928571428571429,
+                "alert_fraction": 0.0007235516047340947,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 458,
+                "false_alarms": 4454,
+                "misses": 357,
+                "correct_negatives": 33200,
+                "csi": 0.0869235148984627,
+                "precision": 0.09324104234527687,
+                "recall": 0.561963190184049,
+                "false_positive_rate": 0.11828756573006852,
+                "false_alarm_ratio": 0.9067589576547231,
+                "alert_fraction": 0.12768722867763654,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 4,
+                "misses": 0,
+                "correct_negatives": 38782,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": null,
+                "false_positive_rate": 0.00010312999535915021,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.00010312999535915021,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells_and_1_hour": {
+            "average_precision": 0.048511763311699645,
+            "brier": 0.0033153665717691183,
+            "at_one_member": {
+              "hits": 650,
+              "false_alarms": 7571,
+              "misses": 606,
+              "correct_negatives": 455335,
+              "csi": 0.07363770250368189,
+              "precision": 0.07906580707943073,
+              "recall": 0.517515923566879,
+              "false_positive_rate": 0.016355372365015792,
+              "false_alarm_ratio": 0.9209341929205693,
+              "alert_fraction": 0.01771148866128636,
+              "observed_events": 1256
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.03105095541401274,
+              "precision": 0.08423326133909287,
+              "actual_fpr": 0.0009159526988200628,
+              "cutoff": 0.5625
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 116,
+                "false_alarms": 617,
+                "misses": 132,
+                "correct_negatives": 37630,
+                "csi": 0.13410404624277455,
+                "precision": 0.1582537517053206,
+                "recall": 0.46774193548387094,
+                "false_positive_rate": 0.01613198420791173,
+                "false_alarm_ratio": 0.8417462482946794,
+                "alert_fraction": 0.01904143395246136,
+                "observed_events": 248
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 119,
+                "misses": 15,
+                "correct_negatives": 38611,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "false_positive_rate": 0.0030725535760392463,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.003071364046973803,
+                "observed_events": 15
+              },
+              "2025-04-28": {
+                "hits": 10,
+                "false_alarms": 388,
+                "misses": 51,
+                "correct_negatives": 38332,
+                "csi": 0.022271714922048998,
+                "precision": 0.02512562814070352,
+                "recall": 0.16393442622950818,
+                "false_positive_rate": 0.010020661157024793,
+                "false_alarm_ratio": 0.9748743718592965,
+                "alert_fraction": 0.010262757535906759,
+                "observed_events": 61
+              },
+              "2025-05-28": {
+                "hits": 2,
+                "false_alarms": 455,
+                "misses": 45,
+                "correct_negatives": 38221,
+                "csi": 0.00398406374501992,
+                "precision": 0.00437636761487965,
+                "recall": 0.0425531914893617,
+                "false_positive_rate": 0.011764401696142311,
+                "false_alarm_ratio": 0.9956236323851203,
+                "alert_fraction": 0.011801771556955814,
+                "observed_events": 47
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 8,
+                "false_alarms": 59,
+                "misses": 58,
+                "correct_negatives": 38573,
+                "csi": 0.064,
+                "precision": 0.11940298507462686,
+                "recall": 0.12121212121212122,
+                "false_positive_rate": 0.0015272313108303996,
+                "false_alarm_ratio": 0.8805970149253731,
+                "alert_fraction": 0.0017313556256137268,
+                "observed_events": 66
+              },
+              "2025-08-28": {
+                "hits": 514,
+                "false_alarms": 5922,
+                "misses": 301,
+                "correct_negatives": 31732,
+                "csi": 0.07629508683390233,
+                "precision": 0.07986326911124922,
+                "recall": 0.6306748466257669,
+                "false_positive_rate": 0.15727412758272694,
+                "false_alarm_ratio": 0.9201367308887508,
+                "alert_fraction": 0.16730354311263615,
+                "observed_events": 815
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 11,
+                "misses": 0,
+                "correct_negatives": 38775,
+                "csi": 0.0,
+                "precision": 0.0,
+                "recall": null,
+                "false_positive_rate": 0.0002836074872376631,
+                "false_alarm_ratio": 1.0,
+                "alert_fraction": 0.0002836074872376631,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 3,
+                "correct_negatives": 38516,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 3
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          }
+        },
+        "10.0": {
+          "exact": {
+            "average_precision": 0.001407273318975727,
+            "brier": 0.0005321838543750346,
+            "at_one_member": {
+              "hits": 15,
+              "false_alarms": 855,
+              "misses": 226,
+              "correct_negatives": 463066,
+              "csi": 0.013686131386861315,
+              "precision": 0.017241379310344827,
+              "recall": 0.06224066390041494,
+              "false_positive_rate": 0.0018429861980811387,
+              "false_alarm_ratio": 0.9827586206896551,
+              "alert_fraction": 0.001874345594856968,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.02074688796680498,
+              "precision": 0.011904761904761904,
+              "actual_fpr": 0.0008945488563785644,
+              "cutoff": 0.0625
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 15,
+                "false_alarms": 855,
+                "misses": 187,
+                "correct_negatives": 37412,
+                "csi": 0.014191106906338695,
+                "precision": 0.017241379310344827,
+                "recall": 0.07425742574257425,
+                "false_positive_rate": 0.022343010949381972,
+                "false_alarm_ratio": 0.9827586206896551,
+                "alert_fraction": 0.022615612571161195,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells": {
+            "average_precision": 0.0030362905429325996,
+            "brier": 0.000557870720513165,
+            "at_one_member": {
+              "hits": 34,
+              "false_alarms": 1644,
+              "misses": 207,
+              "correct_negatives": 462277,
+              "csi": 0.01803713527851459,
+              "precision": 0.02026221692491061,
+              "recall": 0.14107883817427386,
+              "false_positive_rate": 0.0035437067949068914,
+              "false_alarm_ratio": 0.9797377830750894,
+              "alert_fraction": 0.0036151171358275776,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.012448132780082987,
+              "precision": 0.02608695652173913,
+              "actual_fpr": 0.0002414204142515644,
+              "cutoff": 0.25
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 34,
+                "false_alarms": 1644,
+                "misses": 168,
+                "correct_negatives": 36623,
+                "csi": 0.018418201516793065,
+                "precision": 0.02026221692491061,
+                "recall": 0.16831683168316833,
+                "false_positive_rate": 0.04296129824653095,
+                "false_alarm_ratio": 0.9797377830750894,
+                "alert_fraction": 0.043619537809664925,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          },
+          "within_2_grid_cells_and_1_hour": {
+            "average_precision": 0.0059279685664404315,
+            "brier": 0.0006015776889398694,
+            "at_one_member": {
+              "hits": 63,
+              "false_alarms": 2433,
+              "misses": 178,
+              "correct_negatives": 461488,
+              "csi": 0.02356020942408377,
+              "precision": 0.025240384615384616,
+              "recall": 0.26141078838174275,
+              "false_positive_rate": 0.005244427391732644,
+              "false_alarm_ratio": 0.9747596153846154,
+              "alert_fraction": 0.005377432879037922,
+              "observed_events": 241
+            },
+            "curve_at_matched_fpr": {
+              "recall": 0.012448132780082987,
+              "precision": 0.024793388429752067,
+              "actual_fpr": 0.0002543536507293268,
+              "cutoff": 0.3125
+            },
+            "per_date": {
+              "2025-01-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 7,
+                "correct_negatives": 38488,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 7
+              },
+              "2025-02-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 1,
+                "correct_negatives": 38785,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 1
+              },
+              "2025-03-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38745,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-04-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 11,
+                "correct_negatives": 38770,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 11
+              },
+              "2025-05-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 5,
+                "correct_negatives": 38718,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 5
+              },
+              "2025-06-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38649,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-07-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 15,
+                "correct_negatives": 38683,
+                "csi": 0.0,
+                "precision": null,
+                "recall": 0.0,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 15
+              },
+              "2025-08-28": {
+                "hits": 63,
+                "false_alarms": 2433,
+                "misses": 139,
+                "correct_negatives": 35834,
+                "csi": 0.023908918406072108,
+                "precision": 0.025240384615384616,
+                "recall": 0.3118811881188119,
+                "false_positive_rate": 0.06357958554367993,
+                "false_alarm_ratio": 0.9747596153846154,
+                "alert_fraction": 0.06488341261795212,
+                "observed_events": 202
+              },
+              "2025-09-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38786,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-10-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38708,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-11-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38519,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              },
+              "2025-12-28": {
+                "hits": 0,
+                "false_alarms": 0,
+                "misses": 0,
+                "correct_negatives": 38803,
+                "csi": null,
+                "precision": null,
+                "recall": null,
+                "false_positive_rate": 0.0,
+                "false_alarm_ratio": null,
+                "alert_fraction": 0.0,
+                "observed_events": 0
+              }
+            }
+          }
+        }
+      },
+      "pardig_summary": {
+        "crps_mm": 0.10473657198349069,
+        "detail_crps_mm": 0.045460058880659446,
+        "rmse_mm": 0.5221103616058826,
+        "fss_5": {
+          "1": 0.18139279684177712,
+          "5": 0.27749838797213533,
+          "9": 0.35111786699974057
+        },
+        "fss_10": {
+          "1": 0.07913310196240753,
+          "5": 0.14740678904248472,
+          "9": 0.2009745716500323
+        }
+      }
+    }
+  }
+}

@@ -126,6 +126,29 @@ class RainNet(nn.Module):
         return torch.expm1(log_depth)
 
 
+def detail_band_crps(pred, truth, levels=3):
+    """Fair CRPS on differences between consecutive dyadic spatial levels."""
+    from .downscaler import fair_crps
+
+    scores = []
+    for _ in range(levels):
+        height, width = truth.shape[-2:]
+        if min(height, width) < 2:
+            break
+        height, width = height // 2 * 2, width // 2 * 2
+        pred = pred[..., :height, :width]
+        truth = truth[..., :height, :width]
+        coarse_pred = F.avg_pool2d(pred, 2)
+        coarse_truth = F.avg_pool2d(truth[:, None], 2)
+        pred_detail = pred - F.interpolate(coarse_pred, scale_factor=2, mode="nearest")
+        truth_detail = truth - F.interpolate(coarse_truth, scale_factor=2, mode="nearest")[:, 0]
+        scores.append(fair_crps(pred_detail, truth_detail))
+        pred, truth = coarse_pred, coarse_truth[:, 0]
+    if not scores:
+        raise ValueError("detail-band CRPS needs a grid of at least 2 by 2")
+    return torch.stack(scores).mean()
+
+
 def rain_loss(pred, truth, window_hours=1, sequence_hours=None, temporal_weight=0):
     factors = [f for f in (2, 4, 8) if f <= min(truth.shape[-2:])]
     from .downscaler import fair_crps

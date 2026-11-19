@@ -20,7 +20,7 @@ import yaml
 
 from downscale.hourly import default_device
 from downscale.precip_data import PARDIG, build_pairs, condition_on_intervals, crop, forecast_pack, plan_pardig
-from downscale.precipitation import RainConfig, RainNet, check_pack, evaluate_rain, features, predict, rain_loss, save_model, score, temporal_scores
+from downscale.precipitation import RainConfig, RainNet, check_pack, detail_band_crps, evaluate_rain, features, predict, rain_loss, save_model, score, temporal_scores
 
 
 def write_pack(ds, path):
@@ -142,10 +142,13 @@ def train(ds, cfg, out, device):
             if coherent:
                 noise = trajectory_noise(ds.time.values[training[idx]], model_cfg.members, len(ds.lat), len(ds.lon), model_cfg.noise_factor, window)
             p = net(torch.tensor(x_train[idx], device=device), torch.tensor(baseline[training[idx]], device=device), noise=noise)
-            loss = rain_loss(p, torch.tensor(target[training[idx]], device=device), window,
+            truth = torch.tensor(target[training[idx]], device=device)
+            loss = rain_loss(p, truth, window,
                              sequence_hours, settings.get("temporal_weight", 0))
+            if settings.get("detail_loss_weight", 0):
+                loss = loss + settings["detail_loss_weight"] * detail_band_crps(p, truth)
             if settings.get("mean_loss_weight", 0):
-                loss = loss + settings["mean_loss_weight"] * (p.mean(1) - torch.tensor(target[training[idx]], device=device)).square().mean()
+                loss = loss + settings["mean_loss_weight"] * (p.mean(1) - truth).square().mean()
             if not torch.isfinite(loss):
                 raise ValueError("nonfinite training loss")
             loss.backward()
